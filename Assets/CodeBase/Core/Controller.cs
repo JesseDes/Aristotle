@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
+    [HideInInspector]
     public static Controller instance;
+    [HideInInspector]
+    public LocalizationController LocalizationController;
+
+    [SerializeField]
+    private LocalizationData _localizationData;
+    [SerializeField]
+    private string _defaultLanguageCode = "en";
 
 
     private void Awake()
@@ -23,7 +31,8 @@ public class Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        LocalizationController = new LocalizationController(_localizationData);
+        LocalizationController.setLanguage(_defaultLanguageCode);
     }
 
     // Update is called once per frame
