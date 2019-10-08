@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f18318743b7c8a40b46a2ba797ce066, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _localizationData: {fileID: 11400000, guid: 5c353fc9832a4064ab96548cf981082a, type: 2}
 --- !u!114 &5804535109801690043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,6 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1172a3a843c42864bb5d061d3f15eb31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
 --- !u!114 &1331930451952085819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,3 +71,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc14a311b808adf4a932522729100842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneCount: 0
+  testFab: {fileID: 0}
