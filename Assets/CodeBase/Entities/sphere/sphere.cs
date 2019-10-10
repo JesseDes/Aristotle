@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class sphere : MonoBehaviour
+public class Sphere : MonoBehaviour
 {
     SphereInputProfile inputProfile;
     // Start is called before the first frame update
