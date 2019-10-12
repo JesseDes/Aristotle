@@ -11,14 +11,14 @@ public class Player : MonoBehaviour
     float jumpSpeed;
 
     PlayerInputProfile inputProfile;
-    Rigidbody playerRigidBody;
+    Rigidbody2D playerRigidBody;
 
     private bool _isGrounded;
     // Start is called before the first frame update
     void Start()
     {
         inputProfile = new PlayerInputProfile();
-        playerRigidBody = GetComponent<Rigidbody>();
+        playerRigidBody = GetComponent<Rigidbody2D>();
 
         _isGrounded = false;
 
@@ -35,12 +35,14 @@ public class Player : MonoBehaviour
         inputProfile.checkInput();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("Fuck");
         if (collision.gameObject.CompareTag("Floor"))
         {
+            Debug.Log("You");
             //Setting the free-fall velocity to 0 prevents boosted jumps at corners.
-            playerRigidBody.velocity = new Vector3(playerRigidBody.velocity.x, 0.0f, playerRigidBody.velocity.z);
+            playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
             _isGrounded = true;
         }
     }
@@ -59,13 +61,13 @@ public class Player : MonoBehaviour
     }
 
     void moveLeft()
-    {
-        transform.Translate(Vector2.left*moveSpeed);
+    { 
+        playerRigidBody.AddForce(Vector2.left * moveSpeed);
     }
 
     void moveRight()
     {
-        transform.Translate(Vector2.right*moveSpeed);
+        playerRigidBody.AddForce(Vector2.right * moveSpeed);
     }
 
     void jump()
@@ -73,7 +75,7 @@ public class Player : MonoBehaviour
         if (_isGrounded)
         {
             _isGrounded = false;
-            playerRigidBody.AddForce(Vector3.up*jumpSpeed, ForceMode.Impulse);
+            playerRigidBody.AddForce(Vector2.up*jumpSpeed, ForceMode2D.Impulse);
         }
     }
 }

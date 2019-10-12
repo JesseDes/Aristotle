@@ -30,7 +30,7 @@ public class Sphere : MonoBehaviour
     }
 
     private void moveDown()
-    {
+    { 
         transform.Translate(Vector3.down);
     }
 
