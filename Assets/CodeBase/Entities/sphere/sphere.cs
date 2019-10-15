@@ -6,9 +6,13 @@ using System;
 public class sphere : MonoBehaviour
 {
     SphereInputProfile inputProfile;
+    Rigidbody2D rigidbody2D;
+
+    private float movementForce = 10;
     // Start is called before the first frame update
     void Start()
     {
+        rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         inputProfile = new SphereInputProfile();
         
         inputProfile.addListener(InputEvent.Key, SphereInputProfile.moveUp, moveUp);
@@ -21,26 +25,25 @@ public class sphere : MonoBehaviour
     void Update()
     {
         inputProfile.checkInput();
-
     }
 
     private void moveUp()
     {
-        transform.Translate(Vector3.up);
+        rigidbody2D.AddForce(Vector2.up * movementForce);
     }
 
     private void moveDown()
     {
-        transform.Translate(Vector3.down);
+        rigidbody2D.AddForce(Vector2.down * movementForce);
     }
 
     private void moveLeft()
     {
-        transform.Translate(Vector2.left);
+        rigidbody2D.AddForce(Vector2.left * movementForce);
     }
 
     private void moveRight()
     {
-        transform.Translate(Vector2.right); 
+        rigidbody2D.AddForce(Vector2.right * movementForce);
     }
 }
