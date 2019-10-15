@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class sphere : MonoBehaviour
+public class Sphere : MonoBehaviour
 {
     SphereInputProfile inputProfile;
     Rigidbody2D rigidbody2D;
@@ -33,7 +33,7 @@ public class sphere : MonoBehaviour
     }
 
     private void moveDown()
-    {
+    { 
         rigidbody2D.AddForce(Vector2.down * movementForce);
     }
 
