@@ -37,10 +37,8 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Fuck");
         if (collision.gameObject.CompareTag("Floor"))
         {
-            Debug.Log("You");
             //Setting the free-fall velocity to 0 prevents boosted jumps at corners.
             playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
             _isGrounded = true;
