@@ -8,8 +8,7 @@ public class View : MonoBehaviour
 
     private GameObject HUD;
     private Camera mainCamera;
-    public GameObject testFab;
-
+    public GameObject player;
 
     private void Awake()
     {
@@ -42,13 +41,36 @@ public class View : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
+        player = GameObject.Find("Player");
         Debug.Log(mainCamera.transform.position.x);
-        addCanvasToMainCamera(testFab.GetComponent<Canvas>());
+        //addCanvasToMainCamera(testFab.GetComponent<Canvas>());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        ShiftCameraToPlayer();
+    }
+
+    void ShiftCameraToPlayer()
+    {
+        Vector3 playerPosition = player.GetComponent<Player>().transform.position;
+        Vector3 cameraPosition = mainCamera.GetComponent<Camera>().transform.position;
+        if (playerPosition.x - cameraPosition.x > mainCamera.aspect * mainCamera.orthographicSize * 0.6)
+        {
+            mainCamera.transform.Translate(Vector2.right * Time.deltaTime * 5.0f);
+        }
+        if (playerPosition.x - cameraPosition.x < mainCamera.aspect * mainCamera.orthographicSize * -0.6)
+        {
+            mainCamera.transform.Translate(Vector2.left * Time.deltaTime * 5.0f);
+        }
+        if (playerPosition.y - cameraPosition.y > mainCamera.orthographicSize * 0.6)
+        {
+            mainCamera.transform.Translate(Vector2.up * Time.deltaTime * 5.0f);
+        }
+        if (playerPosition.y - cameraPosition.y < mainCamera.orthographicSize * -0.6)
+        {
+            mainCamera.transform.Translate(Vector2.down * Time.deltaTime * 5.0f);
+        }
     }
 }

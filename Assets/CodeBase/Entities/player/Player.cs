@@ -19,11 +19,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     float jumpSpeed;
 
-    private const float NORMAL_MOVEMENT_SPEED = 15.0f;
-    private const float NORMAL_JUMP_SPEED = 5.0f;
+    private const float NORMAL_MOVEMENT_SPEED = 5.0f;
+    private const float NORMAL_JUMP_SPEED = 7.5f;
     private const float NORMAL_MASS = 1.0f;
 
-    private const float WIND_JUMP_SPEED = NORMAL_JUMP_SPEED * 1.5f;
+    private const float WIND_JUMP_SPEED = NORMAL_JUMP_SPEED * 1.25f;
     private const float WIND_MASS = NORMAL_MASS * 0.8f;
 
     ActiveAbility currentAbility;
@@ -44,11 +44,15 @@ public class Player : MonoBehaviour
         jumpSpeed = NORMAL_JUMP_SPEED;
         playerRigidBody.mass = NORMAL_MASS;
 
+        //Listeners for vertical movement.
+        inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveLeft, moveLeft);
+        inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveRight, moveRight);
+        inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveLeft, stopMoving);
+        inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveRight, stopMoving);
+
         //Listeners for movement and jumping.
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveUp, moveUp);
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveDown, moveDown);
-        inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveLeft, moveLeft);
-        inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveRight, moveRight);
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.jump, jump);
 
         //Listeners for abilities.
@@ -61,14 +65,14 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         inputProfile.checkInput();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Floor"))
+        if (collision.gameObject.CompareTag("SolidObject"))
         {
             //Setting the free-fall velocity to 0 prevents boosted jumps at corners.
             playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
@@ -90,13 +94,18 @@ public class Player : MonoBehaviour
     }
 
     void moveLeft()
-    { 
-        playerRigidBody.AddForce(Vector2.left * moveSpeed);
+    {
+        setXVelocity(-moveSpeed);
     }
 
     void moveRight()
     {
-        playerRigidBody.AddForce(Vector2.right * moveSpeed);
+        setXVelocity(moveSpeed);
+    }
+
+    void stopMoving()
+    {
+        setXVelocity(0.0f);
     }
 
     void jump()
@@ -106,6 +115,11 @@ public class Player : MonoBehaviour
             _isGrounded = false;
             playerRigidBody.AddForce(Vector2.up*jumpSpeed, ForceMode2D.Impulse);
         }
+    }
+
+    void setXVelocity(float newXVelocity)
+    {
+        playerRigidBody.velocity = new Vector2(newXVelocity, playerRigidBody.velocity.y);
     }
 
     //NOTE: Changing the sprite color is a temporary measure until proper animations are
