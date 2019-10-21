@@ -87,6 +87,11 @@ public class Player : MonoBehaviour
         inputProfile.checkInput();
     }
 
+    public void OnDestroy()
+    {
+        Controller.instance.stateMachine.RemoveStateListener(onStateChange);
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
