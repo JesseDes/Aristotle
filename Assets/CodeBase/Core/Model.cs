@@ -6,8 +6,6 @@ public class Model : MonoBehaviour
 {
     public static Model instance;
 
-    public int state = 0; 
-
     private void Awake()
     {
         if(instance == null)
