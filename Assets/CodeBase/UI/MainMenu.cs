@@ -4,7 +4,8 @@ public class MainMenu : MonoBehaviour
 {
     public void UI_Start()
     {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
+        Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_START);
     }
 
     public void UI_Options()

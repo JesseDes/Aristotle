@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class View : MonoBehaviour
@@ -28,22 +28,10 @@ public class View : MonoBehaviour
         SceneManager.LoadScene(sceneCount);
     }
 
-    public void addCanvasToMainCamera(Canvas cameraCanvas)
-    {
-        Instantiate(cameraCanvas);
-        cameraCanvas.renderMode = RenderMode.ScreenSpaceCamera;
-        cameraCanvas.worldCamera = mainCamera;
-
-        //cameraCanvas;
-        
-    }
-
     // Start is called before the first frame update
     void Start()
     {
         mainCamera = Camera.main;
-        Debug.Log(mainCamera.transform.position.x);
-        addCanvasToMainCamera(testFab.GetComponent<Canvas>());
     }
 
     // Update is called once per frame
