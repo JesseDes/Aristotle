@@ -37,7 +37,7 @@ public class ControllerStateMachine
             foundState.AddListener(callback);
     }
 
-    public void RemoveStateLisntener(Action<Object> callback , EngineState? state = null)
+    public void RemoveStateListener(Action<Object> callback , EngineState? state = null)
     {
         if (state == null)
         {

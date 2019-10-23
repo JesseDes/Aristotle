@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -57,8 +57,7 @@ public class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space))
-            Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_START);
+           
     }
     /// <summary>
     /// Add a function that will be called whenever an event is dispatched
