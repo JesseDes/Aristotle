@@ -30,16 +30,21 @@ public class Player : MonoBehaviour
 
     PlayerInputProfile inputProfile;
     Rigidbody2D playerRigidBody;
+    Animator animator;
+    SpriteRenderer playerSpriteRenderer;
 
     private bool _isGrounded;
+    private bool _isFalling;
+    private float _currentSpeed = 0;
     private Vector3 _storedForce;
+
     // Start is called before the first frame update
     void Start()
     {
         inputProfile = new PlayerInputProfile();
         playerRigidBody = GetComponent<Rigidbody2D>();
-
-        _isGrounded = false;
+        animator = GetComponent<Animator>();
+        playerSpriteRenderer = GetComponent<SpriteRenderer>();
 
         moveSpeed = NORMAL_MOVEMENT_SPEED;
         jumpSpeed = NORMAL_JUMP_SPEED;
@@ -65,6 +70,41 @@ public class Player : MonoBehaviour
         currentAbility = ActiveAbility.NORMAL;
         this.enabled = false;
         Controller.instance.stateMachine.AddStateListener(onStateChange);
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        inputProfile.checkInput();
+
+        // Animate player movement
+        _currentSpeed = Mathf.Abs(Input.GetAxis("Horizontal") * moveSpeed);
+        animator.SetFloat("speed", _currentSpeed);
+        animator.SetBool("isGrounded", _isGrounded);
+        animator.SetBool("isFalling", _isFalling);
+    }
+
+    private void FixedUpdate()
+    {
+        inputProfile.checkInput();
+
+        // player is jumping
+        if (playerRigidBody.velocity.y > 0.1)
+        {
+            _isGrounded = false;
+        }
+
+        // player is falling
+        if (playerRigidBody.velocity.y < -0.1)
+        {
+            _isFalling = true;
+            _isGrounded = false;
+        }
+        else
+        {
+            _isFalling = false;
+        }
     }
 
     private void onStateChange(System.Object response)
@@ -82,13 +122,6 @@ public class Player : MonoBehaviour
             playerRigidBody.WakeUp();
             playerRigidBody.velocity = _storedForce; 
         }
-
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        inputProfile.checkInput();
     }
 
     public void OnDestroy()
@@ -120,13 +153,23 @@ public class Player : MonoBehaviour
     }
 
     void moveLeft()
-    {
+    { 
         setXVelocity(-moveSpeed);
+
+        if(!playerSpriteRenderer.flipX)
+        {
+            playerSpriteRenderer.flipX = true;
+        }
     }
 
     void moveRight()
     {
         setXVelocity(moveSpeed);
+
+        if (playerSpriteRenderer.flipX)
+        {
+            playerSpriteRenderer.flipX = false;
+        }
     }
 
     void stopMoving()
@@ -138,7 +181,6 @@ public class Player : MonoBehaviour
     {
         if (_isGrounded) //TODO: Add statement to prevent jumping while ice is active.
         {
-            _isGrounded = false;
             playerRigidBody.AddForce(Vector2.up*jumpSpeed, ForceMode2D.Impulse);
         }
     }
