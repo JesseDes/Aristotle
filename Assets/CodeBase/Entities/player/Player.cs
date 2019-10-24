@@ -30,16 +30,20 @@ public class Player : MonoBehaviour
 
     PlayerInputProfile inputProfile;
     Rigidbody2D playerRigidBody;
+    Animator animator;
 
     private bool _isGrounded;
+    private bool _isFalling;
+    private bool _isFacingRight = true;
+    private float _currentSpeed = 0;
     private Vector3 _storedForce;
+
     // Start is called before the first frame update
     void Start()
     {
         inputProfile = new PlayerInputProfile();
         playerRigidBody = GetComponent<Rigidbody2D>();
-
-        _isGrounded = false;
+        animator = GetComponent<Animator>();
 
         moveSpeed = NORMAL_MOVEMENT_SPEED;
         jumpSpeed = NORMAL_JUMP_SPEED;
@@ -61,6 +65,39 @@ public class Player : MonoBehaviour
         currentAbility = ActiveAbility.NORMAL;
         this.enabled = false;
         Controller.instance.stateMachine.AddStateListener(onStateChange);
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        inputProfile.checkInput();
+
+        // Animate player movement
+        _currentSpeed = Mathf.Abs(Input.GetAxis("Horizontal") * moveSpeed);
+        animator.SetFloat("speed", _currentSpeed);
+        animator.SetBool("isGrounded", _isGrounded);
+        animator.SetBool("isFalling", _isFalling);
+    }
+
+    private void FixedUpdate()
+    {
+        // player is jumping
+        if (playerRigidBody.velocity.y > 0.1)
+        {
+            _isGrounded = false;
+        }
+
+        // player is falling
+        if (playerRigidBody.velocity.y < -0.1)
+        {
+            _isFalling = true;
+            _isGrounded = false;
+        }
+        else
+        {
+            _isFalling = false;
+        }
     }
 
     private void onStateChange(System.Object response)
@@ -78,13 +115,6 @@ public class Player : MonoBehaviour
             playerRigidBody.WakeUp();
             playerRigidBody.velocity = _storedForce; 
         }
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        inputProfile.checkInput();
     }
 
     public void OnDestroy()
@@ -118,18 +148,29 @@ public class Player : MonoBehaviour
     void moveLeft()
     { 
         playerRigidBody.AddForce(Vector2.left * moveSpeed);
+
+        if (_isFacingRight)
+        {
+            _isFacingRight = false;
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        }
     }
 
     void moveRight()
     {
         playerRigidBody.AddForce(Vector2.right * moveSpeed);
+
+        if (!_isFacingRight)
+        {
+            _isFacingRight = true;
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        }
     }
 
     void jump()
     {
         if (_isGrounded) //TODO: Add statement to prevent jumping while ice is active.
         {
-            _isGrounded = false;
             playerRigidBody.AddForce(Vector2.up*jumpSpeed, ForceMode2D.Impulse);
         }
     }
