@@ -13,8 +13,7 @@ public class View : MonoBehaviour
 
     private GameObject HUD;
     private Camera mainCamera;
-    public GameObject testFab;
-
+    public GameObject player;
 
     private void Awake()
     {
@@ -37,6 +36,12 @@ public class View : MonoBehaviour
     {
         Controller.instance.stateMachine.AddStateListener(OnStateChange);
         mainCamera = Camera.main;
+        player = GameObject.Find("Player");
+    }
+
+    public void Update()
+    {
+        ShiftCameraToPlayer();
     }
 
     public void OnDestroy()
@@ -63,5 +68,27 @@ public class View : MonoBehaviour
     public void UpdateAbilitySymbol(ActiveAbility ability, AbilitySymbolState state)
     {
         _abilities.UpdateAbilitySymbol(ability, state);
+    }
+
+    void ShiftCameraToPlayer()
+    {
+        Vector3 playerPosition = player.GetComponent<Player>().transform.position;
+        Vector3 cameraPosition = mainCamera.GetComponent<Camera>().transform.position;
+        if (playerPosition.x - cameraPosition.x > mainCamera.aspect * mainCamera.orthographicSize * 0.6)
+        {
+            mainCamera.transform.Translate(Vector2.right * Time.deltaTime * 5.0f);
+        }
+        if (playerPosition.x - cameraPosition.x < mainCamera.aspect * mainCamera.orthographicSize * -0.6)
+        {
+            mainCamera.transform.Translate(Vector2.left * Time.deltaTime * 5.0f);
+        }
+        if (playerPosition.y - cameraPosition.y > mainCamera.orthographicSize * 0.6)
+        {
+            mainCamera.transform.Translate(Vector2.up * Time.deltaTime * 5.0f);
+        }
+        if (playerPosition.y - cameraPosition.y < mainCamera.orthographicSize * -0.6)
+        {
+            mainCamera.transform.Translate(Vector2.down * Time.deltaTime * 5.0f);
+        }
     }
 }

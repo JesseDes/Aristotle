@@ -55,6 +55,12 @@ public class Player : MonoBehaviour
         climbSpeed = EARTH_CLIMB_SPEED;
         playerRigidBody.mass = NORMAL_MASS;
 
+        //Listeners for vertical movement.
+        inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveLeft, moveLeft);
+        inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveRight, moveRight);
+        inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveLeft, stopMoving);
+        inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveRight, stopMoving);
+
         //Listeners for movement and jumping.
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveLeft, moveLeft);
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveRight, moveRight);
@@ -96,7 +102,7 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         inputProfile.checkInput();
         if (_isHuggingWall && !_isClimbing && currentAbility.Equals(ActiveAbility.EARTH))
