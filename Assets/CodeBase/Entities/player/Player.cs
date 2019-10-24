@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     private const float WIND_JUMP_SPEED = NORMAL_JUMP_SPEED * 1.25f;
     private const float WIND_MASS = NORMAL_MASS * 0.8f;
 
-    private const float EARTH_CLIMB_SPEED = 3.0f;
+    private const float EARTH_CLIMB_SPEED = 4.0f;
 
     ActiveAbility currentAbility;
 
@@ -102,7 +102,7 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         inputProfile.checkInput();
         if (_isHuggingWall && !_isClimbing && currentAbility.Equals(ActiveAbility.EARTH))
