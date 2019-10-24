@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Floor
   - SolidObject
+  - Ceiling
+  - Wall
+  - MetalWall
   layers:
   - Default
   - TransparentFX
