@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5606371851430143003
 RectTransform:
   m_ObjectHideFlags: 0
@@ -103,11 +103,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5606371851430143003}
     m_Modifications:
-    - target: {fileID: 1576874974517352320, guid: a95b617c4f079c44eb68b9254c398dcf,
-        type: 3}
-      propertyPath: m_Name
-      value: Ground
-      objectReference: {fileID: 0}
     - target: {fileID: 7261012874115032072, guid: a95b617c4f079c44eb68b9254c398dcf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -213,6 +208,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1576874974517352320, guid: a95b617c4f079c44eb68b9254c398dcf,
+        type: 3}
+      propertyPath: m_Name
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 8115008937533255133, guid: a95b617c4f079c44eb68b9254c398dcf,
         type: 3}
       propertyPath: m_Color.r
@@ -255,11 +255,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5606371851430143003}
     m_Modifications:
-    - target: {fileID: 1576874974517352320, guid: a95b617c4f079c44eb68b9254c398dcf,
-        type: 3}
-      propertyPath: m_Name
-      value: Ice
-      objectReference: {fileID: 0}
     - target: {fileID: 7261012874115032072, guid: a95b617c4f079c44eb68b9254c398dcf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -365,6 +360,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1576874974517352320, guid: a95b617c4f079c44eb68b9254c398dcf,
+        type: 3}
+      propertyPath: m_Name
+      value: Ice
+      objectReference: {fileID: 0}
     - target: {fileID: 8115008937533255133, guid: a95b617c4f079c44eb68b9254c398dcf,
         type: 3}
       propertyPath: m_Color.r
@@ -407,11 +407,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5606371851430143003}
     m_Modifications:
-    - target: {fileID: 1576874974517352320, guid: a95b617c4f079c44eb68b9254c398dcf,
-        type: 3}
-      propertyPath: m_Name
-      value: Air
-      objectReference: {fileID: 0}
     - target: {fileID: 7261012874115032072, guid: a95b617c4f079c44eb68b9254c398dcf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -517,6 +512,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1576874974517352320, guid: a95b617c4f079c44eb68b9254c398dcf,
+        type: 3}
+      propertyPath: m_Name
+      value: Air
+      objectReference: {fileID: 0}
     - target: {fileID: 8115008937533255133, guid: a95b617c4f079c44eb68b9254c398dcf,
         type: 3}
       propertyPath: m_Color.r
@@ -559,11 +559,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5606371851430143003}
     m_Modifications:
-    - target: {fileID: 1576874974517352320, guid: a95b617c4f079c44eb68b9254c398dcf,
-        type: 3}
-      propertyPath: m_Name
-      value: Fire
-      objectReference: {fileID: 0}
     - target: {fileID: 7261012874115032072, guid: a95b617c4f079c44eb68b9254c398dcf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -668,6 +663,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1576874974517352320, guid: a95b617c4f079c44eb68b9254c398dcf,
+        type: 3}
+      propertyPath: m_Name
+      value: Fire
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a95b617c4f079c44eb68b9254c398dcf, type: 3}
