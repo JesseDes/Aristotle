@@ -9,6 +9,7 @@ TagManager:
   - Ceiling
   - Wall
   - MetalWall
+  - WorldEdge
   layers:
   - Default
   - TransparentFX
@@ -18,9 +19,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - WorldEdge
+  - CamBlocker
+  - Player
   - 
   - 
   - 
