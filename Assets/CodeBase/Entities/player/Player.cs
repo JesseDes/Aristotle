@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     Rigidbody2D playerRigidBody;
 
     private bool _isGrounded;
+    private Vector3 _storedForce;
     // Start is called before the first frame update
     void Start()
     {
@@ -62,12 +63,37 @@ public class Player : MonoBehaviour
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleEarth, toggleEarth);
 
         currentAbility = ActiveAbility.NORMAL;
+        this.enabled = false;
+        Controller.instance.stateMachine.AddStateListener(onStateChange);
+    }
+
+    private void onStateChange(System.Object response)
+    {
+        if (Controller.instance.stateMachine.state == EngineState.MENU)
+        {
+            this.enabled = false;
+            _storedForce = playerRigidBody.velocity;
+            playerRigidBody.Sleep(); 
+
+        }
+        else if (Controller.instance.stateMachine.state == EngineState.ACTIVE)
+        {
+            this.enabled = true;
+            playerRigidBody.WakeUp();
+            playerRigidBody.velocity = _storedForce; 
+        }
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         inputProfile.checkInput();
+    }
+
+    public void OnDestroy()
+    {
+        Controller.instance.stateMachine.RemoveStateListener(onStateChange);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
