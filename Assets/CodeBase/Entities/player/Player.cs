@@ -31,10 +31,10 @@ public class Player : MonoBehaviour
     PlayerInputProfile inputProfile;
     Rigidbody2D playerRigidBody;
     Animator animator;
+    SpriteRenderer playerSpriteRenderer;
 
     private bool _isGrounded;
     private bool _isFalling;
-    private bool _isFacingRight = true;
     private float _currentSpeed = 0;
     private Vector3 _storedForce;
 
@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
         inputProfile = new PlayerInputProfile();
         playerRigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        playerSpriteRenderer = GetComponent<SpriteRenderer>();
 
         moveSpeed = NORMAL_MOVEMENT_SPEED;
         jumpSpeed = NORMAL_JUMP_SPEED;
@@ -155,21 +156,19 @@ public class Player : MonoBehaviour
     { 
         setXVelocity(-moveSpeed);
 
-        if (_isFacingRight)
+        if(!playerSpriteRenderer.flipX)
         {
-            _isFacingRight = false;
-            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            playerSpriteRenderer.flipX = true;
         }
     }
 
     void moveRight()
     {
         setXVelocity(moveSpeed);
-        
-        if (!_isFacingRight)
+
+        if (playerSpriteRenderer.flipX)
         {
-            _isFacingRight = true;
-            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            playerSpriteRenderer.flipX = false;
         }
     }
 
