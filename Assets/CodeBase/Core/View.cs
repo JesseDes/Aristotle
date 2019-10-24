@@ -52,6 +52,12 @@ public class View : MonoBehaviour
 
     private void addEdges()
     {
+        if(worldEdgePrefab == null)
+        {
+            Debug.Log("WARNING: You have no WorldEdges, the camera will not follow the player. \n Please Put a world Edge prefab in the View component");
+            return;
+        }
+
         float height = 2 * Camera.main.orthographicSize;
         float width = height * Camera.main.aspect;
         
