@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 3475338739903321125}
   - component: {fileID: 3455160781501754827}
   - component: {fileID: 7955570423997977387}
+  - component: {fileID: 151678102}
   m_Layer: 0
-  m_Name: wire_temporary
+  m_Name: drone_temporary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: aa21fc73b19d4374ca4743a399d602a2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8c87d9e24f5a2dc43b38d88d5eeb244e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -121,3 +122,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.64, y: 0.64}
   m_EdgeRadius: 0
+--- !u!114 &151678102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8043303377383188254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f49a0613ed0b75f4ebf1a4b87943b902, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypoints:
+  - {x: 0, y: 0, z: 0}
+  - {x: -4, y: 0, z: 0}
+  - {x: 0, y: 4, z: 0}
+  - {x: 4, y: 0, z: 0}
+  - {x: 0, y: -4, z: 0}
+  speed: 1
