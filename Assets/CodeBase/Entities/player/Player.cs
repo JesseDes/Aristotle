@@ -19,12 +19,17 @@ public class Player : MonoBehaviour
     [SerializeField]
     float jumpSpeed;
 
+    [SerializeField]
+    float climbSpeed;
+
     private const float NORMAL_MOVEMENT_SPEED = 5.0f;
     private const float NORMAL_JUMP_SPEED = 7.5f;
     private const float NORMAL_MASS = 1.0f;
 
     private const float WIND_JUMP_SPEED = NORMAL_JUMP_SPEED * 1.25f;
     private const float WIND_MASS = NORMAL_MASS * 0.8f;
+
+    private const float EARTH_CLIMB_SPEED = 4.0f;
 
     ActiveAbility currentAbility;
 
@@ -34,6 +39,8 @@ public class Player : MonoBehaviour
     SpriteRenderer playerSpriteRenderer;
 
     private bool _isGrounded;
+    private bool _isHuggingWall;
+    private bool _isClimbing;
     private bool _isFalling;
     private float _currentSpeed = 0;
     private Vector3 _storedForce;
@@ -46,8 +53,13 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         playerSpriteRenderer = GetComponent<SpriteRenderer>();
 
+        _isGrounded = false;
+        _isHuggingWall = false;
+        _isClimbing = false;
+
         moveSpeed = NORMAL_MOVEMENT_SPEED;
         jumpSpeed = NORMAL_JUMP_SPEED;
+        climbSpeed = EARTH_CLIMB_SPEED;
         playerRigidBody.mass = NORMAL_MASS;
 
         //Listeners for vertical movement.
@@ -57,8 +69,15 @@ public class Player : MonoBehaviour
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveRight, stopMoving);
 
         //Listeners for movement and jumping.
+        inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveLeft, moveLeft);
+        inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveRight, moveRight);
+        inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveLeft, stopMoving);
+        inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveRight, stopMoving);
+
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveUp, moveUp);
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveDown, moveDown);
+        inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveUp, stopClimbing);
+        inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveDown, stopClimbing);
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.jump, jump);
 
         //Listeners for abilities.
@@ -78,6 +97,11 @@ public class Player : MonoBehaviour
     {
         inputProfile.checkInput();
 
+        if (_isHuggingWall && !_isClimbing && currentAbility.Equals(ActiveAbility.EARTH))
+        {
+            setYVelocity(0.0f);
+        }
+
         // Animate player movement
         _currentSpeed = Mathf.Abs(Input.GetAxis("Horizontal") * moveSpeed);
         animator.SetFloat("speed", _currentSpeed);
@@ -87,8 +111,6 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        inputProfile.checkInput();
-
         // player is jumping
         if (playerRigidBody.velocity.y > 0.1)
         {
@@ -137,19 +159,42 @@ public class Player : MonoBehaviour
             playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
             _isGrounded = true;
         }
+
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            _isHuggingWall = true;
+            if (currentAbility.Equals(ActiveAbility.EARTH))
+            {
+                startHuggingWall();
+                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            stopHuggingWall();
+        }
     }
 
     void moveUp()
     {
-        //Does nothing for now.
-        //Will influence direction of fire dash and climbing up with earth.
-        jump(); //Unsure whether the up key or space is a better jump button.
+        if (_isHuggingWall && currentAbility.Equals(ActiveAbility.EARTH))
+        {
+            _isClimbing = true;
+            setYVelocity(climbSpeed);
+        }
     }
 
     void moveDown()
     {
-        //Does nothing for now.
-        //Will influence direction of fire dash and climbing down with earth.
+        if (_isHuggingWall && currentAbility.Equals(ActiveAbility.EARTH))
+        {
+            _isClimbing = true;
+            setYVelocity(-climbSpeed);
+        }
     }
 
     void moveLeft()
@@ -177,10 +222,36 @@ public class Player : MonoBehaviour
         setXVelocity(0.0f);
     }
 
+    void stopClimbing()
+    {
+        _isClimbing = false;
+        if (_isHuggingWall)
+        {
+            setYVelocity(0.0f);
+        }
+    }
+
+    void startHuggingWall()
+    {
+        _isHuggingWall = true;
+        playerRigidBody.gravityScale = 0;
+    }
+    void stopHuggingWall()
+    {
+        _isHuggingWall = false;
+        _isClimbing = false;
+        playerRigidBody.gravityScale = 1;
+    }
+
     void jump()
     {
         if (_isGrounded) //TODO: Add statement to prevent jumping while ice is active.
         {
+            playerRigidBody.AddForce(Vector2.up*jumpSpeed, ForceMode2D.Impulse);
+        }
+        else if (_isHuggingWall && currentAbility.Equals(ActiveAbility.EARTH))
+        {
+            stopHuggingWall();
             playerRigidBody.AddForce(Vector2.up*jumpSpeed, ForceMode2D.Impulse);
         }
     }
@@ -190,10 +261,19 @@ public class Player : MonoBehaviour
         playerRigidBody.velocity = new Vector2(newXVelocity, playerRigidBody.velocity.y);
     }
 
+    void setYVelocity(float newYVelocity)
+    {
+        playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, newYVelocity);
+    }
+
     //NOTE: Changing the sprite color is a temporary measure until proper animations are
     //implemented.
     void toggleIce()
     {
+        if (currentAbility.Equals(ActiveAbility.EARTH))
+        {
+            stopHuggingWall();
+        }
         if (!currentAbility.Equals(ActiveAbility.ICE))
         {
             currentAbility = ActiveAbility.ICE;
@@ -211,6 +291,10 @@ public class Player : MonoBehaviour
 
     void toggleFire()
     {
+        if (currentAbility.Equals(ActiveAbility.EARTH))
+        {
+            stopHuggingWall();
+        }
         if (!currentAbility.Equals(ActiveAbility.FIRE))
         {
             currentAbility = ActiveAbility.FIRE;
@@ -227,6 +311,10 @@ public class Player : MonoBehaviour
 
     void toggleWind()
     {
+        if (currentAbility.Equals(ActiveAbility.EARTH))
+        {
+            stopHuggingWall();
+        }
         if (!currentAbility.Equals(ActiveAbility.WIND))
         {
             currentAbility = ActiveAbility.WIND;
@@ -242,12 +330,21 @@ public class Player : MonoBehaviour
 
     void toggleEarth()
     {
+        if (currentAbility.Equals(ActiveAbility.EARTH))
+        {
+            stopHuggingWall();
+        }
         if (!currentAbility.Equals(ActiveAbility.EARTH))
         {
             currentAbility = ActiveAbility.EARTH;
             GetComponent<SpriteRenderer>().color = Color.yellow;
             jumpSpeed = NORMAL_JUMP_SPEED;
             playerRigidBody.mass = NORMAL_MASS;
+            if (_isHuggingWall)
+            {
+                startHuggingWall();
+                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
+            }
         }
         else
         {
