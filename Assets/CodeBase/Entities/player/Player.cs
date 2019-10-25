@@ -97,6 +97,11 @@ public class Player : MonoBehaviour
     {
         inputProfile.checkInput();
 
+        if (_isHuggingWall && !_isClimbing && currentAbility.Equals(ActiveAbility.EARTH))
+        {
+            setYVelocity(0.0f);
+        }
+
         // Animate player movement
         _currentSpeed = Mathf.Abs(Input.GetAxis("Horizontal") * moveSpeed);
         animator.SetFloat("speed", _currentSpeed);
@@ -106,8 +111,6 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        inputProfile.checkInput();
-
         // player is jumping
         if (playerRigidBody.velocity.y > 0.1)
         {
@@ -140,16 +143,6 @@ public class Player : MonoBehaviour
             this.enabled = true;
             playerRigidBody.WakeUp();
             playerRigidBody.velocity = _storedForce; 
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        inputProfile.checkInput();
-        if (_isHuggingWall && !_isClimbing && currentAbility.Equals(ActiveAbility.EARTH))
-        {
-            setYVelocity(0.0f);
         }
     }
 
