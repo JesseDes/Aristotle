@@ -25,6 +25,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     float iceMagnitude = 20.0f;
 
+    [HideInInspector]
+    public ActiveAbility currentAbility { get; private set; }
+
     private const float NORMAL_MOVEMENT_SPEED = 5.0f;
     private const float NORMAL_JUMP_SPEED = 7.5f;
     private const float NORMAL_MASS = 1.0f;
@@ -38,8 +41,6 @@ public class Player : MonoBehaviour
 
     float initMoveSpeed, initJumpSpeed;
 
-    [HideInInspector]
-    public ActiveAbility currentAbility;
 
     PlayerInputProfile inputProfile;
     Rigidbody2D playerRigidBody;
