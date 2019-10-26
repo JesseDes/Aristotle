@@ -20,13 +20,14 @@ public class HazardGeneric : MonoBehaviour
 
     void KillPlayer(Collider2D other) {
         if (other.tag == PLAYER_TAG) {
-            //if (!iceImmune || other.gameObject.GetComponent<Player>().activePower != CurrentPower.ICE) {
+            if (!iceImmune || other.gameObject.GetComponent<Player>().currentAbility != ActiveAbility.ICE) {
                 //kill player
                 //<TODO>: code for handling player death
 
-                //for now, only destroy player object...
+                //for now, only destroy player object..
+             
                 Destroy(other.gameObject);
-            //}
+            }
         }
     }
 }

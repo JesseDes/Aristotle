@@ -7,7 +7,7 @@ public class Landmine : MonoBehaviour
     const string PLAYER_TAG = "Player";
 
     public GameObject explosion;
-    bool detonating = false;
+    private bool detonating = false;
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == PLAYER_TAG && !detonating) {
