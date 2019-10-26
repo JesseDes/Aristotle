@@ -16,6 +16,8 @@ public class PlayerInputProfile : InputProfile
     public static KeyCode Default_ToggleWind = KeyCode.DownArrow;
     public static KeyCode Default_ToggleEarth = KeyCode.LeftArrow;
 
+    public static KeyCode Default_shift = KeyCode.RightShift;
+
     public static string moveLeft = "Player_LeftKey";
     public static string moveRight = "Player_RightKey";
     public static string moveUp = "Player_UpKey";
@@ -26,6 +28,7 @@ public class PlayerInputProfile : InputProfile
     public static string toggleFire = "Player_ToggleFire";
     public static string toggleWind = "Player_ToggleWind";
     public static string toggleEarth = "Player_ToggleEarth";
+    public static string shift = "Player_Shift";
 
     public PlayerInputProfile()
     {
@@ -41,6 +44,7 @@ public class PlayerInputProfile : InputProfile
         keyLoadList.Add(new InputCommand(toggleFire, Default_ToggleFire));
         keyLoadList.Add(new InputCommand(toggleWind, Default_ToggleWind));
         keyLoadList.Add(new InputCommand(toggleEarth, Default_ToggleEarth));
+        keyLoadList.Add(new InputCommand(shift, Default_shift));
 
         assignKeys(keyLoadList);
     }
