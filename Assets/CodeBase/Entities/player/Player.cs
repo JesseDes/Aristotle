@@ -17,10 +17,16 @@ public class Player : MonoBehaviour
     float moveSpeed;
 
     [SerializeField]
-    float jumpSpeed;
+    float jumpSpeed, fireDashSpeed = 8.0f;
 
     [SerializeField]
     float climbSpeed;
+
+    [SerializeField]
+    float iceMagnitude = 20.0f;
+
+    [HideInInspector]
+    public ActiveAbility currentAbility { get; private set; }
 
     private const float NORMAL_MOVEMENT_SPEED = 5.0f;
     private const float NORMAL_JUMP_SPEED = 7.5f;
@@ -31,7 +37,10 @@ public class Player : MonoBehaviour
 
     private const float EARTH_CLIMB_SPEED = 4.0f;
 
-    ActiveAbility currentAbility;
+    const float FIRE_DASH_DURATION = 0.75f; //reference for how long dash maneuver from fire power lasts
+
+    float initMoveSpeed, initJumpSpeed;
+
 
     PlayerInputProfile inputProfile;
     Rigidbody2D playerRigidBody;
@@ -39,6 +48,7 @@ public class Player : MonoBehaviour
     SpriteRenderer playerSpriteRenderer;
 
     private bool _isGrounded;
+    private bool _shiftPressed, _canDash, _dashing;
     private bool _isHuggingWall;
     private bool _isClimbing;
     private bool _isFalling;
@@ -48,12 +58,19 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        initMoveSpeed = moveSpeed;
+        initJumpSpeed = jumpSpeed;
+
         inputProfile = new PlayerInputProfile();
         playerRigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerSpriteRenderer = GetComponent<SpriteRenderer>();
 
         _isGrounded = false;
+
+        _canDash = true;
+        _dashing = false;
+
         _isHuggingWall = false;
         _isClimbing = false;
 
@@ -78,13 +95,16 @@ public class Player : MonoBehaviour
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveDown, moveDown);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveUp, stopClimbing);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveDown, stopClimbing);
-        inputProfile.addListener(InputEvent.Key, PlayerInputProfile.jump, jump);
+        inputProfile.addListener(InputEvent.Down, PlayerInputProfile.jump, jump);
 
         //Listeners for abilities.
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleIce, toggleIce);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleFire, toggleFire);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleWind, toggleWind);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleEarth, toggleEarth);
+
+        //shift key
+        inputProfile.addListener(InputEvent.Down, PlayerInputProfile.shift, shift);
 
         currentAbility = ActiveAbility.NORMAL;
         this.enabled = false;
@@ -93,12 +113,52 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         inputProfile.checkInput();
+        //print("currentAbility: " + currentAbility);
 
-        if (_isHuggingWall && !_isClimbing && currentAbility.Equals(ActiveAbility.EARTH))
-        {
+        //print("jumpSpeed: " + jumpSpeed);
+
+        //code for elemental power logic goes here
+        //ice...
+        if (currentAbility.Equals(ActiveAbility.ICE)) {
+            //slow player down and lock down jump ability
+            moveSpeed = initMoveSpeed / 2f; //halve(?) movement speed
+            jumpSpeed = 0; //means: can't jump
+        }
+        else {
+            moveSpeed = initMoveSpeed;
+            jumpSpeed = initJumpSpeed;
+        }
+
+        //fire...
+        if (currentAbility.Equals(ActiveAbility.FIRE)) {
+            if (_canDash) {
+                float moveH = Input.GetAxisRaw("Horizontal");
+                float moveV = Input.GetAxisRaw("Vertical");
+
+                //print(moveH + ", " + moveV);
+
+                //dash effect from fire, restrict to only in the air for simpler implementation
+                if (_shiftPressed && !_isGrounded) {
+                    _dashing = true;
+                    _canDash = false;
+                    print("add fire dash force!");
+
+                    //add extra upwards force to push against gravity
+                    playerRigidBody.velocity = new Vector2(moveH * fireDashSpeed, moveV * fireDashSpeed + 3f);
+                    Invoke("stopDash", FIRE_DASH_DURATION);
+                }
+            }
+            else {
+                if (_isGrounded) {
+                    _canDash = true;
+                }
+            }
+        }
+        //earth...
+        if (_isHuggingWall && !_isClimbing && currentAbility.Equals(ActiveAbility.EARTH)) {
             setYVelocity(0.0f);
         }
 
@@ -107,10 +167,7 @@ public class Player : MonoBehaviour
         animator.SetFloat("speed", _currentSpeed);
         animator.SetBool("isGrounded", _isGrounded);
         animator.SetBool("isFalling", _isFalling);
-    }
 
-    private void FixedUpdate()
-    {
         // player is jumping
         if (playerRigidBody.velocity.y > 0.1)
         {
@@ -198,22 +255,22 @@ public class Player : MonoBehaviour
     }
 
     void moveLeft()
-    { 
-        setXVelocity(-moveSpeed);
-
-        if(!playerSpriteRenderer.flipX)
-        {
-            playerSpriteRenderer.flipX = true;
+    {
+        if (!_dashing) {
+            setXVelocity(-moveSpeed);
+            if (!playerSpriteRenderer.flipX) {
+                playerSpriteRenderer.flipX = true;
+            }
         }
     }
 
     void moveRight()
     {
-        setXVelocity(moveSpeed);
-
-        if (playerSpriteRenderer.flipX)
-        {
-            playerSpriteRenderer.flipX = false;
+        if (!_dashing) {
+            setXVelocity(moveSpeed);
+            if (playerSpriteRenderer.flipX) {
+                playerSpriteRenderer.flipX = false;
+            }
         }
     }
 
@@ -277,14 +334,19 @@ public class Player : MonoBehaviour
         if (!currentAbility.Equals(ActiveAbility.ICE))
         {
             currentAbility = ActiveAbility.ICE;
+            GetComponent<SpriteRenderer>().color = Color.cyan;
             //May need to add ice constants for these properties.
             jumpSpeed = NORMAL_JUMP_SPEED;
             playerRigidBody.mass = NORMAL_MASS;
+            if (!_isGrounded) {
+                //have player fall very fast if airborne when switching to ice
+                playerRigidBody.AddForce(Vector2.down * iceMagnitude, ForceMode2D.Impulse);
+            }
         }
         else
         {
             currentAbility = ActiveAbility.NORMAL;
-            GetComponent<SpriteRenderer>().color = Color.cyan;
+            GetComponent<SpriteRenderer>().color = Color.white;
         }
         //TBD this iteration.
     }
@@ -360,5 +422,30 @@ public class Player : MonoBehaviour
         playerRigidBody.mass = NORMAL_MASS;
         currentAbility = ActiveAbility.NORMAL;
         GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    void shift() {
+        _shiftPressed = true;
+        Invoke("unpressShift", (1f / 60f));
+    }
+    void unpressShift() {
+        _shiftPressed = false;
+    }
+
+    void stopDash() {
+        _dashing = false;
+        //if player's y velocity is positive, set it to 0; else leave it unchanged
+        float resetY = playerRigidBody.velocity.y;
+        if (playerRigidBody.velocity.y > 0) {
+            resetY = 0;
+        }
+        playerRigidBody.velocity = new Vector2(
+            playerRigidBody.velocity.x,
+            resetY); //cancel previous change to velocity from fire dash
+    }
+    void canDashAgain() {
+        if (_isGrounded) {
+            _canDash = true;
+        }
     }
 }
