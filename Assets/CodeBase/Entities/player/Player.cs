@@ -113,9 +113,13 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    private void Update()
     {
         inputProfile.checkInput();
+    }
+
+    void FixedUpdate()
+    {
         //print("currentAbility: " + currentAbility);
 
         //print("jumpSpeed: " + jumpSpeed);
@@ -230,6 +234,16 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            _isGrounded = false;
+            if (currentAbility.Equals(ActiveAbility.ICE))
+            {
+                //have player fall very fast if airborne when going off edge while ice is active.
+                playerRigidBody.AddForce(Vector2.down * iceMagnitude, ForceMode2D.Impulse);
+            }
+        }
+
         if (collision.gameObject.CompareTag("Wall"))
         {
             stopHuggingWall();
@@ -334,7 +348,7 @@ public class Player : MonoBehaviour
         if (!currentAbility.Equals(ActiveAbility.ICE))
         {
             currentAbility = ActiveAbility.ICE;
-            GetComponent<SpriteRenderer>().color = Color.cyan;
+            GetComponent<SpriteRenderer>().color = Color.blue;
             //May need to add ice constants for these properties.
             jumpSpeed = NORMAL_JUMP_SPEED;
             playerRigidBody.mass = NORMAL_MASS;
