@@ -103,9 +103,6 @@ public class Player : MonoBehaviour
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleWind, toggleWind);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleEarth, toggleEarth);
 
-        //shift key
-        inputProfile.addListener(InputEvent.Down, PlayerInputProfile.shift, shift);
-
         currentAbility = ActiveAbility.NORMAL;
         this.enabled = false;
         Controller.instance.stateMachine.AddStateListener(onStateChange);
@@ -120,10 +117,6 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        //print("currentAbility: " + currentAbility);
-
-        //print("jumpSpeed: " + jumpSpeed);
-
         //code for elemental power logic goes here
         //ice...
         if (currentAbility.Equals(ActiveAbility.ICE)) {
@@ -325,6 +318,10 @@ public class Player : MonoBehaviour
             stopHuggingWall();
             playerRigidBody.AddForce(Vector2.up*jumpSpeed, ForceMode2D.Impulse);
         }
+        else if (currentAbility.Equals(ActiveAbility.FIRE))
+        {
+            shift();
+        }
     }
 
     void setXVelocity(float newXVelocity)
@@ -362,7 +359,6 @@ public class Player : MonoBehaviour
             currentAbility = ActiveAbility.NORMAL;
             GetComponent<SpriteRenderer>().color = Color.white;
         }
-        //TBD this iteration.
     }
 
     void toggleFire()
@@ -382,7 +378,6 @@ public class Player : MonoBehaviour
         {
             deactivateAbility();
         }
-        //TBD next iteration.
     }
 
     void toggleWind()
@@ -426,7 +421,6 @@ public class Player : MonoBehaviour
         {
             deactivateAbility();
         }
-        //TBD next iteration.
     }
 
     void deactivateAbility()
@@ -442,6 +436,7 @@ public class Player : MonoBehaviour
         _shiftPressed = true;
         Invoke("unpressShift", (1f / 60f));
     }
+
     void unpressShift() {
         _shiftPressed = false;
     }

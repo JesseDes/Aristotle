@@ -963,6 +963,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -10.5
       objectReference: {fileID: 0}
+    - target: {fileID: 982529147890883458, guid: f733235070e6e2644b99e6de01613447,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 982529147890883458, guid: f733235070e6e2644b99e6de01613447,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 982529147890883458, guid: f733235070e6e2644b99e6de01613447,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f733235070e6e2644b99e6de01613447, type: 3}
 --- !u!1 &74044072
@@ -9174,8 +9189,8 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: 18.02449, y: 5.7475595}
-  - {x: 18.024487, y: 3.7984474}
+  - {x: 18.016281, y: 5.7311416}
+  - {x: 18.01628, y: 3.7984474}
 --- !u!212 &1749904070
 SpriteRenderer:
   m_ObjectHideFlags: 0
