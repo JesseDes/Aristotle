@@ -159,28 +159,24 @@ public class Player : MonoBehaviour
             setYVelocity(0.0f);
         }
 
+        // player is jumping
+        if (playerRigidBody.velocity.y >= 0.1)
+        {
+            _isGrounded = false;
+            _isFalling = false;
+        }
+        // player is falling
+        else if (playerRigidBody.velocity.y < -0.1)
+        {
+            _isGrounded = false;
+            _isFalling = true;
+        }
+
         // Animate player movement
         _currentSpeed = Mathf.Abs(Input.GetAxis("Horizontal") * moveSpeed);
         animator.SetFloat("speed", _currentSpeed);
         animator.SetBool("isGrounded", _isGrounded);
         animator.SetBool("isFalling", _isFalling);
-
-        // player is jumping
-        if (playerRigidBody.velocity.y > 0.1)
-        {
-            _isGrounded = false;
-        }
-
-        // player is falling
-        if (playerRigidBody.velocity.y < -0.1)
-        {
-            _isFalling = true;
-            _isGrounded = false;
-        }
-        else
-        {
-            _isFalling = false;
-        }
     }
 
     private void onStateChange(System.Object response)
@@ -212,6 +208,7 @@ public class Player : MonoBehaviour
             //Setting the free-fall velocity to 0 prevents boosted jumps at corners.
             playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
             _isGrounded = true;
+            _isFalling = false;
         }
 
         if (collision.gameObject.CompareTag("Wall"))
