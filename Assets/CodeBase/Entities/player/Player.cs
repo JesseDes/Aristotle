@@ -103,9 +103,6 @@ public class Player : MonoBehaviour
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleWind, toggleWind);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleEarth, toggleEarth);
 
-        //shift key
-        inputProfile.addListener(InputEvent.Down, PlayerInputProfile.shift, shift);
-
         currentAbility = ActiveAbility.NORMAL;
         this.enabled = false;
         Controller.instance.stateMachine.AddStateListener(onStateChange);
@@ -113,13 +110,13 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    private void Update()
     {
         inputProfile.checkInput();
-        //print("currentAbility: " + currentAbility);
+    }
 
-        //print("jumpSpeed: " + jumpSpeed);
-
+    void FixedUpdate()
+    {
         //code for elemental power logic goes here
         //ice...
         if (currentAbility.Equals(ActiveAbility.ICE)) {
@@ -162,28 +159,24 @@ public class Player : MonoBehaviour
             setYVelocity(0.0f);
         }
 
+        // player is jumping
+        if (playerRigidBody.velocity.y >= 0.1)
+        {
+            _isGrounded = false;
+            _isFalling = false;
+        }
+        // player is falling
+        else if (playerRigidBody.velocity.y < -0.1)
+        {
+            _isGrounded = false;
+            _isFalling = true;
+        }
+
         // Animate player movement
         _currentSpeed = Mathf.Abs(Input.GetAxis("Horizontal") * moveSpeed);
         animator.SetFloat("speed", _currentSpeed);
         animator.SetBool("isGrounded", _isGrounded);
         animator.SetBool("isFalling", _isFalling);
-
-        // player is jumping
-        if (playerRigidBody.velocity.y > 0.1)
-        {
-            _isGrounded = false;
-        }
-
-        // player is falling
-        if (playerRigidBody.velocity.y < -0.1)
-        {
-            _isFalling = true;
-            _isGrounded = false;
-        }
-        else
-        {
-            _isFalling = false;
-        }
     }
 
     private void onStateChange(System.Object response)
@@ -215,6 +208,7 @@ public class Player : MonoBehaviour
             //Setting the free-fall velocity to 0 prevents boosted jumps at corners.
             playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
             _isGrounded = true;
+            _isFalling = false;
         }
 
         if (collision.gameObject.CompareTag("Wall"))
@@ -230,6 +224,16 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            _isGrounded = false;
+            if (currentAbility.Equals(ActiveAbility.ICE))
+            {
+                //have player fall very fast if airborne when going off edge while ice is active.
+                playerRigidBody.AddForce(Vector2.down * iceMagnitude, ForceMode2D.Impulse);
+            }
+        }
+
         if (collision.gameObject.CompareTag("Wall"))
         {
             stopHuggingWall();
@@ -311,6 +315,10 @@ public class Player : MonoBehaviour
             stopHuggingWall();
             playerRigidBody.AddForce(Vector2.up*jumpSpeed, ForceMode2D.Impulse);
         }
+        else if (currentAbility.Equals(ActiveAbility.FIRE))
+        {
+            shift();
+        }
     }
 
     void setXVelocity(float newXVelocity)
@@ -334,7 +342,7 @@ public class Player : MonoBehaviour
         if (!currentAbility.Equals(ActiveAbility.ICE))
         {
             currentAbility = ActiveAbility.ICE;
-            GetComponent<SpriteRenderer>().color = Color.cyan;
+            GetComponent<SpriteRenderer>().color = Color.blue;
             //May need to add ice constants for these properties.
             jumpSpeed = NORMAL_JUMP_SPEED;
             playerRigidBody.mass = NORMAL_MASS;
@@ -348,7 +356,6 @@ public class Player : MonoBehaviour
             currentAbility = ActiveAbility.NORMAL;
             GetComponent<SpriteRenderer>().color = Color.white;
         }
-        //TBD this iteration.
     }
 
     void toggleFire()
@@ -368,7 +375,6 @@ public class Player : MonoBehaviour
         {
             deactivateAbility();
         }
-        //TBD next iteration.
     }
 
     void toggleWind()
@@ -412,7 +418,6 @@ public class Player : MonoBehaviour
         {
             deactivateAbility();
         }
-        //TBD next iteration.
     }
 
     void deactivateAbility()
@@ -428,6 +433,7 @@ public class Player : MonoBehaviour
         _shiftPressed = true;
         Invoke("unpressShift", (1f / 60f));
     }
+
     void unpressShift() {
         _shiftPressed = false;
     }
