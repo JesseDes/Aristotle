@@ -97,7 +97,10 @@ public class View : MonoBehaviour
             _abilities.gameObject.SetActive(true);
             _mainMenu.gameObject.SetActive(false);
         }
-
+        else if (Controller.instance.stateMachine.state == EngineState.PLAYER_DEAD)
+        {
+            SceneManager.LoadScene(sceneCount);
+        }
     }
 
     public void UpdateAbilitySymbol(ActiveAbility ability, AbilitySymbolState state)

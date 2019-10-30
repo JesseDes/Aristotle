@@ -4865,7 +4865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b98d5df4b8ca5474ebe4a072e75e3249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iceImmune: 1
+  breaksIceArmor: 0
 --- !u!114 &3113366599866575667
 MonoBehaviour:
   m_ObjectHideFlags: 0

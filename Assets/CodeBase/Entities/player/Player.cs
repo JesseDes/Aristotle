@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum ActiveAbility
 {
@@ -440,7 +441,7 @@ public class Player : MonoBehaviour
 
     void stopDash() {
         _dashing = false;
-        //if player's y velocity is positive, set it to 0; else leave it unchanged
+        //Player starts free-falling once dash has stopped.
         float resetY = playerRigidBody.velocity.y;
         if (playerRigidBody.velocity.y > 0) {
             resetY = 0;
@@ -453,5 +454,20 @@ public class Player : MonoBehaviour
         if (_isGrounded) {
             _canDash = true;
         }
+    }
+
+    public void hazardHitsPlayer(bool breaksIceArmor)
+    {
+        if (breaksIceArmor || !currentAbility.Equals(ActiveAbility.ICE))
+        {
+            KillPlayer();
+        }
+    }
+
+    void KillPlayer()
+    {
+        //TODO: Handle player death.
+        Destroy(this.gameObject);
+        Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_OVER); //Simulates player respawn until checkpoints have been implemented.
     }
 }
