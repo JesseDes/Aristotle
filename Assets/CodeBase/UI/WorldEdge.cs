@@ -29,6 +29,8 @@ public class WorldEdge : MonoBehaviour
     {
 
         transform.localScale = new Vector3(_width, _height, 1);
+        Controller.instance.stateMachine.AddStateListener((System.Object response) => { _isActive = false; }, EngineState.PLAYER_DEAD);
+        Camera.main.GetComponent<LevelCamera>().panCompleteEvent.AddListener((System.Object response) => { _isActive = true;});
 
     }
 

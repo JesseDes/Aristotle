@@ -55,8 +55,14 @@ public class Player : MonoBehaviour
     private bool _isFalling;
     private float _currentSpeed = 0;
     private Vector3 _storedForce;
-
+    private bool _isRespawn = false;
     // Start is called before the first frame update
+
+    public void init()
+    {
+        _isRespawn = true;
+    }
+
     void Start()
     {
         initMoveSpeed = moveSpeed;
@@ -105,7 +111,7 @@ public class Player : MonoBehaviour
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleEarth, toggleEarth);
 
         currentAbility = ActiveAbility.NORMAL;
-        this.enabled = false;
+        this.enabled = _isRespawn;
         Controller.instance.stateMachine.AddStateListener(onStateChange);
 
     }
@@ -142,7 +148,6 @@ public class Player : MonoBehaviour
                 if (_shiftPressed && !_isGrounded) {
                     _dashing = true;
                     _canDash = false;
-                    print("add fire dash force!");
 
                     //add extra upwards force to push against gravity
                     playerRigidBody.velocity = new Vector2(moveH * fireDashSpeed, moveV * fireDashSpeed + 3f);
