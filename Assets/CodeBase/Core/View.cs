@@ -54,7 +54,7 @@ public class View : MonoBehaviour
     {
         if(worldEdgePrefab == null)
         {
-            Debug.Log("WARNING: You have no WorldEdges, the camera will not follow the player. \n Please Put a world Edge prefab in the View component");
+            Debug.LogWarning("WARNING: You have no WorldEdges, the camera will not follow the player. \n Please Put a world Edge prefab in the View component");
             return;
         }
 
@@ -97,7 +97,6 @@ public class View : MonoBehaviour
             _abilities.gameObject.SetActive(true);
             _mainMenu.gameObject.SetActive(false);
         }
-
     }
 
     public void UpdateAbilitySymbol(ActiveAbility ability, AbilitySymbolState state)

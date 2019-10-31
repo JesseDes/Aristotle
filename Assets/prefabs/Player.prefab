@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 8664842966337580069}
   - component: {fileID: 8664842966337580064}
   - component: {fileID: 8664842966337580070}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8664842966337580076}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.8, y: 4.41, z: -9.658363}
+  m_LocalPosition: {x: 0, y: 0, z: -9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -97,8 +97,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eb056700c3f130489f02e857e243836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  jumpSpeed: 5
+  moveSpeed: 5
+  jumpSpeed: 7.5
+  fireDashSpeed: 7
+  climbSpeed: 4
+  iceMagnitude: 10
 --- !u!61 &8664842966337580071
 BoxCollider2D:
   m_ObjectHideFlags: 0

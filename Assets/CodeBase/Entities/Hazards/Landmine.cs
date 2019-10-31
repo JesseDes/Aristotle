@@ -15,6 +15,7 @@ public class Landmine : MonoBehaviour
             Invoke("Detonate", 0.5f);
         }
     }
+
     private void OnTriggerStay2D(Collider2D other) {
         if (other.tag == PLAYER_TAG && !detonating) {
             detonating = true;

@@ -57,7 +57,7 @@ public class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-           
+
     }
     /// <summary>
     /// Add a function that will be called whenever an event is dispatched
@@ -92,6 +92,6 @@ public class Controller : MonoBehaviour
         if (_eventList.ContainsKey(type))
             _eventList[type].Dispatch();
         else
-            Debug.Log("Warning: No currenlty registered listners for event :" + type);
+            Debug.LogWarning("Warning: No currenlty registered listners for event :" + type);
     }
 }

@@ -10,6 +10,7 @@ TagManager:
   - Wall
   - MetalWall
   - WorldEdge
+  - CheckPoint
   layers:
   - Default
   - TransparentFX

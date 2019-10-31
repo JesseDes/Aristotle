@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum ActiveAbility
 {
@@ -54,8 +55,14 @@ public class Player : MonoBehaviour
     private bool _isFalling;
     private float _currentSpeed = 0;
     private Vector3 _storedForce;
-
+    private bool _isRespawn = false;
     // Start is called before the first frame update
+
+    public void init()
+    {
+        _isRespawn = true;
+    }
+
     void Start()
     {
         initMoveSpeed = moveSpeed;
@@ -104,7 +111,7 @@ public class Player : MonoBehaviour
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleEarth, toggleEarth);
 
         currentAbility = ActiveAbility.NORMAL;
-        this.enabled = false;
+        this.enabled = _isRespawn;
         Controller.instance.stateMachine.AddStateListener(onStateChange);
 
     }
@@ -141,7 +148,6 @@ public class Player : MonoBehaviour
                 if (_shiftPressed && !_isGrounded) {
                     _dashing = true;
                     _canDash = false;
-                    print("add fire dash force!");
 
                     //add extra upwards force to push against gravity
                     playerRigidBody.velocity = new Vector2(moveH * fireDashSpeed, moveV * fireDashSpeed + 3f);
@@ -440,7 +446,7 @@ public class Player : MonoBehaviour
 
     void stopDash() {
         _dashing = false;
-        //if player's y velocity is positive, set it to 0; else leave it unchanged
+        //Player starts free-falling once dash has stopped.
         float resetY = playerRigidBody.velocity.y;
         if (playerRigidBody.velocity.y > 0) {
             resetY = 0;
@@ -453,5 +459,20 @@ public class Player : MonoBehaviour
         if (_isGrounded) {
             _canDash = true;
         }
+    }
+
+    public void hazardHitsPlayer(bool breaksIceArmor)
+    {
+        if (breaksIceArmor || !currentAbility.Equals(ActiveAbility.ICE))
+        {
+            KillPlayer();
+        }
+    }
+
+    void KillPlayer()
+    {
+        //TODO: Handle player death.
+        Destroy(this.gameObject);
+        Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_OVER); //Simulates player respawn until checkpoints have been implemented.
     }
 }

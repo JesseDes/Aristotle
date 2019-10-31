@@ -9,7 +9,7 @@ using UnityEngine;
 public class HazardGeneric : MonoBehaviour
 {
     const string PLAYER_TAG = "Player";
-    public bool iceImmune; //does having ice power make player immune to this hazard?
+    public bool breaksIceArmor; //Does hazard break Player's ice shield?
 
     private void OnTriggerEnter2D(Collider2D other) {
         KillPlayer(other);
@@ -20,14 +20,7 @@ public class HazardGeneric : MonoBehaviour
 
     void KillPlayer(Collider2D other) {
         if (other.tag == PLAYER_TAG) {
-            if (!iceImmune || other.gameObject.GetComponent<Player>().currentAbility != ActiveAbility.ICE) {
-                //kill player
-                //<TODO>: code for handling player death
-
-                //for now, only destroy player object..
-             
-                Destroy(other.gameObject);
-            }
+            other.gameObject.GetComponent<Player>().hazardHitsPlayer(breaksIceArmor);
         }
     }
 }
