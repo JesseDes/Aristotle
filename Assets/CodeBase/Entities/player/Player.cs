@@ -146,6 +146,7 @@ public class Player : MonoBehaviour
 
                 //dash effect from fire, restrict to only in the air for simpler implementation
                 if (_shiftPressed && !_isGrounded) {
+                    unpressShift();
                     _dashing = true;
                     _canDash = false;
 
@@ -436,8 +437,10 @@ public class Player : MonoBehaviour
     }
 
     void shift() {
-        _shiftPressed = true;
-        Invoke("unpressShift", (1f / 60f));
+        if (_canDash)
+        {
+            _shiftPressed = true;
+        }
     }
 
     void unpressShift() {
