@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Floor
+  - SolidObject
+  - Ceiling
+  - Wall
+  - MetalWall
+  - WorldEdge
+  - CheckPoint
   layers:
   - Default
   - TransparentFX
@@ -14,9 +20,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - WorldEdge
+  - CamBlocker
+  - Player
   - 
   - 
   - 

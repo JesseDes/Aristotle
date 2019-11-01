@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -19,8 +19,8 @@ public class SphereInputProfile : InputProfile
     {
         keyLoadList.Add(new InputCommand(moveLeft, Default_moveLeft));
         keyLoadList.Add(new InputCommand(moveRight, Default_moveRight));
-        keyLoadList.Add(new InputCommand(moveUp , Default_moveUp));
-        keyLoadList.Add(new InputCommand(moveDown , Default_moveDown));
+        keyLoadList.Add(new InputCommand(moveUp, Default_moveUp));
+        keyLoadList.Add(new InputCommand(moveDown, Default_moveDown));
 
         assignKeys(keyLoadList);
     }
