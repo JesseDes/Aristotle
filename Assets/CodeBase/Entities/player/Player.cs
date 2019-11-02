@@ -18,31 +18,38 @@ public class Player : MonoBehaviour
     float moveSpeed;
 
     [SerializeField]
-    float jumpSpeed, fireDashSpeed = 8.0f;
+    float jumpSpeed;
+
+    [SerializeField]
+    float iceMagnitude;
+
+    [SerializeField]
+    float fireDashSpeed;
 
     [SerializeField]
     float climbSpeed;
 
-    [SerializeField]
-    float iceMagnitude = 20.0f;
-
     [HideInInspector]
     public ActiveAbility currentAbility { get; private set; }
 
+    //Various parameters for each individual ability. If there is no counterpart for a specific ability, then
+    //the parameter stays the same between the normal ability and the specified ability.
     private const float NORMAL_MOVEMENT_SPEED = 5.0f;
     private const float NORMAL_JUMP_SPEED = 7.5f;
     private const float NORMAL_MASS = 1.0f;
 
-    private const float WIND_JUMP_SPEED = NORMAL_JUMP_SPEED * 1.25f;
+    private const float ICE_MOVEMENT_SPEED = NORMAL_MOVEMENT_SPEED * 0.5f;
+    private const float ICE_FALL_MAGNITUDE = 20.0f;
+
+    private const float FIRE_DASH_FORCE = 8.0f;
+    private const float FIRE_DASH_DURATION = 0.75f; //Duration between start of dash and player falling again.
+
+    private const float WIND_JUMP_SPEED = NORMAL_JUMP_SPEED * 1.1f;
     private const float WIND_MASS = NORMAL_MASS * 0.8f;
 
     private const float EARTH_CLIMB_SPEED = 4.0f;
 
-    const float FIRE_DASH_DURATION = 0.75f; //reference for how long dash maneuver from fire power lasts
-
-    float initMoveSpeed, initJumpSpeed;
-
-
+    //Various properties of the player entity.
     PlayerInputProfile inputProfile;
     Rigidbody2D playerRigidBody;
     Animator animator;
@@ -56,18 +63,15 @@ public class Player : MonoBehaviour
     private float _currentSpeed = 0;
     private Vector3 _storedForce;
     private bool _isRespawn = false;
-    // Start is called before the first frame update
 
     public void init()
     {
         _isRespawn = true;
     }
 
+    // Start is called before the first frame update
     void Start()
     {
-        initMoveSpeed = moveSpeed;
-        initJumpSpeed = jumpSpeed;
-
         inputProfile = new PlayerInputProfile();
         playerRigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -93,11 +97,6 @@ public class Player : MonoBehaviour
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveRight, stopMoving);
 
         //Listeners for movement and jumping.
-        inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveLeft, moveLeft);
-        inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveRight, moveRight);
-        inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveLeft, stopMoving);
-        inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveRight, stopMoving);
-
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveUp, moveUp);
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveDown, moveDown);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveUp, stopClimbing);
@@ -124,18 +123,6 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        //code for elemental power logic goes here
-        //ice...
-        if (currentAbility.Equals(ActiveAbility.ICE)) {
-            //slow player down and lock down jump ability
-            moveSpeed = initMoveSpeed / 2f; //halve(?) movement speed
-            jumpSpeed = 0; //means: can't jump
-        }
-        else {
-            moveSpeed = initMoveSpeed;
-            jumpSpeed = initJumpSpeed;
-        }
-
         //fire...
         if (currentAbility.Equals(ActiveAbility.FIRE)) {
             if (_canDash) {
@@ -313,7 +300,7 @@ public class Player : MonoBehaviour
 
     void jump()
     {
-        if (_isGrounded) //TODO: Add statement to prevent jumping while ice is active.
+        if (_isGrounded && !currentAbility.Equals(ActiveAbility.ICE))
         {
             playerRigidBody.AddForce(Vector2.up*jumpSpeed, ForceMode2D.Impulse);
         }
@@ -351,17 +338,17 @@ public class Player : MonoBehaviour
             currentAbility = ActiveAbility.ICE;
             GetComponent<SpriteRenderer>().color = Color.blue;
             //May need to add ice constants for these properties.
+            moveSpeed = ICE_MOVEMENT_SPEED;
             jumpSpeed = NORMAL_JUMP_SPEED;
             playerRigidBody.mass = NORMAL_MASS;
             if (!_isGrounded) {
                 //have player fall very fast if airborne when switching to ice
-                playerRigidBody.AddForce(Vector2.down * iceMagnitude, ForceMode2D.Impulse);
+                playerRigidBody.AddForce(Vector2.down * ICE_FALL_MAGNITUDE, ForceMode2D.Impulse);
             }
         }
         else
         {
-            currentAbility = ActiveAbility.NORMAL;
-            GetComponent<SpriteRenderer>().color = Color.white;
+            deactivateAbility();
         }
     }
 
