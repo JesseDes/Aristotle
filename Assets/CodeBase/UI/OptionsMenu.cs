@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 using TMPro;
-using UnityEngine.UIElements;
 
 public class OptionsMenu : MonoBehaviour
 {
@@ -39,12 +36,12 @@ public class OptionsMenu : MonoBehaviour
         if (Input.anyKeyDown && _isListening)
         {
  
-            foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
+            foreach (KeyCode code in Enum.GetValues(typeof(KeyCode)))
             {
-                if (Input.GetKey(kcode))
+                if (Input.GetKey(code))
                 {
                     _isListening = false;
-                    SetKeyForPreference(kcode.ToString());
+                    SetKeyForPreference(code.ToString());
                 }
                    
             }
@@ -112,6 +109,7 @@ public class OptionsMenu : MonoBehaviour
 
     public void UI_ResetAll()
     {
+        //Clear all related keys, default binding will be selected instead
         PlayerPrefs.DeleteKey(PlayerInputProfile.jump);
         PlayerPrefs.DeleteKey(PlayerInputProfile.moveUp);
         PlayerPrefs.DeleteKey(PlayerInputProfile.moveDown);
@@ -135,6 +133,7 @@ public class OptionsMenu : MonoBehaviour
         }
         else
         {
+            //different button selected, replace
             _preferenceToSet = newPreference;
             _isListening = true;
         }
