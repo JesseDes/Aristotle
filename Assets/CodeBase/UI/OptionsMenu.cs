@@ -2,11 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
+using UnityEngine.UIElements;
 
 public class OptionsMenu : MonoBehaviour
 {
     private bool _isListening;
     private string _preferenceToSet;
+
+    [SerializeField]
+    private TextMeshProUGUI _jumpText;
+    [SerializeField]
+    private TextMeshProUGUI _leftText;
+    [SerializeField]
+    private TextMeshProUGUI _rightText;
+    [SerializeField]
+    private TextMeshProUGUI _upText;
+    [SerializeField]
+    private TextMeshProUGUI _downText;
+    [SerializeField]
+    private TextMeshProUGUI _windText;
+    [SerializeField]
+    private TextMeshProUGUI _earthText;
+    [SerializeField]
+    private TextMeshProUGUI _fireText;
+    [SerializeField]
+    private TextMeshProUGUI _iceText;
+
+    public void Start()
+    {
+        UpdateText();
+    }
 
     public void Update()
     {
@@ -17,9 +43,7 @@ public class OptionsMenu : MonoBehaviour
             {
                 if (Input.GetKey(kcode))
                 {
-                    Debug.Log("KeyCode set: " + kcode);
                     _isListening = false;
-                    Debug.Log("Keycode string: "  + kcode.ToString());
                     SetKeyForPreference(kcode.ToString());
                 }
                    
@@ -28,9 +52,77 @@ public class OptionsMenu : MonoBehaviour
         }
     }
 
+    private void UpdateText()
+    {
+        _jumpText.text = PlayerPrefs.GetString(PlayerInputProfile.jump, "" + PlayerInputProfile.Default_jump);
+        _leftText.text = PlayerPrefs.GetString(PlayerInputProfile.moveLeft, "" + PlayerInputProfile.Default_moveLeft);
+        _rightText.text = PlayerPrefs.GetString(PlayerInputProfile.moveRight, "" + PlayerInputProfile.Default_moveRight);
+        _upText.text = PlayerPrefs.GetString(PlayerInputProfile.moveUp, "" + PlayerInputProfile.Default_moveUp);
+        _downText.text = PlayerPrefs.GetString(PlayerInputProfile.moveDown, "" + PlayerInputProfile.Default_moveDown);
+        _fireText.text = PlayerPrefs.GetString(PlayerInputProfile.toggleFire, "" + PlayerInputProfile.Default_ToggleFire);
+        _iceText.text = PlayerPrefs.GetString(PlayerInputProfile.toggleIce, "" + PlayerInputProfile.Default_ToggleIce);
+        _windText.text = PlayerPrefs.GetString(PlayerInputProfile.toggleWind, "" + PlayerInputProfile.Default_ToggleWind);
+        _earthText.text = PlayerPrefs.GetString(PlayerInputProfile.toggleEarth, "" + PlayerInputProfile.Default_ToggleEarth);
+    }
+
     public void UI_SetKeyForJump()
     {
         UpdatePreferenceSelection(PlayerInputProfile.jump);
+    }
+
+    public void UI_SetKeyForLeft()
+    {
+        UpdatePreferenceSelection(PlayerInputProfile.moveLeft);
+    }
+
+    public void UI_SetKeyForRight()
+    {
+        UpdatePreferenceSelection(PlayerInputProfile.moveRight);
+    }
+
+    public void UI_SetKeyForUp()
+    {
+        UpdatePreferenceSelection(PlayerInputProfile.moveUp);
+    }
+
+    public void UI_SetKeyForDown()
+    {
+        UpdatePreferenceSelection(PlayerInputProfile.moveDown);
+    }
+
+    public void UI_SetKeyForIce()
+    {
+        UpdatePreferenceSelection(PlayerInputProfile.toggleIce);
+    }
+
+    public void UI_SetKeyForFire()
+    {
+        UpdatePreferenceSelection(PlayerInputProfile.toggleFire);
+    }
+
+    public void UI_SetKeyForWind()
+    {
+        UpdatePreferenceSelection(PlayerInputProfile.toggleWind);
+    }
+
+    public void UI_SetKeyForEarth()
+    {
+        UpdatePreferenceSelection(PlayerInputProfile.toggleEarth);
+    }
+
+    public void UI_ResetAll()
+    {
+        PlayerPrefs.DeleteKey(PlayerInputProfile.jump);
+        PlayerPrefs.DeleteKey(PlayerInputProfile.moveUp);
+        PlayerPrefs.DeleteKey(PlayerInputProfile.moveDown);
+        PlayerPrefs.DeleteKey(PlayerInputProfile.moveLeft);
+        PlayerPrefs.DeleteKey(PlayerInputProfile.moveRight);
+        PlayerPrefs.DeleteKey(PlayerInputProfile.toggleEarth);
+        PlayerPrefs.DeleteKey(PlayerInputProfile.toggleFire);
+        PlayerPrefs.DeleteKey(PlayerInputProfile.toggleIce);
+        PlayerPrefs.DeleteKey(PlayerInputProfile.toggleWind);
+        PlayerPrefs.Save();
+        UpdateText();
     }
 
     public void UpdatePreferenceSelection(string newPreference)
@@ -50,11 +142,9 @@ public class OptionsMenu : MonoBehaviour
 
     public void SetKeyForPreference(string input)
     {
-        Debug.Log("Setting " + _preferenceToSet + " with " + input);
         PlayerPrefs.SetString(_preferenceToSet, input);
         PlayerPrefs.Save();
         _preferenceToSet = null;
+        UpdateText();
     }
-
-
 }

@@ -85,6 +85,8 @@ public class Player : MonoBehaviour
         climbSpeed = EARTH_CLIMB_SPEED;
         playerRigidBody.mass = NORMAL_MASS;
 
+        SetUpInputProfile();
+
         currentAbility = ActiveAbility.NORMAL;
         this.enabled = _isRespawn;
         Controller.instance.stateMachine.AddStateListener(onStateChange);
