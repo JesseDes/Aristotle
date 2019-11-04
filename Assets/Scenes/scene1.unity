@@ -5389,6 +5389,11 @@ PrefabInstance:
       propertyPath: climbSpeed
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8664842966337580067, guid: 5468cc75e536b8740b132bb77f1edfd6,
+        type: 3}
+      propertyPath: recentlyUnlockedAbility
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5468cc75e536b8740b132bb77f1edfd6, type: 3}
 --- !u!1001 &949304622
