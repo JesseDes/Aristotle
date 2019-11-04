@@ -68,7 +68,6 @@ public class Player : MonoBehaviour
         initMoveSpeed = moveSpeed;
         initJumpSpeed = jumpSpeed;
 
-        inputProfile = new PlayerInputProfile();
         playerRigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -86,6 +85,15 @@ public class Player : MonoBehaviour
         climbSpeed = EARTH_CLIMB_SPEED;
         playerRigidBody.mass = NORMAL_MASS;
 
+        currentAbility = ActiveAbility.NORMAL;
+        this.enabled = _isRespawn;
+        Controller.instance.stateMachine.AddStateListener(onStateChange);
+
+    }
+
+    private void SetUpInputProfile()
+    {
+        inputProfile = new PlayerInputProfile();
         //Listeners for vertical movement.
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveLeft, moveLeft);
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveRight, moveRight);
@@ -109,10 +117,6 @@ public class Player : MonoBehaviour
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleFire, toggleFire);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleWind, toggleWind);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleEarth, toggleEarth);
-
-        currentAbility = ActiveAbility.NORMAL;
-        this.enabled = _isRespawn;
-        Controller.instance.stateMachine.AddStateListener(onStateChange);
 
     }
 
@@ -198,6 +202,7 @@ public class Player : MonoBehaviour
         else if (Controller.instance.stateMachine.state == EngineState.ACTIVE)
         {
             this.enabled = true;
+            SetUpInputProfile();
             playerRigidBody.WakeUp();
             playerRigidBody.velocity = _storedForce; 
         }
