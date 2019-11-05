@@ -47,3 +47,5 @@ MonoBehaviour:
     Value: Wind
   - Key: options.ground
     Value: Ground
+  - Key: lore.example
+    Value: This is lore, this is lore,  this is lore, this is lore, this is lore
