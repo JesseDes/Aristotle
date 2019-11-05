@@ -21,3 +21,29 @@ MonoBehaviour:
     Value: New Game
   - Key: main_menu.button_2
     Value: Options
+  - Key: options.title
+    Value: Options
+  - Key: options.back
+    Value: Back
+  - Key: options.reset
+    Value: Reset
+  - Key: options.update
+    Value: Update
+  - Key: options.jump
+    Value: Jump
+  - Key: options.up
+    Value: Up
+  - Key: options.down
+    Value: Down
+  - Key: options.left
+    Value: Left
+  - Key: options.right
+    Value: Right
+  - Key: options.fire
+    Value: Fire
+  - Key: options.ice
+    Value: Ice
+  - Key: options.wind
+    Value: Wind
+  - Key: options.ground
+    Value: Ground
