@@ -79,7 +79,6 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        inputProfile = new PlayerInputProfile();
         playerRigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -96,6 +95,18 @@ public class Player : MonoBehaviour
         jumpSpeed = NORMAL_JUMP_SPEED;
         climbSpeed = EARTH_CLIMB_SPEED;
         playerRigidBody.mass = NORMAL_MASS;
+
+        SetUpInputProfile();
+
+        currentAbility = ActiveAbility.NORMAL;
+        recentlyUnlockedAbility = ActiveAbility.EARTH;
+        this.enabled = _isRespawn;
+        Controller.instance.stateMachine.AddStateListener(onStateChange);
+    }
+
+    private void SetUpInputProfile()
+    {
+        inputProfile = new PlayerInputProfile();
 
         //Listeners for movement and jumping.
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveLeft, moveLeft);
@@ -115,11 +126,6 @@ public class Player : MonoBehaviour
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleFire, toggleFire);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleWind, toggleWind);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleEarth, toggleEarth);
-
-        currentAbility = ActiveAbility.NORMAL;
-        recentlyUnlockedAbility = ActiveAbility.EARTH;
-        this.enabled = _isRespawn;
-        Controller.instance.stateMachine.AddStateListener(onStateChange);
     }
 
     // Update is called once per frame
@@ -162,6 +168,7 @@ public class Player : MonoBehaviour
         else if (Controller.instance.stateMachine.state == EngineState.ACTIVE)
         {
             this.enabled = true;
+            SetUpInputProfile();
             playerRigidBody.WakeUp();
             playerRigidBody.velocity = _storedForce; 
         }
