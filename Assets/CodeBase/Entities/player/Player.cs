@@ -174,7 +174,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Floor"))
+        if (collision.gameObject.CompareTag("MetalMaterial"))
         {
             //Setting the free-fall velocity to 0 prevents boosted jumps at corners.
             playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
@@ -183,7 +183,7 @@ public class Player : MonoBehaviour
             _isFalling = false;
         }
 
-        if (collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("EarthWall"))
         {
             _isHuggingWall = true;
             if (currentAbility.Equals(ActiveAbility.EARTH))
@@ -196,7 +196,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Floor"))
+        if (collision.gameObject.CompareTag("MetalMaterial"))
         {
             _isGrounded = false;
             if (currentAbility.Equals(ActiveAbility.ICE))
@@ -206,7 +206,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("EarthWall"))
         {
             stopHuggingWall();
         }
