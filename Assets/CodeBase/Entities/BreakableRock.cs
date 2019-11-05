@@ -9,7 +9,6 @@ public class BreakableRock : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.tag == playerTag && other.gameObject.GetComponent<Player>().currentAbility.Equals(ActiveAbility.ICE)) {
-            print("player velocity: " + other.gameObject.GetComponent<Rigidbody2D>().velocity.y);
             if (other.gameObject.GetComponent<Rigidbody2D>().velocity.y < -resistance) {
                 //TODO: add visual effects later...
 
