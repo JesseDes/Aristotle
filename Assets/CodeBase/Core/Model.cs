@@ -8,6 +8,10 @@ public class Model : MonoBehaviour
     public static Model instance;
     [HideInInspector]
     public CheckPoint currentCheckpoint { get; private set; }
+
+
+    public AudioManager audioManager;
+    public AudioProfile globalAudio;
     
     private void Awake()
     {
@@ -22,16 +26,19 @@ public class Model : MonoBehaviour
 
         }
     }
+    
     // Start is called before the first frame update
     void Start()
     {
         //TEMP WILL FIX AFTER DEMO
         currentCheckpoint =  GameObject.FindGameObjectWithTag("CheckPoint").GetComponent<CheckPoint>();
+
+        audioManager.LoadProfile(globalAudio);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
