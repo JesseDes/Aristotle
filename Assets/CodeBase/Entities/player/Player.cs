@@ -35,6 +35,10 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public ActiveAbility currentAbility { get; private set; }
 
+    [HideInInspector]
+    public Vector2 facingDireciont { get; private set; }
+
+
     //Various parameters for each individual ability. If there is no counterpart for a specific ability, then
     //the parameter stays the same between the normal ability and the specified ability.
     private const float NORMAL_MOVEMENT_SPEED = 5.0f;
@@ -82,7 +86,7 @@ public class Player : MonoBehaviour
         playerRigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerSpriteRenderer = GetComponent<SpriteRenderer>();
-
+        facingDireciont = Vector2.right;
         _isGrounded = false;
 
         _canDash = true;
@@ -244,6 +248,7 @@ public class Player : MonoBehaviour
         if (!_dashActive) {
             setXVelocity(-moveSpeed);
             if (!playerSpriteRenderer.flipX) {
+                facingDireciont = Vector2.left;
                 playerSpriteRenderer.flipX = true;
             }
         }
@@ -255,6 +260,7 @@ public class Player : MonoBehaviour
         if (!_dashActive) {
             setXVelocity(moveSpeed);
             if (playerSpriteRenderer.flipX) {
+                facingDireciont = Vector2.right;
                 playerSpriteRenderer.flipX = false;
             }
         }

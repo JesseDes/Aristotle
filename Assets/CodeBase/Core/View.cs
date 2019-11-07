@@ -6,6 +6,8 @@ public class View : MonoBehaviour
     [HideInInspector]
     public static View instance;
     public int sceneCount = 0;
+    [HideInInspector]
+    public int currentLevel;
     public float sideScreenDetectionSize = 0.2f;
     public float topScreenDetectionSize = 0.2f;
     public float bottomScreenDetectionSize = 0.2f;
@@ -95,6 +97,10 @@ public class View : MonoBehaviour
         else if (Controller.instance.stateMachine.state == EngineState.ACTIVE)
         {
             _abilities.gameObject.SetActive(true);
+        }
+        else if (Controller.instance.stateMachine.state == EngineState.LOADING_STATE)
+        {
+
             _mainMenu.gameObject.SetActive(false);
         }
     }

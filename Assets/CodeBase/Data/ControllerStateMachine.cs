@@ -1,4 +1,5 @@
 ﻿using System;
+
 public class ControllerStateMachine
 {
     public EngineState state { get { return _stateMachine._currentState.name; } }
@@ -20,7 +21,7 @@ public class ControllerStateMachine
         Controller.instance.AddEventListener(EngineEvents.ENGINE_GAME_START, (Object response) => { CheckState(EngineEvents.ENGINE_GAME_START); });
         Controller.instance.AddEventListener(EngineEvents.ENGINE_GAME_PAUSE, (Object response) => { CheckState(EngineEvents.ENGINE_GAME_PAUSE); });
         Controller.instance.AddEventListener(EngineEvents.ENGINE_GAME_OVER, (Object response) => { CheckState(EngineEvents.ENGINE_GAME_OVER); });
-        Controller.instance.AddEventListener(EngineEvents.ENGINE_LOAD_LEVEL, (Object response) => { CheckState(EngineEvents.ENGINE_LOAD_LEVEL); });
+        Controller.instance.AddEventListener(EngineEvents.ENGINE_LOAD_START, (Object response) => { CheckState(EngineEvents.ENGINE_LOAD_START); });
         Controller.instance.AddEventListener(EngineEvents.ENGINE_STAGE_COMPLETE, (Object response) => { CheckState(EngineEvents.ENGINE_STAGE_COMPLETE); });
     }
 
@@ -56,11 +57,11 @@ public class ControllerStateMachine
         {
             case EngineEvents.ENGINE_GAME_START: _stateMachine.SetState(EngineState.ACTIVE); break;
             case EngineEvents.ENGINE_STAGE_COMPLETE: _stateMachine.SetState(EngineState.STAGE_END); break;
-            case EngineEvents.ENGINE_LOAD_LEVEL: _stateMachine.SetState(EngineState.LOADING_STATE); break;
+            case EngineEvents.ENGINE_LOAD_START: _stateMachine.SetState(EngineState.LOADING_STATE); break;
             case EngineEvents.ENGINE_GAME_PAUSE: _stateMachine.SetState(EngineState.MENU); break;
             case EngineEvents.ENGINE_GAME_OVER: _stateMachine.SetState(EngineState.PLAYER_DEAD); break;
 
-            default: return;
+//            default: return;
         }
 
         _StateChangeEvent.Dispatch(type);
