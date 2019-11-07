@@ -5,6 +5,8 @@ using System;
 
 public class LevelCamera : MonoBehaviour
 {
+    public GameObject[] rooms;
+
     public float cameraPanSpeed = 1;
     [HideInInspector]
     public AEvent panCompleteEvent { get; private set; }
@@ -46,7 +48,7 @@ public class LevelCamera : MonoBehaviour
         }
     }
 
-    private void onRespawn(System.Object repsonse)
+    private void onRespawn(System.Object response)
     {
         _resetState = true;
         _lerpTimer = 0;

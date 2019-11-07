@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
         SetUpInputProfile();
 
         currentAbility = ActiveAbility.NORMAL;
-        recentlyUnlockedAbility = ActiveAbility.EARTH;
+        //recentlyUnlockedAbility = ActiveAbility.EARTH;
         this.enabled = _isRespawn;
         Controller.instance.stateMachine.AddStateListener(onStateChange);
     }
