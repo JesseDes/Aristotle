@@ -7,10 +7,11 @@ TagManager:
   - Floor
   - SolidObject
   - Ceiling
-  - Wall
-  - MetalWall
   - WorldEdge
   - CheckPoint
+  - Corner
+  - MetalMaterial
+  - EarthWall
   layers:
   - Default
   - TransparentFX
