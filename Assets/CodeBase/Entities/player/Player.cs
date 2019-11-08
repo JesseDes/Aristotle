@@ -74,6 +74,7 @@ public class Player : MonoBehaviour
     private float _currentSpeed = 0;
     private Vector3 _storedForce;
     private bool _isRespawn = false;
+    private bool _disableMovement = false;
 
     public void init()
     {
@@ -130,12 +131,23 @@ public class Player : MonoBehaviour
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleFire, toggleFire);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleWind, toggleWind);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleEarth, toggleEarth);
+
+        Camera.main.GetComponent<LevelCamera>().panStartEvent.AddListener(ControlStateChange);
+        Camera.main.GetComponent<LevelCamera>().panCompleteEvent.AddListener(ControlStateChange);
+
+    }
+
+    private void ControlStateChange(System.Object response)
+    {
+        
+        _disableMovement = !_disableMovement;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        inputProfile.checkInput();
+        if(!_disableMovement)
+            inputProfile.checkInput();
     }
 
     void FixedUpdate()

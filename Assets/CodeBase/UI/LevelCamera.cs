@@ -7,6 +7,7 @@ public class LevelCamera : MonoBehaviour
 {
     public float cameraPanSpeed = 1;
     [HideInInspector]
+    public AEvent panStartEvent { get; private set; }
     public AEvent panCompleteEvent { get; private set; }
 
     private bool _resetState;
@@ -27,7 +28,7 @@ public class LevelCamera : MonoBehaviour
     {
         _eventKey = Guid.NewGuid().ToString();
         panCompleteEvent = new AEvent(true, _eventKey);
-
+        panStartEvent = new AEvent(true, _eventKey);
     }
 
     // Start is called before the first frame update
@@ -53,6 +54,8 @@ public class LevelCamera : MonoBehaviour
                 panCompleteEvent.Dispatch(null, _eventKey);
                 _resetState = false;
                 Model.instance.currentCheckpoint.StartSpawn();
+                _lerpTimer = 0;
+
             }
         }
         else if(_fullPanState)
@@ -62,7 +65,7 @@ public class LevelCamera : MonoBehaviour
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, _fullPanDirection, Math.Min(_lerpTimer,cameraPanSpeed) / cameraPanSpeed);
             if (Camera.main.transform.position == _fullPanDirection)
             {
-                Debug.Log("did it end?");
+                panCompleteEvent.Dispatch(null, _eventKey);
                 _fullPanState = false;
                 _lerpTimer = 0;
             }
@@ -73,7 +76,8 @@ public class LevelCamera : MonoBehaviour
     private void onRespawn(System.Object repsonse)
     {
         _resetState = true;
-        _lerpTimer = 0;
+        panStartEvent.Dispatch(null,_eventKey);
+        
     }
 
     public void FullScreenPan(Vector2 direction)
@@ -87,5 +91,6 @@ public class LevelCamera : MonoBehaviour
         direction.y = direction.y * height;
 
         _fullPanDirection = new Vector3(direction.x + transform.position.x, direction.y + transform.position.y, transform.position.z);
+        panStartEvent.Dispatch(null, _eventKey);
     }
 }
