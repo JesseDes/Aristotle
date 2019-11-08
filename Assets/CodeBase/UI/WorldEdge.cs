@@ -19,7 +19,7 @@ public class WorldEdge : MonoBehaviour
         _isVertical = isVertical;
         _position = postion;
         _isActive = true;
-        _isBlocked = true;
+        _isBlocked = false;
     }
 
     public void setActive(bool status)
