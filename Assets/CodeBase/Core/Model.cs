@@ -33,6 +33,7 @@ public class Model : MonoBehaviour
         //TEMP WILL FIX AFTER DEMO
         currentCheckpoint =  GameObject.FindGameObjectWithTag("CheckPoint").GetComponent<CheckPoint>();
 
+        audioManager.init();
         audioManager.LoadProfile(globalAudio);
     }
 

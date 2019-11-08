@@ -11,19 +11,17 @@ public class AudioManager : MonoBehaviour
     
     public int volume = 1;
 
-    private void Awake()
+    public void init()
     {
         audioProfileList = new Dictionary<string, Dictionary<string, AudioData>>();
         _audioPlayer = gameObject.AddComponent<AudioSource>();
-    }
-
-    private void Start()
-    {
         Controller.instance.stateMachine.AddStateListener(clearLevelAudio, EngineState.LOADING_STATE);
     }
 
     public void LoadProfile(AudioProfile profile)
     {
+        if (audioProfileList == null)
+            Debug.Log("why??");
         audioProfileList.Add(profile.profileKey, new Dictionary<string, AudioData>());
         foreach (AudioData data in profile.audioData)
             audioProfileList[profile.profileKey].Add(data.accessKey, data);
