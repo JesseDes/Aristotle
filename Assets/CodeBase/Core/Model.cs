@@ -31,15 +31,55 @@ public class Model : MonoBehaviour
     void Start()
     {
         //TEMP WILL FIX AFTER DEMO
-        currentCheckpoint =  GameObject.FindGameObjectWithTag("CheckPoint").GetComponent<CheckPoint>();
 
         audioManager.init();
         audioManager.LoadProfile(globalAudio);
+        Controller.instance.AddEventListener(EngineEvents.ENGINE_LOAD_START, LevelReady);
     }
 
     // Update is called once per frame
     void Update()
     {
 
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            PlayerPrefs.SetString(SaveKeys.CHECK_POINT, "");
+        }
+    }
+
+    public void SetCheckPoint(CheckPoint nextCheckpoint)
+    {
+        currentCheckpoint = nextCheckpoint;
+        PlayerPrefs.SetString(SaveKeys.CHECK_POINT,currentCheckpoint.ID);
+        Camera.main.GetComponent<LevelCamera>().setPanPosition(currentCheckpoint.CameraPanPosition);
+    }
+
+    private void LevelReady(System.Object response)
+    {
+        bool getStart = true;
+        if (PlayerPrefs.GetInt(SaveKeys.LEVEL) == View.instance.currentLevel && PlayerPrefs.GetString(SaveKeys.CHECK_POINT) != "")
+            getStart = false;
+
+        foreach (GameObject checkpoint in GameObject.FindGameObjectsWithTag("CheckPoint"))
+        {
+            if (!getStart && checkpoint.GetComponent<CheckPoint>().ID == PlayerPrefs.GetString(SaveKeys.CHECK_POINT))
+                SetCheckPoint(checkpoint.GetComponent<CheckPoint>());
+            else if (getStart && checkpoint.GetComponent<CheckPoint>().startPoint)
+                    SetCheckPoint(checkpoint.GetComponent<CheckPoint>());
+
+        }
+
+        if (currentCheckpoint)
+        {
+            Camera.main.GetComponent<LevelCamera>().setPanPosition(currentCheckpoint.CameraPanPosition);
+            Controller.instance.Dispatch(EngineEvents.ENGINE_LOAD_FINISH);
+        }
+        else
+            Debug.LogError("No starting spawn found, have you rememberd to set the flag in your checkpoint?");
+    }
+
+    public void Save()
+    {
+        PlayerPrefs.Save();
     }
 }

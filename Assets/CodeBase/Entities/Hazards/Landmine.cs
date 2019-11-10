@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Landmine : MonoBehaviour
+public class Landmine : Respawnable
 {
     const string PLAYER_TAG = "Player";
 
@@ -28,6 +28,7 @@ public class Landmine : MonoBehaviour
         Model.instance.audioManager.PlaySound(Model.instance.globalAudio.profileKey, "boom", transform.position);
         e.transform.localPosition = Vector3.zero;
         e.transform.parent = null;
-        Destroy(this.gameObject);
+        Deactivate();
+        detonating = false;
     }
 }

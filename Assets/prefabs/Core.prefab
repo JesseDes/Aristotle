@@ -75,6 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneCount: 0
+  currentLevel: 0
   sideScreenDetectionSize: 0.2
   topScreenDetectionSize: 0.2
   bottomScreenDetectionSize: 0.2

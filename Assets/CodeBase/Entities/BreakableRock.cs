@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BreakableRock : MonoBehaviour
+public class BreakableRock : Respawnable
 {
     string playerTag = "Player";
     float resistance = 10f;
@@ -13,7 +13,7 @@ public class BreakableRock : MonoBehaviour
                 //TODO: add visual effects later...
 
                 //break the rock if crashing downwards into it fast enough
-                Destroy(this.gameObject);
+                Deactivate();
             }
         }
     }

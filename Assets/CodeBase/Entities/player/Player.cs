@@ -35,6 +35,10 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public ActiveAbility currentAbility { get; private set; }
 
+    [HideInInspector]
+    public Vector2 facingDireciont { get; private set; }
+
+
     //Various parameters for each individual ability. If there is no counterpart for a specific ability, then
     //the parameter stays the same between the normal ability and the specified ability.
     private const float NORMAL_MOVEMENT_SPEED = 5.0f;
@@ -70,6 +74,7 @@ public class Player : MonoBehaviour
     private float _currentSpeed = 0;
     private Vector3 _storedForce;
     private bool _isRespawn = false;
+    private bool _disableMovement = false;
 
     public void init()
     {
@@ -79,11 +84,10 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        inputProfile = new PlayerInputProfile();
         playerRigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerSpriteRenderer = GetComponent<SpriteRenderer>();
-
+        facingDireciont = Vector2.right;
         _isGrounded = false;
 
         _canDash = true;
@@ -96,6 +100,18 @@ public class Player : MonoBehaviour
         jumpSpeed = NORMAL_JUMP_SPEED;
         climbSpeed = EARTH_CLIMB_SPEED;
         playerRigidBody.mass = NORMAL_MASS;
+
+        SetUpInputProfile();
+
+        currentAbility = ActiveAbility.NORMAL;
+        recentlyUnlockedAbility = ActiveAbility.EARTH;
+        this.enabled = _isRespawn;
+        Controller.instance.stateMachine.AddStateListener(onStateChange);
+    }
+
+    private void SetUpInputProfile()
+    {
+        inputProfile = new PlayerInputProfile();
 
         //Listeners for movement and jumping.
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveLeft, moveLeft);
@@ -116,16 +132,22 @@ public class Player : MonoBehaviour
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleWind, toggleWind);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleEarth, toggleEarth);
 
-        currentAbility = ActiveAbility.NORMAL;
-        recentlyUnlockedAbility = ActiveAbility.EARTH;
-        this.enabled = _isRespawn;
-        Controller.instance.stateMachine.AddStateListener(onStateChange);
+        Camera.main.GetComponent<LevelCamera>().panStartEvent.AddListener(ControlStateChange);
+        Camera.main.GetComponent<LevelCamera>().panCompleteEvent.AddListener(ControlStateChange);
+
+    }
+
+    private void ControlStateChange(System.Object response)
+    {
+        
+        _disableMovement = !_disableMovement;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        inputProfile.checkInput();
+        if(!_disableMovement)
+            inputProfile.checkInput();
     }
 
     void FixedUpdate()
@@ -162,6 +184,7 @@ public class Player : MonoBehaviour
         else if (Controller.instance.stateMachine.state == EngineState.ACTIVE)
         {
             this.enabled = true;
+            SetUpInputProfile();
             playerRigidBody.WakeUp();
             playerRigidBody.velocity = _storedForce; 
         }
@@ -174,7 +197,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Floor"))
+        if (collision.gameObject.CompareTag("MetalMaterial"))
         {
             //Setting the free-fall velocity to 0 prevents boosted jumps at corners.
             playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
@@ -183,7 +206,7 @@ public class Player : MonoBehaviour
             _isFalling = false;
         }
 
-        if (collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("EarthWall"))
         {
             _isHuggingWall = true;
             if (currentAbility.Equals(ActiveAbility.EARTH))
@@ -196,7 +219,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Floor"))
+        if (collision.gameObject.CompareTag("MetalMaterial"))
         {
             _isGrounded = false;
             if (currentAbility.Equals(ActiveAbility.ICE))
@@ -206,7 +229,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("EarthWall"))
         {
             stopHuggingWall();
         }
@@ -237,6 +260,7 @@ public class Player : MonoBehaviour
         if (!_dashActive) {
             setXVelocity(-moveSpeed);
             if (!playerSpriteRenderer.flipX) {
+                facingDireciont = Vector2.left;
                 playerSpriteRenderer.flipX = true;
             }
         }
@@ -248,6 +272,7 @@ public class Player : MonoBehaviour
         if (!_dashActive) {
             setXVelocity(moveSpeed);
             if (playerSpriteRenderer.flipX) {
+                facingDireciont = Vector2.right;
                 playerSpriteRenderer.flipX = false;
             }
         }
