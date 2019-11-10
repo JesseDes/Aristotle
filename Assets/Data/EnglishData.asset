@@ -49,3 +49,11 @@ MonoBehaviour:
     Value: Ground
   - Key: lore.example
     Value: This is lore, this is lore,  this is lore, this is lore, this is lore
+  - Key: tutorial.fire_tutorial_1
+    Value: You have gained the essence of Fire. Specify a direction and press the
+      jump button midair to dash in the specified direction!
+  - Key: tutorial.fire_tutorial_2
+    Value: Timing gives Fire's dash ability the best mileage.
+  - Key: tutorial.multiple_abilities
+    Value: For some rooms, you will need to use multiple abilities to truimph over
+      the obstacles that await.
