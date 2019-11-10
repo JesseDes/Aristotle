@@ -67,6 +67,7 @@
     <Compile Include="Assets\CodeBase\Core\View.cs" />
     <Compile Include="Assets\CodeBase\Data\ControllerStateMachine.cs" />
     <Compile Include="Assets\CodeBase\Data\EngineState.cs" />
+    <Compile Include="Assets\CodeBase\Data\SaveKeys.cs" />
     <Compile Include="Assets\CodeBase\Data\State.cs" />
     <Compile Include="Assets\CodeBase\Data\StateMachine.cs" />
     <Compile Include="Assets\CodeBase\DestroyThis.cs" />
@@ -75,10 +76,12 @@
     <Compile Include="Assets\CodeBase\Entities\Hazards\DronePath.cs" />
     <Compile Include="Assets\CodeBase\Entities\Hazards\HazardGeneric.cs" />
     <Compile Include="Assets\CodeBase\Entities\Hazards\Landmine.cs" />
+    <Compile Include="Assets\CodeBase\Entities\Hazards\Respawnable.cs" />
     <Compile Include="Assets\CodeBase\Entities\player\Player.cs" />
     <Compile Include="Assets\CodeBase\Entities\player\PlayerInputProfile.cs" />
     <Compile Include="Assets\CodeBase\Entities\sphere\Sphere.cs" />
     <Compile Include="Assets\CodeBase\Entities\sphere\SphereInputProfiel.cs" />
+    <Compile Include="Assets\CodeBase\Entities\ZoneTrigger.cs" />
     <Compile Include="Assets\CodeBase\Events\AEvent.cs" />
     <Compile Include="Assets\CodeBase\Events\EngineEvents.cs" />
     <Compile Include="Assets\CodeBase\Events\IEvent.cs" />
