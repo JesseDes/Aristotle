@@ -6,6 +6,9 @@ public class CheckPoint : MonoBehaviour
 {
     public GameObject playerPrefab;
     public GameObject spawnAnimPrefab;
+    public string ID; //System.Guid.NewGuid().ToString();
+    public bool startPoint = false;
+    public Vector2 CameraPanPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -30,10 +33,12 @@ public class CheckPoint : MonoBehaviour
         }
         else
             playerSpawn();
+
     }
 
     private void playerSpawn()
     {
-        Instantiate(playerPrefab,transform).GetComponent<Player>().init();        
+        Instantiate(playerPrefab,transform.position,transform.rotation).GetComponent<Player>().init();
+        Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_START);
     }
 }

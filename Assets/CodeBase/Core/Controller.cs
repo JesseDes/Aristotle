@@ -48,7 +48,8 @@ public class Controller : MonoBehaviour
         _eventList.Add(EngineEvents.ENGINE_GAME_OVER, new AEvent());
         _eventList.Add(EngineEvents.ENGINE_GAME_PAUSE, new AEvent());
         _eventList.Add(EngineEvents.ENGINE_GAME_START, new AEvent());
-        _eventList.Add(EngineEvents.ENGINE_LOAD_LEVEL, new AEvent());
+        _eventList.Add(EngineEvents.ENGINE_LOAD_START, new AEvent());
+        _eventList.Add(EngineEvents.ENGINE_LOAD_FINISH, new AEvent());
         _eventList.Add(EngineEvents.ENGINE_STAGE_COMPLETE, new AEvent());
         stateMachine = new ControllerStateMachine(); // Must be created After events
 
