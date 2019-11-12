@@ -132,6 +132,9 @@ public class Player : MonoBehaviour
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleWind, toggleWind);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleEarth, toggleEarth);
 
+        //Listener for Pause
+        inputProfile.addListener(InputEvent.Down, PlayerInputProfile.pause, Pause);
+
         Camera.main.GetComponent<LevelCamera>().panStartEvent.AddListener(ControlStateChange);
         Camera.main.GetComponent<LevelCamera>().panCompleteEvent.AddListener(ControlStateChange);
 
@@ -489,7 +492,13 @@ public class Player : MonoBehaviour
         }
     }
 
-    void KillPlayer()
+    private void Pause()
+    {
+        View.instance.ShowPauseMenu();
+        Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_PAUSE);
+    }
+
+    public void KillPlayer()
     {
         //TODO: Handle player death.
         Destroy(this.gameObject);

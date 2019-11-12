@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-
 public class Controller : MonoBehaviour
 {
     /// <summary>
@@ -60,6 +59,14 @@ public class Controller : MonoBehaviour
     {
 
     }
+
+    public void ResetGame()
+    {
+        View.instance.ShowMainMenu();
+        var player = GameObject.FindGameObjectWithTag("Player");
+        Destroy(player);
+    }
+
     /// <summary>
     /// Add a function that will be called whenever an event is dispatched
     /// GARBAGE COLLECTION WILL NOT REMOVE EVENTS, YOU MUST DO THIS BEFORE OBJECT DESTRUCTION OR THERE WILL BE MEMORY LEAKS
