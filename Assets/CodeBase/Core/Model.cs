@@ -43,6 +43,11 @@ public class Model : MonoBehaviour
         currentCheckpoint = nextCheckpoint;
         PlayerPrefs.SetString(SaveKeys.CHECK_POINT,currentCheckpoint.ID);
         Camera.main.GetComponent<LevelCamera>().setPanPosition(currentCheckpoint.CameraPanPosition);
+
+        /*GameObject.Find("Level Camera").transform.position = new Vector3(
+            currentCheckpoint.CameraPanPosition.x,
+            currentCheckpoint.CameraPanPosition.y,
+            -66.0f);*/
     }
 
     private void LevelReady(System.Object response)

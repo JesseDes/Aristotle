@@ -38,6 +38,8 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public Vector2 facingDireciont { get; private set; }
 
+    [HideInInspector]
+    public float windModifierX, windModifierY; //used for when wind hazards affect player movement
 
     //Various parameters for each individual ability. If there is no counterpart for a specific ability, then
     //the parameter stays the same between the normal ability and the specified ability.
@@ -258,7 +260,7 @@ public class Player : MonoBehaviour
     void moveLeft()
     {
         if (!_dashActive) {
-            setXVelocity(-moveSpeed);
+            setXVelocity(-moveSpeed + windModifierX);
             if (!playerSpriteRenderer.flipX) {
                 facingDireciont = Vector2.left;
                 playerSpriteRenderer.flipX = true;
@@ -270,7 +272,7 @@ public class Player : MonoBehaviour
     void moveRight()
     {
         if (!_dashActive) {
-            setXVelocity(moveSpeed);
+            setXVelocity(moveSpeed + windModifierX);
             if (playerSpriteRenderer.flipX) {
                 facingDireciont = Vector2.right;
                 playerSpriteRenderer.flipX = false;
@@ -297,20 +299,20 @@ public class Player : MonoBehaviour
         }
     }
 
-    void stopHorizontalMovement()
+    public void stopHorizontalMovement()
     {
         if (!_dashActive) {
-            setXVelocity(0.0f);
+            setXVelocity(0.0f + windModifierX);
         }
         horizontalDashDirection = 0;
     }
 
-    void stopVerticalMovement()
+    public void stopVerticalMovement()
     {
         _isClimbing = false;
         if (_isHuggingWall)
         {
-            setYVelocity(0.0f);
+            setYVelocity(0.0f + windModifierY);
         }
         verticalDashDirection = 0;
     }
@@ -322,7 +324,8 @@ public class Player : MonoBehaviour
 
         //add extra upwards force to push against gravity
         playerRigidBody.gravityScale = 0;
-        playerRigidBody.velocity = new Vector2(horizontalDashDirection * fireDashSpeed, verticalDashDirection * fireDashSpeed);
+        playerRigidBody.velocity = new Vector2(horizontalDashDirection * fireDashSpeed + windModifierX, 
+            verticalDashDirection * fireDashSpeed + windModifierX);
         Invoke("stopDash", FIRE_DASH_DURATION);
     }
 
@@ -339,8 +342,8 @@ public class Player : MonoBehaviour
             {
                 yVelocityAfterDash = 0;
             }
-            setXVelocity(0.0f);
-            setYVelocity(yVelocityAfterDash); //Maybe set to 0 in all cases? Check again once fire animations are implemented.
+            setXVelocity(0.0f + windModifierX);
+            setYVelocity(yVelocityAfterDash + windModifierY); //Maybe set to 0 in all cases? Check again once fire animations are implemented.
         }
     }
 
