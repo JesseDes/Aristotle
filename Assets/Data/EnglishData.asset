@@ -63,3 +63,6 @@ MonoBehaviour:
   - Key: tutorial.earth_tutorial_2
     Value: Note that metal walls cannot be climbed. Jump while latched onto an earth
       wall to jump off the wall.
+  - Key: tutorial.earth_tutorial_3
+    Value: While climbing, free-fall gravity has no effect. Take advantage of this,
+      precision is key when it comes to jumping off walls.
