@@ -7,5 +7,5 @@ public enum EngineState
     PLAYER_DEAD = 2, 
     STAGE_END = 3,
     CUTSCENES = 4,
-    LOADING_STATE = 5   
+    LOADING_STATE = 5
 }

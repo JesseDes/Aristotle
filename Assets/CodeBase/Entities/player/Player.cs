@@ -38,6 +38,9 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public Vector2 facingDireciont { get; private set; }
 
+    [HideInInspector]
+    public Vector2 windForce = Vector2.zero;
+
 
     //Various parameters for each individual ability. If there is no counterpart for a specific ability, then
     //the parameter stays the same between the normal ability and the specified ability.
@@ -178,7 +181,7 @@ public class Player : MonoBehaviour
         {
             this.enabled = false;
             _storedForce = playerRigidBody.velocity;
-            playerRigidBody.Sleep(); 
+            playerRigidBody.Sleep();
 
         }
         else if (Controller.instance.stateMachine.state == EngineState.ACTIVE)
@@ -186,7 +189,12 @@ public class Player : MonoBehaviour
             this.enabled = true;
             SetUpInputProfile();
             playerRigidBody.WakeUp();
-            playerRigidBody.velocity = _storedForce; 
+            playerRigidBody.velocity = _storedForce;
+        }
+        else if (Controller.instance.stateMachine.state == EngineState.CUTSCENES)
+        {
+            this.enabled = false;
+            playerRigidBody.Sleep();
         }
     }
 
@@ -258,7 +266,11 @@ public class Player : MonoBehaviour
     void moveLeft()
     {
         if (!_dashActive) {
-            setXVelocity(-moveSpeed);
+            if (currentAbility != ActiveAbility.ICE)
+                setXVelocity(-moveSpeed + windForce.x);
+            else
+                setXVelocity(-moveSpeed);
+
             if (!playerSpriteRenderer.flipX) {
                 facingDireciont = Vector2.left;
                 playerSpriteRenderer.flipX = true;
@@ -270,7 +282,11 @@ public class Player : MonoBehaviour
     void moveRight()
     {
         if (!_dashActive) {
-            setXVelocity(moveSpeed);
+            if (currentAbility != ActiveAbility.ICE)
+                setXVelocity(moveSpeed + windForce.x);
+            else
+                setXVelocity(moveSpeed);
+
             if (playerSpriteRenderer.flipX) {
                 facingDireciont = Vector2.right;
                 playerSpriteRenderer.flipX = false;
