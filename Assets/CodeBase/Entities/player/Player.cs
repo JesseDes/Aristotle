@@ -199,8 +199,16 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("MetalMaterial"))
-        {
+        Vector2 checkDown = new Vector2(0, -1);
+        RaycastHit2D[] checkDown2 = Physics2D.RaycastAll(transform.position, checkDown, 0.7f);
+        bool hitGround = false;
+        for (int i = 0; i < checkDown2.Length; i++) {
+            if (checkDown2[i].collider.CompareTag("MetalMaterial")) {
+                hitGround = true;
+            }
+        }
+        if (hitGround) {
+            //print("isGrounded");
             //Setting the free-fall velocity to 0 prevents boosted jumps at corners.
             playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
             _isGrounded = true;
