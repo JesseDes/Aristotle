@@ -8,6 +8,10 @@ public class Model : MonoBehaviour
     public static Model instance;
     [HideInInspector]
     public CheckPoint currentCheckpoint { get; private set; }
+
+
+    public AudioManager audioManager;
+    public AudioProfile globalAudio;
     
     private void Awake()
     {
@@ -22,16 +26,21 @@ public class Model : MonoBehaviour
 
         }
     }
+    
     // Start is called before the first frame update
     void Start()
     {
         //TEMP WILL FIX AFTER DEMO
+
+        audioManager.init();
+        audioManager.LoadProfile(globalAudio);
         Controller.instance.AddEventListener(EngineEvents.ENGINE_LOAD_START, LevelReady);
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.G))
         {
             PlayerPrefs.SetString(SaveKeys.CHECK_POINT, "");

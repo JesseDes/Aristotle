@@ -59,3 +59,9 @@ MonoBehaviour:
       the obstacles that await.
   - Key: unlock.fire
     Value: You acquired Fire!
+  - Key: pause.title
+    Value: Game Paused
+  - Key: pause.button_1
+    Value: Continue
+  - Key: pause.button_2
+    Value: Main Menu
