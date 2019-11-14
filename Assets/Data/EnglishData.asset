@@ -57,3 +57,9 @@ MonoBehaviour:
   - Key: tutorial.multiple_abilities
     Value: For some rooms, you will need to use multiple abilities to truimph over
       the obstacles that await.
+  - Key: tutorial.earth_tutorial_1
+    Value: 'You have gained the essence of Earth. Specify a vertical direction while
+      climbing on an earth wall to climb up or down that wall. '
+  - Key: tutorial.earth_tutorial_2
+    Value: Note that metal walls cannot be climbed. Jump while latched onto an earth
+      wall to jump off the wall.
