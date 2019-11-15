@@ -27,8 +27,12 @@ public class WindTunnel : MonoBehaviour
         if(collision.gameObject.tag == "Player") 
         {
             if (collision.gameObject.GetComponent<Player>().currentAbility != ActiveAbility.ICE)
-                collision.gameObject.GetComponent<Rigidbody2D>().AddForce(_windForce * 2);
-            
+            {
+                if(collision.gameObject.GetComponent<Player>().currentAbility != ActiveAbility.WIND)
+                    collision.gameObject.GetComponent<Rigidbody2D>().AddForce(_windForce * 2);
+                else
+                    collision.gameObject.GetComponent<Rigidbody2D>().AddForce(_windForce * 3);
+            }
         }
     }
 

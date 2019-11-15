@@ -266,8 +266,10 @@ public class Player : MonoBehaviour
     void moveLeft()
     {
         if (!_dashActive) {
-            if (currentAbility != ActiveAbility.ICE)
+            if (currentAbility != ActiveAbility.ICE && currentAbility != ActiveAbility.WIND)
                 setXVelocity(-moveSpeed + windForce.x);
+            else if (currentAbility == ActiveAbility.WIND)
+                setXVelocity(-moveSpeed + (windForce.x * 1.5f));
             else
                 setXVelocity(-moveSpeed);
 
@@ -282,8 +284,10 @@ public class Player : MonoBehaviour
     void moveRight()
     {
         if (!_dashActive) {
-            if (currentAbility != ActiveAbility.ICE)
+            if (currentAbility != ActiveAbility.ICE && currentAbility != ActiveAbility.WIND)
                 setXVelocity(moveSpeed + windForce.x);
+            else if(currentAbility == ActiveAbility.WIND)
+                setXVelocity(moveSpeed + (windForce.x * 1.5f));
             else
                 setXVelocity(moveSpeed);
 
