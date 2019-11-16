@@ -45,9 +45,10 @@ public class Controller : MonoBehaviour
         _eventList = new Dictionary<EngineEvents, AEvent>();
         _eventList.Add(EngineEvents.ENGINE_CHECKPOINT_REACHED, new AEvent());
         _eventList.Add(EngineEvents.ENGINE_GAME_OVER, new AEvent());
+        _eventList.Add(EngineEvents.ENGINE_GAME_INIT, new AEvent());
         _eventList.Add(EngineEvents.ENGINE_GAME_PAUSE, new AEvent());
         _eventList.Add(EngineEvents.ENGINE_GAME_START, new AEvent());
-        _eventList.Add(EngineEvents.ENGINE_LOAD_START, new AEvent());
+        _eventList.Add(EngineEvents.ENGINE_GAME_RESUME, new AEvent());
         _eventList.Add(EngineEvents.ENGINE_LOAD_FINISH, new AEvent());
         _eventList.Add(EngineEvents.ENGINE_STAGE_COMPLETE, new AEvent());
         _eventList.Add(EngineEvents.ENGINE_CUTSCENE_START, new AEvent());

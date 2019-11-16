@@ -10,6 +10,12 @@ public class Respawnable : MonoBehaviour
         Controller.instance.AddEventListener(EngineEvents.ENGINE_GAME_START, Activate);
     }
 
+    private void OnDestroy()
+    {
+        Controller.instance.RemoveEventListener(EngineEvents.ENGINE_GAME_START, Activate);
+
+    }
+
     private void Activate(System.Object response)
     {
         gameObject.SetActive(true);

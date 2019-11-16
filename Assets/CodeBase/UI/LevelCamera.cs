@@ -16,6 +16,7 @@ public class LevelCamera : MonoBehaviour
     private float _lerpTimer;
     private bool _fullPanState;
     private Vector3 _fullPanDirection;
+    bool firstSpawn;
 
     public void setPanPosition(Vector2 position)
     {
@@ -35,11 +36,13 @@ public class LevelCamera : MonoBehaviour
     void Start()
     {
 
-        Controller.instance.AddEventListener(EngineEvents.ENGINE_LOAD_FINISH, onRespawn);
+        Controller.instance.AddEventListener(EngineEvents.ENGINE_GAME_INIT, onRespawn);
         Controller.instance.stateMachine.AddStateListener(onRespawn, EngineState.PLAYER_DEAD);
 
         //ALSO TEMP JUST FOR THE DEMO
         _originalPos = Camera.main.transform.position;
+
+       
     }
 
     // Update is called once per frame
@@ -75,6 +78,12 @@ public class LevelCamera : MonoBehaviour
 
     private void onRespawn(System.Object repsonse)
     {
+        if (firstSpawn)
+        {
+            Controller.instance.RemoveEventListener(EngineEvents.ENGINE_GAME_START, onRespawn);
+            firstSpawn = false;
+        }
+
         _resetState = true;
         panStartEvent.Dispatch(null,_eventKey);
         

@@ -15,7 +15,7 @@ public class MainMenu : MonoBehaviour
 
     public void UI_Start()
     {
-        Controller.instance.Dispatch(EngineEvents.ENGINE_LOAD_START);
+        Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_INIT);
     }
 
     public void UI_Options()

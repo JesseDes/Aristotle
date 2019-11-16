@@ -49,7 +49,7 @@ public class EndFlag : MonoBehaviour
 
     private void onCutsceneEnd()
     {
-        Debug.Log("level end");
+        Model.instance.audioManager.StopBackgroundMusic();
         _isPost = false;
         Controller.instance.Dispatch(EngineEvents.ENGINE_CUTSCENE_END);
     }
@@ -57,7 +57,7 @@ public class EndFlag : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Controller.instance.Dispatch(EngineEvents.ENGINE_CUTSCENE_START);
-
+        Model.instance.audioManager.PlayBackgroundMusic(Model.instance.currentLevelProfile.profileKey, "endSong");
         _player = collision.gameObject;
         _startPos = _player.transform.position;
 

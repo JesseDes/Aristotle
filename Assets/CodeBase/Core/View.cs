@@ -13,7 +13,8 @@ public class View : MonoBehaviour
     public float sideScreenDetectionSize = 0.2f;
     public float topScreenDetectionSize = 0.2f;
     public float bottomScreenDetectionSize = 0.2f;
-
+    [HideInInspector]
+    public bool mainMenuOpen { get => _mainMenu.isActiveAndEnabled; }
     [SerializeField]
     private AbilityOverlay _abilities = default;
     [SerializeField]
@@ -25,6 +26,8 @@ public class View : MonoBehaviour
     private Camera mainCamera;
     public GameObject player;
     public GameObject worldEdgePrefab;
+    private bool _initFlag;
+    private float _initFrameCounter;
 
     private void Awake()
     {
@@ -37,26 +40,35 @@ public class View : MonoBehaviour
             Destroy(gameObject);
     }
     
-    public void nextScene()
-    {
-        sceneCount++;
-        SceneManager.LoadScene(sceneCount);
-    }
-
     public void Start()
     {
         Controller.instance.stateMachine.AddStateListener(OnStateChange);
+        Controller.instance.AddEventListener(EngineEvents.ENGINE_GAME_INIT,addEdges);
+        Controller.instance.AddEventListener(EngineEvents.ENGINE_CUTSCENE_END,(System.Object e) => NextLevel());
         mainCamera = Camera.main;
         player = GameObject.Find("Player");
-        NextLevel();
+
+        if (PlayerPrefs.HasKey(SaveKeys.LEVEL))
+            GotoLevel(PlayerPrefs.GetInt(SaveKeys.LEVEL));
+        else
+            NextLevel();
     }
 
     public void Update()
     {
-
+        if(_initFlag)           //When we load a level we need to give it atleast one frame to run all the starts/awakes of the gameobjects
+        {
+            _initFrameCounter++;
+            if (_initFrameCounter <= 1)
+            {
+                Controller.instance.Dispatch(EngineEvents.ENGINE_LOAD_FINISH);
+                _initFlag = false;
+                _initFrameCounter = 0;
+            }
+        }
     }
 
-    public void addEdges()
+    public void addEdges(System.Object e)
     {
         if(worldEdgePrefab == null)
         {
@@ -99,6 +111,7 @@ public class View : MonoBehaviour
         else if (Controller.instance.stateMachine.state == EngineState.ACTIVE)
         {
             _abilities.gameObject.SetActive(true);
+            _mainMenu.gameObject.SetActive(false);
         }
         else if (Controller.instance.stateMachine.state == EngineState.LOADING_STATE)
         {
@@ -125,13 +138,20 @@ public class View : MonoBehaviour
 
     private void NextLevel()
     {
+        currentLevel++;
         StartCoroutine(LoadScene());
-
     }
 
+    public void GotoLevel(int level)
+    {
+        currentLevel = level;
+        StartCoroutine(LoadScene());
+    }
+    
     IEnumerator LoadScene()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("loading_test");
+        string currentScene = "loading_test" + currentLevel;
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(currentScene);
 
         while (!asyncLoad.isDone)
         {
@@ -139,7 +159,8 @@ public class View : MonoBehaviour
         }
 
         if (asyncLoad.isDone)
-             Controller.instance.Dispatch(EngineEvents.ENGINE_LOAD_FINISH);
-    }
+            _initFlag = true;
+        
 
+    }
 }

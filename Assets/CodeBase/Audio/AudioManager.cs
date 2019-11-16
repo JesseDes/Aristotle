@@ -20,11 +20,11 @@ public class AudioManager : MonoBehaviour
 
     public void LoadProfile(AudioProfile profile)
     {
-        if (audioProfileList == null)
-            Debug.Log("why??");
+
         audioProfileList.Add(profile.profileKey, new Dictionary<string, AudioData>());
         foreach (AudioData data in profile.audioData)
             audioProfileList[profile.profileKey].Add(data.accessKey, data);
+        
     }
 
     public void ClearProfiles(string profileKey)
@@ -41,9 +41,24 @@ public class AudioManager : MonoBehaviour
     {
 
         _audioPlayer.clip = audioProfileList[profileKey][audioKey].clip;
-        _audioPlayer.loop = true;
+        _audioPlayer.loop = audioProfileList[profileKey][audioKey].loop;
         _audioPlayer.Play();
         
+    }
+
+    public void StopBackgroundMusic()
+    {
+        _audioPlayer.Stop();
+    }
+
+    public void PauseBackgroundMusic()
+    {
+        _audioPlayer.Pause();
+    }
+
+    public void ResumeBackgroundMusic()
+    {
+        _audioPlayer.Play();
     }
 
     public void setVolume(int level)
