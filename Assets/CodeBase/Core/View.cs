@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
+
 
 public class View : MonoBehaviour
 {
@@ -44,7 +46,7 @@ public class View : MonoBehaviour
         Controller.instance.stateMachine.AddStateListener(OnStateChange);
         mainCamera = Camera.main;
         player = GameObject.Find("Player");
-        addEdges();
+        NextLevel();
     }
 
     public void Update()
@@ -52,7 +54,7 @@ public class View : MonoBehaviour
 
     }
 
-    private void addEdges()
+    public void addEdges()
     {
         if(worldEdgePrefab == null)
         {
@@ -110,5 +112,23 @@ public class View : MonoBehaviour
         _abilities.UpdateAbilitySymbol(ability, state);
     }
 
- 
+    private void NextLevel()
+    {
+        StartCoroutine(LoadScene());
+
+    }
+
+    IEnumerator LoadScene()
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("loading_test");
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        if (asyncLoad.isDone)
+             Controller.instance.Dispatch(EngineEvents.ENGINE_LOAD_FINISH);
+    }
+
 }
