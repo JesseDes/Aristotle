@@ -57,3 +57,11 @@ MonoBehaviour:
   - Key: tutorial.multiple_abilities
     Value: For some rooms, you will need to use multiple abilities to truimph over
       the obstacles that await.
+  - Key: unlock.fire
+    Value: You acquired Fire!
+  - Key: pause.title
+    Value: Game Paused
+  - Key: pause.button_1
+    Value: Continue
+  - Key: pause.button_2
+    Value: Main Menu

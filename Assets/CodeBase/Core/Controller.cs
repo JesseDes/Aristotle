@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-
 public class Controller : MonoBehaviour
 {
     /// <summary>
@@ -51,6 +50,8 @@ public class Controller : MonoBehaviour
         _eventList.Add(EngineEvents.ENGINE_LOAD_START, new AEvent());
         _eventList.Add(EngineEvents.ENGINE_LOAD_FINISH, new AEvent());
         _eventList.Add(EngineEvents.ENGINE_STAGE_COMPLETE, new AEvent());
+        _eventList.Add(EngineEvents.ENGINE_CUTSCENE_START, new AEvent());
+        _eventList.Add(EngineEvents.ENGINE_CUTSCENE_END, new AEvent());
         stateMachine = new ControllerStateMachine(); // Must be created After events
 
     }
@@ -60,6 +61,14 @@ public class Controller : MonoBehaviour
     {
 
     }
+
+    public void ResetGame()
+    {
+        View.instance.ShowMainMenu();
+        var player = GameObject.FindGameObjectWithTag("Player");
+        Destroy(player);
+    }
+
     /// <summary>
     /// Add a function that will be called whenever an event is dispatched
     /// GARBAGE COLLECTION WILL NOT REMOVE EVENTS, YOU MUST DO THIS BEFORE OBJECT DESTRUCTION OR THERE WILL BE MEMORY LEAKS

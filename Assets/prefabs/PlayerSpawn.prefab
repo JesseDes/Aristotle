@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7231335821553334527}
   - component: {fileID: 7231335821553334526}
   - component: {fileID: 7231335821553334525}
-  - component: {fileID: 3113366599866575667}
+  - component: {fileID: 8864507846257718033}
   m_Layer: 0
-  m_Name: PlayerDeath
+  m_Name: PlayerSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4754,7 +4754,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &3113366599866575667
+--- !u!114 &8864507846257718033
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4766,4 +4766,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfdeb322f4ebb39469c90e781bfe155a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 0.5
+  delay: 1
