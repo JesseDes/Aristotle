@@ -28,10 +28,10 @@ public class Wind : MonoBehaviour
                 other.gameObject.GetComponent<Player>().windModifierY = 1.0f * windForceY;
                 //then apply the force
                 if (other.gameObject.GetComponent<Rigidbody2D>().velocity.x == 0) {
-                    other.gameObject.GetComponent<Player>().stopHorizontalMovement();
+                    //other.gameObject.GetComponent<Player>().stopHorizontalMovement();
                 }
                 if (other.gameObject.GetComponent<Rigidbody2D>().velocity.y == 0) {
-                    other.gameObject.GetComponent<Player>().stopVerticalMovement();
+                    //other.gameObject.GetComponent<Player>().stopVerticalMovement();
                 }
             }
             else {
