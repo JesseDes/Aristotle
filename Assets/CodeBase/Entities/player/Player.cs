@@ -56,6 +56,7 @@ public class Player : MonoBehaviour
 
     private const float WIND_JUMP_SPEED = NORMAL_JUMP_SPEED * 1.1f;
     private const float WIND_MASS = NORMAL_MASS * 0.8f;
+    private const float WIND_FALL_SPEED = -2.0f;
 
     private const float EARTH_CLIMB_SPEED = 4.0f;
 
@@ -122,6 +123,7 @@ public class Player : MonoBehaviour
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveUp, moveUp);
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveDown, moveDown);
         inputProfile.addListener(InputEvent.Down, PlayerInputProfile.jump, jump);
+        inputProfile.addListener(InputEvent.Key, PlayerInputProfile.jump, windfall);
 
         //Listeners for stopping movement.
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveUp, stopVerticalMovement);
@@ -287,7 +289,7 @@ public class Player : MonoBehaviour
     void moveRight()
     {
         if (!_dashActive) {
-            if (currentAbility != ActiveAbility.ICE && currentAbility != ActiveAbility.WIND)
+            if (currentAbility != ActiveAbility.ICE && currentAbility != ActiveAbility.WIND && !_isHuggingWall)
                 setXVelocity(moveSpeed + windForce.x);
             else if(currentAbility == ActiveAbility.WIND)
                 setXVelocity(moveSpeed + (windForce.x * 1.5f));
@@ -317,6 +319,14 @@ public class Player : MonoBehaviour
         else if (_canDash && !_isGrounded && (horizontalDashDirection != 0 || verticalDashDirection != 0) && currentAbility.Equals(ActiveAbility.FIRE))
         {
             startDash();
+        }
+    }
+
+    void windfall()
+    {
+        if (_isFalling && currentAbility.Equals(ActiveAbility.WIND))
+        {
+            setYVelocity(WIND_FALL_SPEED);
         }
     }
 
