@@ -6,19 +6,10 @@ public class CheckPoint : MonoBehaviour
 {
     public GameObject playerPrefab;
     public GameObject spawnAnimPrefab;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    public string ID; //System.Guid.NewGuid().ToString();
+    public bool startPoint = false;
+    public Vector2 CameraPanPosition;
+    
     public void StartSpawn()
     {
         if (spawnAnimPrefab)
@@ -30,10 +21,12 @@ public class CheckPoint : MonoBehaviour
         }
         else
             playerSpawn();
+
     }
 
     private void playerSpawn()
     {
-        Instantiate(playerPrefab,transform).GetComponent<Player>().init();        
+        Instantiate(playerPrefab,transform.position,transform.rotation).GetComponent<Player>().init();
+        Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_START);
     }
 }

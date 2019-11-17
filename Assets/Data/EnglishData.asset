@@ -21,3 +21,47 @@ MonoBehaviour:
     Value: New Game
   - Key: main_menu.button_2
     Value: Options
+  - Key: options.title
+    Value: Options
+  - Key: options.back
+    Value: Back
+  - Key: options.reset
+    Value: Reset
+  - Key: options.update
+    Value: Update
+  - Key: options.jump
+    Value: Jump
+  - Key: options.up
+    Value: Up
+  - Key: options.down
+    Value: Down
+  - Key: options.left
+    Value: Left
+  - Key: options.right
+    Value: Right
+  - Key: options.fire
+    Value: Fire
+  - Key: options.ice
+    Value: Ice
+  - Key: options.wind
+    Value: Wind
+  - Key: options.ground
+    Value: Ground
+  - Key: lore.example
+    Value: This is lore, this is lore,  this is lore, this is lore, this is lore
+  - Key: tutorial.fire_tutorial_1
+    Value: You have gained the essence of Fire. Specify a direction and press the
+      jump button midair to dash in the specified direction!
+  - Key: tutorial.fire_tutorial_2
+    Value: Timing gives Fire's dash ability the best mileage.
+  - Key: tutorial.multiple_abilities
+    Value: For some rooms, you will need to use multiple abilities to truimph over
+      the obstacles that await.
+  - Key: unlock.fire
+    Value: You acquired Fire!
+  - Key: pause.title
+    Value: Game Paused
+  - Key: pause.button_1
+    Value: Continue
+  - Key: pause.button_2
+    Value: Main Menu

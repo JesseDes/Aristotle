@@ -6,6 +6,8 @@ public class View : MonoBehaviour
     [HideInInspector]
     public static View instance;
     public int sceneCount = 0;
+    [HideInInspector]
+    public int currentLevel;
     public float sideScreenDetectionSize = 0.2f;
     public float topScreenDetectionSize = 0.2f;
     public float bottomScreenDetectionSize = 0.2f;
@@ -14,6 +16,8 @@ public class View : MonoBehaviour
     private AbilityOverlay _abilities = default;
     [SerializeField]
     private MainMenu _mainMenu = default;
+    [SerializeField]
+    private GameObject _pauseMenu = default;
 
     private GameObject HUD;
     private Camera mainCamera;
@@ -86,17 +90,30 @@ public class View : MonoBehaviour
 
     private void OnStateChange(System.Object response)
     {
-        if (Controller.instance.stateMachine.state == EngineState.MENU)
+        if (Controller.instance.stateMachine.state == EngineState.MENU && _pauseMenu.activeSelf == false)
         {
-            _abilities.gameObject.SetActive(false);
-            _mainMenu.gameObject.SetActive(true);
-
+            ShowMainMenu();
         }
         else if (Controller.instance.stateMachine.state == EngineState.ACTIVE)
         {
             _abilities.gameObject.SetActive(true);
+        }
+        else if (Controller.instance.stateMachine.state == EngineState.LOADING_STATE)
+        {
+
             _mainMenu.gameObject.SetActive(false);
         }
+    }
+
+    public void ShowMainMenu()
+    {
+        _abilities.gameObject.SetActive(false);
+        _mainMenu.gameObject.SetActive(true);
+    }
+
+    public void ShowPauseMenu()
+    {
+        _pauseMenu.gameObject.SetActive(true);
     }
 
     public void UpdateAbilitySymbol(ActiveAbility ability, AbilitySymbolState state)

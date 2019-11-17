@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8664842966337580066}
   - component: {fileID: 8664842966337580067}
   - component: {fileID: 8664842966337580071}
-  - component: {fileID: 8664842966337580069}
   - component: {fileID: 8664842966337580064}
   - component: {fileID: 8664842966337580070}
   m_Layer: 10
@@ -99,9 +98,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpSpeed: 7.5
+  iceMagnitude: 10
   fireDashSpeed: 7
   climbSpeed: 4
-  iceMagnitude: 10
+  recentlyUnlockedAbility: 0
 --- !u!61 &8664842966337580071
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -128,22 +128,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.29926348, y: 0.8568287}
   m_EdgeRadius: 0
---- !u!58 &8664842966337580069
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8664842966337580076}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.0298419, y: 0.082066506}
-  serializedVersion: 2
-  m_Radius: 0.36427307
 --- !u!50 &8664842966337580064
 Rigidbody2D:
   serializedVersion: 4
@@ -163,7 +147,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!95 &8664842966337580070
 Animator:
