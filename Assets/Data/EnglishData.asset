@@ -66,3 +66,11 @@ MonoBehaviour:
   - Key: tutorial.earth_tutorial_3
     Value: While climbing, free-fall gravity has no effect. Take advantage of this,
       precision is key when it comes to jumping off walls.
+  - Key: unlock.fire
+    Value: You acquired Fire!
+  - Key: pause.title
+    Value: Game Paused
+  - Key: pause.button_1
+    Value: Continue
+  - Key: pause.button_2
+    Value: Main Menu
