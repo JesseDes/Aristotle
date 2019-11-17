@@ -147,8 +147,6 @@ public class Player : MonoBehaviour {
     private void Update() {
         if (!_disableMovement)
             inputProfile.checkInput();
-
-        print("Velocity x: "+playerRigidBody.velocity.x);
     }
 
     void FixedUpdate() {
