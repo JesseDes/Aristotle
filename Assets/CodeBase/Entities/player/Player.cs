@@ -147,6 +147,8 @@ public class Player : MonoBehaviour {
     private void Update() {
         if (!_disableMovement)
             inputProfile.checkInput();
+
+        print("Velocity x: "+playerRigidBody.velocity.x);
     }
 
     void FixedUpdate() {
@@ -242,6 +244,7 @@ public class Player : MonoBehaviour {
     }
 
     void moveLeft() {
+        print("moveLeft()");
         if (!_dashActive) {
             if (currentAbility != ActiveAbility.ICE && currentAbility != ActiveAbility.WIND)
                 setXVelocity(-moveSpeed + windForce.x);
@@ -259,6 +262,7 @@ public class Player : MonoBehaviour {
     }
 
     void moveRight() {
+        print("moveRight()");
         if (!_dashActive) {
             if (currentAbility != ActiveAbility.ICE && currentAbility != ActiveAbility.WIND)
                 setXVelocity(moveSpeed + windForce.x);
