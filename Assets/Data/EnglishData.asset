@@ -65,3 +65,9 @@ MonoBehaviour:
     Value: Continue
   - Key: pause.button_2
     Value: Main Menu
+  - Key: tutorial.wind_tutorial_1
+    Value: You have gained the essence of Wind. Jump higher from the ground and use
+      the jump button fo fall slower while in the air!
+  - Key: tutorial.wind_tutorial_2
+    Value: Use the wind power to become lighter and make wind affect the player more
+      strongly.

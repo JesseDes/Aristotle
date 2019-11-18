@@ -123,6 +123,9 @@ public class Player : MonoBehaviour
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveDown, moveDown);
         inputProfile.addListener(InputEvent.Down, PlayerInputProfile.jump, jump);
 
+        inputProfile.addListener(InputEvent.Key, PlayerInputProfile.jump, glide);
+        inputProfile.addListener(InputEvent.Up, PlayerInputProfile.jump, clearGlide);
+
         //Listeners for stopping movement.
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveUp, stopVerticalMovement);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveDown, stopVerticalMovement);
@@ -208,8 +211,15 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("MetalMaterial"))
-        {
+        Vector2 checkDown = new Vector2(0, -1);
+        RaycastHit2D[] checkDown2 = Physics2D.RaycastAll(transform.position, checkDown, 0.7f);
+        bool hitGround = false;
+        for (int i = 0; i < checkDown2.Length; i++) {
+            if (checkDown2[i].collider.CompareTag("MetalMaterial")) {
+                hitGround = true;
+            }
+        }
+        if (hitGround) {
             //Setting the free-fall velocity to 0 prevents boosted jumps at corners.
             playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
             _isGrounded = true;
@@ -319,6 +329,22 @@ public class Player : MonoBehaviour
             startDash();
         }
     }
+
+    //temp wind code
+    void glide() 
+    {
+        if (_isFalling && currentAbility.Equals(ActiveAbility.WIND)) {
+            playerRigidBody.drag = 5f;
+        }
+        else {
+            clearGlide();
+        }
+    }
+    void clearGlide() 
+    {
+        playerRigidBody.drag = 0f;
+    }
+    //end of temp wind code
 
     void stopHorizontalMovement()
     {
