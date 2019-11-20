@@ -176,15 +176,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        //if (_isHuggingWall && !_isClimbing && currentAbility.Equals(ActiveAbility.EARTH)) {
-        //    setYVelocity(0.0f);
-        //    animator.enabled = false;
-        //}
-        //else
-        //{
-        //    animator.enabled = true;
-        //}
-
         if (playerRigidBody.velocity.y >= 0.1) // player is jumping
         {
             _isFalling = false;
