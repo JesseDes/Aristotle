@@ -243,22 +243,26 @@ public class Player : MonoBehaviour
 
     void moveUp()
     {
+        verticalDashDirection = 1;
+
         if (_isHuggingWall && currentAbility.Equals(ActiveAbility.EARTH))
         {
             _isClimbing = true;
             setYVelocity(climbSpeed);
+            animator.SetFloat("ClimbingSpeed", verticalDashDirection);
         }
-        verticalDashDirection = 1;
     }
 
     void moveDown()
     {
+        verticalDashDirection = -1;
+
         if (_isHuggingWall && currentAbility.Equals(ActiveAbility.EARTH))
         {
             _isClimbing = true;
             setYVelocity(-climbSpeed);
+            animator.SetFloat("ClimbingSpeed", verticalDashDirection);
         }
-        verticalDashDirection = -1;
     }
 
     void moveLeft()
@@ -328,6 +332,7 @@ public class Player : MonoBehaviour
         //add extra upwards force to push against gravity
         playerRigidBody.gravityScale = 0;
         playerRigidBody.velocity = new Vector2(horizontalDashDirection * fireDashSpeed, verticalDashDirection * fireDashSpeed);
+        RotatePlayer();
         Invoke("stopDash", FIRE_DASH_DURATION);
     }
 
@@ -346,6 +351,7 @@ public class Player : MonoBehaviour
             }
             setXVelocity(0.0f);
             setYVelocity(yVelocityAfterDash); //Maybe set to 0 in all cases? Check again once fire animations are implemented.
+            transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 0);
         }
     }
 
@@ -494,5 +500,40 @@ public class Player : MonoBehaviour
         //TODO: Handle player death.
         Destroy(this.gameObject);
         Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_OVER); //Simulates player respawn until checkpoints have been implemented.
+    }
+
+    void RotatePlayer()
+    {
+        float z = 0;
+
+        // side dash
+        if (verticalDashDirection == 0)
+        {
+            return;
+        }
+
+        // diagonal dash
+        if (horizontalDashDirection == 1)
+        {
+            z = verticalDashDirection == 1 ? 45 : -45;
+        }
+        else if (horizontalDashDirection == -1)
+        {
+            z = verticalDashDirection == 1 ? -45 : 45;
+        }
+        // up or down dash
+        else if (horizontalDashDirection == 0)
+        {
+            if (playerSpriteRenderer.flipX)
+            {
+                z = verticalDashDirection == 1 ? -90 : 90;
+            }
+            else
+            {
+                z = verticalDashDirection == 1 ? 90 : -90;
+            }
+        }
+
+        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, z);
     }
 }
