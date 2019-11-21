@@ -74,3 +74,9 @@ MonoBehaviour:
     Value: Continue
   - Key: pause.button_2
     Value: Main Menu
+  - Key: tutorial.ice_tutorial_1
+    Value: You have gained the essence of Ice. Use it to shield yourself from various
+      stage hazards that aren't electrical wire!
+  - Key: tutorial.ice_tutorial_2
+    Value: The weight of your ice shield causes you to come crashing down if in midair
+      and break certain blocks.
