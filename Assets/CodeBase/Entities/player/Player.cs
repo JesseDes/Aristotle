@@ -40,8 +40,6 @@ public class Player : MonoBehaviour {
     [HideInInspector]
     public Vector2 windForce = Vector2.zero;
 
-    [HideInInspector]
-    public float windModifierX, windModifierY; //used for when wind hazards affect player movement
 
     //Various parameters for each individual ability. If there is no counterpart for a specific ability, then
     //the parameter stays the same between the normal ability and the specified ability.
@@ -57,6 +55,7 @@ public class Player : MonoBehaviour {
 
     private const float WIND_JUMP_SPEED = NORMAL_JUMP_SPEED * 1.1f;
     private const float WIND_MASS = NORMAL_MASS * 0.8f;
+    private const float WIND_FALL_SPEED = -2.0f;
 
     private const float EARTH_CLIMB_SPEED = 4.0f;
 
@@ -120,6 +119,7 @@ public class Player : MonoBehaviour {
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveUp, moveUp);
         inputProfile.addListener(InputEvent.Key, PlayerInputProfile.moveDown, moveDown);
         inputProfile.addListener(InputEvent.Down, PlayerInputProfile.jump, jump);
+        inputProfile.addListener(InputEvent.Key, PlayerInputProfile.jump, windfall);
 
         //Listeners for stopping movement.
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.moveUp, stopVerticalMovement);
@@ -132,6 +132,9 @@ public class Player : MonoBehaviour {
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleFire, toggleFire);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleWind, toggleWind);
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleEarth, toggleEarth);
+
+        //Listener for Pause
+        inputProfile.addListener(InputEvent.Down, PlayerInputProfile.pause, Pause);
 
         Camera.main.GetComponent<LevelCamera>().panStartEvent.AddListener(ControlStateChange);
         Camera.main.GetComponent<LevelCamera>().panCompleteEvent.AddListener(ControlStateChange);
@@ -183,7 +186,8 @@ public class Player : MonoBehaviour {
             playerRigidBody.WakeUp();
             playerRigidBody.velocity = _storedForce;
         }
-        else if (Controller.instance.stateMachine.state == EngineState.CUTSCENES) {
+        else if (Controller.instance.stateMachine.state == EngineState.CUTSCENES)
+        {
             this.enabled = false;
             playerRigidBody.Sleep();
         }
@@ -262,9 +266,9 @@ public class Player : MonoBehaviour {
     void moveRight() {
         print("moveRight()");
         if (!_dashActive) {
-            if (currentAbility != ActiveAbility.ICE && currentAbility != ActiveAbility.WIND)
+            if (currentAbility != ActiveAbility.ICE && currentAbility != ActiveAbility.WIND && !_isHuggingWall)
                 setXVelocity(moveSpeed + windForce.x);
-            else if (currentAbility == ActiveAbility.WIND)
+            else if(currentAbility == ActiveAbility.WIND)
                 setXVelocity(moveSpeed + (windForce.x * 1.5f));
             else
                 setXVelocity(moveSpeed);
@@ -291,7 +295,16 @@ public class Player : MonoBehaviour {
         }
     }
 
-    void stopHorizontalMovement() {
+    void windfall()
+    {
+        if (_isFalling && currentAbility.Equals(ActiveAbility.WIND))
+        {
+            setYVelocity(WIND_FALL_SPEED);
+        }
+    }
+
+    void stopHorizontalMovement()
+    {
         if (!_dashActive) {
             setXVelocity(0.0f);
         }
@@ -449,7 +462,14 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public void KillPlayer() {
+    private void Pause()
+    {
+        View.instance.ShowPauseMenu();
+        Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_PAUSE);
+    }
+
+    public void KillPlayer()
+    {
         //TODO: Handle player death.
         Destroy(this.gameObject);
         Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_OVER); //Simulates player respawn until checkpoints have been implemented.

@@ -9,19 +9,7 @@ public class CheckPoint : MonoBehaviour
     public string ID; //System.Guid.NewGuid().ToString();
     public bool startPoint = false;
     public Vector2 CameraPanPosition;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    
     public void StartSpawn()
     {
         if (spawnAnimPrefab)
