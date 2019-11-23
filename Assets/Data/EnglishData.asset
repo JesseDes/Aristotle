@@ -92,3 +92,5 @@ MonoBehaviour:
     Value: Credits
   - Key: main_menu.button_4
     Value: Quit Game
+  - Key: lore.title
+    Value: Internal Memo
