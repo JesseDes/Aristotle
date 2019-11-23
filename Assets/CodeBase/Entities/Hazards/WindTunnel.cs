@@ -26,7 +26,8 @@ public class WindTunnel : MonoBehaviour
 
         if(collision.gameObject.tag == "Player") 
         {
-            if (collision.gameObject.GetComponent<Player>().currentAbility != ActiveAbility.ICE)
+            if (collision.gameObject.GetComponent<Player>().currentAbility != ActiveAbility.ICE &&
+                !collision.gameObject.GetComponent<Player>().isHuggingWall())
             {
                 if(collision.gameObject.GetComponent<Player>().currentAbility != ActiveAbility.WIND)
                     collision.gameObject.GetComponent<Rigidbody2D>().AddForce(_windForce * 2);
