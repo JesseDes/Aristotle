@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -154,8 +155,18 @@ public class Player : MonoBehaviour {
 
     void FixedUpdate() {
         //Player is on wall but choosing not to climb.
-        if (_isHuggingWall && !_isClimbing && currentAbility.Equals(ActiveAbility.EARTH)) {
-            setYVelocity(0.0f);
+
+        if (currentAbility.Equals(ActiveAbility.EARTH))
+        {
+            if (_isHuggingWall && !_isClimbing)
+            {
+                setYVelocity(0.0f);
+                animator.enabled = false;
+            }
+            else
+            {
+                animator.enabled = true;
+            }
         }
 
         if (playerRigidBody.velocity.y >= 0.1) // player is jumping
@@ -171,6 +182,8 @@ public class Player : MonoBehaviour {
         animator.SetFloat("speed", moveSpeed * Mathf.Abs(playerRigidBody.velocity.x));
         animator.SetBool("isGrounded", _isGrounded);
         animator.SetBool("isFalling", _isFalling);
+        animator.SetInteger("AbilityCode", (int)currentAbility);
+        animator.SetBool("isClimbing", _isHuggingWall);
     }
 
     private void onStateChange(System.Object response) {
@@ -238,20 +251,28 @@ public class Player : MonoBehaviour {
         }
     }
 
-    void moveUp() {
-        if (_isHuggingWall && currentAbility.Equals(ActiveAbility.EARTH)) {
+    void moveUp()
+    {
+        verticalDashDirection = 1;
+
+        if (_isHuggingWall && currentAbility.Equals(ActiveAbility.EARTH))
+        {
             _isClimbing = true;
             setYVelocity(climbSpeed);
+            animator.SetFloat("ClimbingSpeed", verticalDashDirection);
         }
-        verticalDashDirection = 1;
     }
 
-    void moveDown() {
-        if (_isHuggingWall && currentAbility.Equals(ActiveAbility.EARTH)) {
+    void moveDown()
+    {
+        verticalDashDirection = -1;
+
+        if (_isHuggingWall && currentAbility.Equals(ActiveAbility.EARTH))
+        {
             _isClimbing = true;
             setYVelocity(-climbSpeed);
+            animator.SetFloat("ClimbingSpeed", verticalDashDirection);
         }
-        verticalDashDirection = -1;
     }
 
     void moveLeft() {
@@ -330,10 +351,12 @@ public class Player : MonoBehaviour {
     void startDash() {
         _dashActive = true;
         _canDash = false;
+        animator.SetTrigger("Dash");
 
         //add extra upwards force to push against gravity
         playerRigidBody.gravityScale = 0;
         playerRigidBody.velocity = new Vector2(horizontalDashDirection * fireDashSpeed, verticalDashDirection * fireDashSpeed);
+        RotatePlayer();
         Invoke("stopDash", FIRE_DASH_DURATION);
     }
 
@@ -350,6 +373,7 @@ public class Player : MonoBehaviour {
             }
             setXVelocity(0.0f);
             setYVelocity(yVelocityAfterDash); //Maybe set to 0 in all cases? Check again once fire animations are implemented.
+            transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 0);
         }
     }
 
@@ -379,7 +403,6 @@ public class Player : MonoBehaviour {
             deactivateSpecificAbility(currentAbility);
             if (!currentAbility.Equals(ActiveAbility.ICE)) {
                 currentAbility = ActiveAbility.ICE;
-                GetComponent<SpriteRenderer>().color = Color.blue;
                 //May need to add ice constants for these properties.
                 moveSpeed = ICE_MOVEMENT_SPEED;
                 jumpSpeed = NORMAL_JUMP_SPEED;
@@ -400,7 +423,6 @@ public class Player : MonoBehaviour {
             deactivateSpecificAbility(currentAbility);
             if (!currentAbility.Equals(ActiveAbility.FIRE)) {
                 currentAbility = ActiveAbility.FIRE;
-                GetComponent<SpriteRenderer>().color = Color.red;
                 moveSpeed = NORMAL_MOVEMENT_SPEED;
                 jumpSpeed = NORMAL_JUMP_SPEED;
                 playerRigidBody.mass = NORMAL_MASS;
@@ -416,7 +438,6 @@ public class Player : MonoBehaviour {
             deactivateSpecificAbility(currentAbility);
             if (!currentAbility.Equals(ActiveAbility.WIND)) {
                 currentAbility = ActiveAbility.WIND;
-                GetComponent<SpriteRenderer>().color = Color.green;
                 moveSpeed = NORMAL_MOVEMENT_SPEED;
                 jumpSpeed = WIND_JUMP_SPEED;
                 playerRigidBody.mass = WIND_MASS;
@@ -432,7 +453,6 @@ public class Player : MonoBehaviour {
             deactivateSpecificAbility(currentAbility);
             if (!currentAbility.Equals(ActiveAbility.EARTH)) {
                 currentAbility = ActiveAbility.EARTH;
-                GetComponent<SpriteRenderer>().color = Color.yellow;
                 moveSpeed = NORMAL_MOVEMENT_SPEED;
                 jumpSpeed = NORMAL_JUMP_SPEED;
                 playerRigidBody.mass = NORMAL_MASS;
@@ -452,7 +472,6 @@ public class Player : MonoBehaviour {
         jumpSpeed = NORMAL_JUMP_SPEED;
         playerRigidBody.mass = NORMAL_MASS;
         currentAbility = ActiveAbility.NORMAL;
-        GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     void deactivateSpecificAbility(ActiveAbility specifiedAbility) {
@@ -486,5 +505,40 @@ public class Player : MonoBehaviour {
         //TODO: Handle player death.
         Destroy(this.gameObject);
         Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_OVER); //Simulates player respawn until checkpoints have been implemented.
+    }
+
+    void RotatePlayer()
+    {
+        float z = 0;
+
+        // side dash
+        if (verticalDashDirection == 0)
+        {
+            return;
+        }
+
+        // diagonal dash
+        if (horizontalDashDirection == 1)
+        {
+            z = verticalDashDirection == 1 ? 45 : -45;
+        }
+        else if (horizontalDashDirection == -1)
+        {
+            z = verticalDashDirection == 1 ? -45 : 45;
+        }
+        // up or down dash
+        else if (horizontalDashDirection == 0)
+        {
+            if (playerSpriteRenderer.flipX)
+            {
+                z = verticalDashDirection == 1 ? -90 : 90;
+            }
+            else
+            {
+                z = verticalDashDirection == 1 ? 90 : -90;
+            }
+        }
+
+        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, z);
     }
 }
