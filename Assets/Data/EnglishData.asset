@@ -86,3 +86,9 @@ MonoBehaviour:
   - Key: tutorial.wind_tutorial_2
     Value: Use the wind power to become lighter and make wind affect the player more
       strongly.
+  - Key: main_menu.button_3
+    Value: Credits
+  - Key: credits.title
+    Value: Credits
+  - Key: main_menu.button_4
+    Value: Quit Game
