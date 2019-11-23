@@ -11,7 +11,7 @@ public class ZoneTrigger : MonoBehaviour
         if (collision.tag == "Player")
         {
 
-            Camera.main.GetComponent<LevelCamera>().FullScreenPan(collision.GetComponent<Player>().facingDireciont);
+            Camera.main.GetComponent<LevelCamera>().FullScreenPan(collision.GetComponentInParent<Player>().facingDireciont);
             Model.instance.SetCheckPoint(newCheckpoint);
 
             Invoke("ZeroVelocity", 0.6f);
