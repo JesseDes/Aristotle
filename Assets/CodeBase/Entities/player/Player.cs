@@ -216,7 +216,7 @@ public class Player : MonoBehaviour {
         }
 
         if (collision.gameObject.CompareTag("EarthWall")) {
-            _isHuggingWall = true;
+            //_isHuggingWall = true;
             if (currentAbility.Equals(ActiveAbility.EARTH)) {
                 startHuggingWall();
                 playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
@@ -255,9 +255,8 @@ public class Player : MonoBehaviour {
     }
 
     void moveLeft() {
-        print("moveLeft()");
         if (!_dashActive) {
-            if (currentAbility != ActiveAbility.ICE && currentAbility != ActiveAbility.WIND)
+            if (currentAbility != ActiveAbility.ICE && currentAbility != ActiveAbility.WIND && !_isHuggingWall)
                 setXVelocity(-moveSpeed + windForce.x);
             else if (currentAbility == ActiveAbility.WIND)
                 setXVelocity(-moveSpeed + (windForce.x * 1.5f));
@@ -273,7 +272,6 @@ public class Player : MonoBehaviour {
     }
 
     void moveRight() {
-        print("moveRight()");
         if (!_dashActive) {
             if (currentAbility != ActiveAbility.ICE && currentAbility != ActiveAbility.WIND && !_isHuggingWall)
                 setXVelocity(moveSpeed + windForce.x);
@@ -296,6 +294,7 @@ public class Player : MonoBehaviour {
         }
         else if (_isHuggingWall && currentAbility.Equals(ActiveAbility.EARTH)) {
             stopHuggingWall();
+            setYVelocity(0.0f); //Prevents an enhanced jump while climbing upwards.
             playerRigidBody.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
         }
         //Do not waste the dash if the player has not specified a direction.
@@ -469,6 +468,11 @@ public class Player : MonoBehaviour {
         if (breaksIceArmor || !currentAbility.Equals(ActiveAbility.ICE)) {
             KillPlayer();
         }
+    }
+
+    public bool isHuggingWall()
+    {
+        return _isHuggingWall;
     }
 
     private void Pause()
