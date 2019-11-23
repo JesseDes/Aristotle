@@ -11,8 +11,8 @@ public class BreakableRock : Respawnable
     private GameObject _vfx;
 
     public void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.tag == playerTag && other.gameObject.GetComponent<Player>().currentAbility.Equals(ActiveAbility.ICE)) {
-            if (other.gameObject.GetComponent<Rigidbody2D>().velocity.y < -resistance) {
+        if (other.gameObject.tag == playerTag && other.gameObject.GetComponentInParent<Player>().currentAbility.Equals(ActiveAbility.ICE)) {
+            if (other.gameObject.GetComponentInParent<Rigidbody2D>().velocity.y < -resistance) {
                 GameObject vfx = Instantiate(_vfx, transform);
                 vfx.transform.localPosition = Vector3.zero;
                 vfx.transform.parent = null;
