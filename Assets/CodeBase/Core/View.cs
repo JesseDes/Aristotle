@@ -21,6 +21,8 @@ public class View : MonoBehaviour
     private MainMenu _mainMenu = default;
     [SerializeField]
     private GameObject _pauseMenu = default;
+    [SerializeField]
+    private LoadingScreen _loadingScreen = default;
 
     private GameObject HUD;
     private Camera mainCamera;
@@ -47,6 +49,7 @@ public class View : MonoBehaviour
         Controller.instance.AddEventListener(EngineEvents.ENGINE_CUTSCENE_END,(System.Object e) => NextLevel());
         mainCamera = Camera.main;
         player = GameObject.Find("Player");
+        _loadingScreen.gameObject.SetActive(false);
 
         if (PlayerPrefs.HasKey(SaveKeys.LEVEL))
             GotoLevel(PlayerPrefs.GetInt(SaveKeys.LEVEL));
@@ -66,6 +69,7 @@ public class View : MonoBehaviour
                 _initFrameCounter = 0;
             }
         }
+
     }
 
     public void addEdges(System.Object e)
@@ -152,15 +156,29 @@ public class View : MonoBehaviour
     {
         string currentScene = "loading_test" + currentLevel;
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(currentScene);
+        asyncLoad.allowSceneActivation = false;
+        _loadingScreen.RestartLoader();
+        _loadingScreen.gameObject.SetActive(true);
 
         while (!asyncLoad.isDone)
         {
+            _loadingScreen.UpdateProgress(asyncLoad.progress);
+
+            if(asyncLoad.progress >= 0.9f)
+            {
+                _loadingScreen.CompleteLoad();
+
+                if (Input.anyKeyDown)
+                {
+                    _loadingScreen.gameObject.SetActive(false);
+                    asyncLoad.allowSceneActivation = true;
+                }
+            }
+
             yield return null;
         }
 
         if (asyncLoad.isDone)
             _initFlag = true;
-        
-
     }
 }
