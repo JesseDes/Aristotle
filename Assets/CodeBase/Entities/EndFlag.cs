@@ -9,6 +9,7 @@ public class EndFlag : MonoBehaviour
     public GameObject effectPrefab;
     public Vector3 playerDestination;
     public GameObject _cavnas;
+    public int unlockAbility;
     
     private GameObject _player;
     private float _lerpTimer;
@@ -50,6 +51,8 @@ public class EndFlag : MonoBehaviour
     private void onCutsceneEnd()
     {
         Model.instance.audioManager.StopBackgroundMusic();
+        _cavnas.SetActive(false);
+        PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES ,unlockAbility);
         _isPost = false;
         Controller.instance.Dispatch(EngineEvents.ENGINE_CUTSCENE_END);
     }
@@ -58,7 +61,7 @@ public class EndFlag : MonoBehaviour
     {
         Controller.instance.Dispatch(EngineEvents.ENGINE_CUTSCENE_START);
         Model.instance.audioManager.PlayBackgroundMusic(Model.instance.currentLevelProfile.profileKey, "endSong");
-        _player = collision.gameObject;
+        _player = collision.transform.parent.gameObject;
         _startPos = _player.transform.position;
 
         if (effectPrefab.gameObject.GetComponent<ParticleSystem>() != null)

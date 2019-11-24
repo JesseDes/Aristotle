@@ -106,7 +106,11 @@ public class Player : MonoBehaviour {
         SetUpInputProfile();
 
         currentAbility = ActiveAbility.NORMAL;
-        recentlyUnlockedAbility = ActiveAbility.EARTH;
+
+        if (!PlayerPrefs.HasKey(SaveKeys.ACTIVE_ABILITIES))
+            PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES, (int)ActiveAbility.ICE);
+
+        recentlyUnlockedAbility = (ActiveAbility)PlayerPrefs.GetInt(SaveKeys.ACTIVE_ABILITIES);
         this.enabled = _isRespawn;
         Controller.instance.stateMachine.AddStateListener(onStateChange);
     }
@@ -518,7 +522,8 @@ public class Player : MonoBehaviour {
     {
         //TODO: Handle player death.
         Destroy(this.gameObject);
-        Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_OVER); //Simulates player respawn until checkpoints have been implemented.
+        Model.instance.audioManager.PlayBackgroundMusic(Model.instance.globalAudio.profileKey, "player_death");
+        Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_OVER); 
     }
 
     void RotatePlayer()

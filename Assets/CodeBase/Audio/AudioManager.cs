@@ -15,7 +15,6 @@ public class AudioManager : MonoBehaviour
     {
         audioProfileList = new Dictionary<string, Dictionary<string, AudioData>>();
         _audioPlayer = gameObject.AddComponent<AudioSource>();
-        Controller.instance.stateMachine.AddStateListener(clearLevelAudio, EngineState.LOADING_STATE);
     }
 
     public void LoadProfile(AudioProfile profile)
@@ -67,7 +66,7 @@ public class AudioManager : MonoBehaviour
         volume = level;
     }
 
-    private void clearLevelAudio(System.Object response)
+    public void clearLevelAudio()
     {
         _audioPlayer.Stop();
 

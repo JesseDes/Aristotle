@@ -29,6 +29,7 @@ public class View : MonoBehaviour
     public GameObject player;
     public GameObject worldEdgePrefab;
     private bool _initFlag;
+    private bool _firstLoad;
     private float _initFrameCounter;
 
     private void Awake()
@@ -50,6 +51,7 @@ public class View : MonoBehaviour
         mainCamera = Camera.main;
         player = GameObject.Find("Player");
         _loadingScreen.gameObject.SetActive(false);
+        _firstLoad = true;
 
         if (PlayerPrefs.HasKey(SaveKeys.LEVEL))
             GotoLevel(PlayerPrefs.GetInt(SaveKeys.LEVEL));
@@ -64,12 +66,32 @@ public class View : MonoBehaviour
             _initFrameCounter++;
             if (_initFrameCounter <= 1)
             {
-                Controller.instance.Dispatch(EngineEvents.ENGINE_LOAD_FINISH);
+                Controller.instance.Dispatch(EngineEvents.ENGINE_LOAD_START);
                 _initFlag = false;
                 _initFrameCounter = 0;
             }
         }
 
+        if (Input.GetKeyUp(KeyCode.Alpha1))
+        {
+            GotoLevel(1);
+            PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES, 1);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha2))
+        {
+            GotoLevel(2);
+            PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES, 2);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha3))
+        {
+            GotoLevel(3);
+            PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES, 3);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha4))
+        {
+            GotoLevel(4);
+            PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES, 4);
+        }
     }
 
     public void addEdges(System.Object e)
@@ -120,7 +142,7 @@ public class View : MonoBehaviour
         else if (Controller.instance.stateMachine.state == EngineState.LOADING_STATE)
         {
 
-            _mainMenu.gameObject.SetActive(false);
+            //_mainMenu.gameObject.SetActive(false);
         }
     }
 
@@ -154,17 +176,16 @@ public class View : MonoBehaviour
     
     IEnumerator LoadScene()
     {
-        string currentScene = "loading_test" + currentLevel;
+        string currentScene = "level" + currentLevel;
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(currentScene);
-        asyncLoad.allowSceneActivation = false;
+        asyncLoad.allowSceneActivation = _firstLoad;
         _loadingScreen.RestartLoader();
-        _loadingScreen.gameObject.SetActive(true);
-
+        _loadingScreen.gameObject.SetActive(!_firstLoad);
         while (!asyncLoad.isDone)
         {
             _loadingScreen.UpdateProgress(asyncLoad.progress);
 
-            if(asyncLoad.progress >= 0.9f)
+            if(asyncLoad.progress >= 0.9f && !_firstLoad)
             {
                 _loadingScreen.CompleteLoad();
 
@@ -179,6 +200,9 @@ public class View : MonoBehaviour
         }
 
         if (asyncLoad.isDone)
+        {
             _initFlag = true;
+            _firstLoad = false;
+        }
     }
 }

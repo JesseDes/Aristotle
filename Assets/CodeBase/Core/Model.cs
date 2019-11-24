@@ -34,10 +34,9 @@ public class Model : MonoBehaviour
 
         audioManager.init();
         audioManager.LoadProfile(globalAudio);
-
-        Controller.instance.AddEventListener(EngineEvents.ENGINE_LOAD_FINISH, LevelReady);
+        Controller.instance.AddEventListener(EngineEvents.ENGINE_LOAD_START, LevelReady);
         Controller.instance.AddEventListener(EngineEvents.ENGINE_GAME_START, AudioStart);
-        Controller.instance.AddEventListener(EngineEvents.ENGINE_GAME_OVER, AudioStop);
+        //Controller.instance.AddEventListener(EngineEvents.ENGINE_GAME_OVER, AudioStop);
     }
 
     // Update is called once per frame
@@ -61,6 +60,7 @@ public class Model : MonoBehaviour
 
     private void LevelReady(System.Object e)
     {
+        audioManager.clearLevelAudio();
         bool getStart = true;
 
         if (PlayerPrefs.GetInt(SaveKeys.LEVEL) == View.instance.currentLevel && PlayerPrefs.GetString(SaveKeys.CHECK_POINT) != "")
@@ -78,16 +78,15 @@ public class Model : MonoBehaviour
         }
         
         if (currentCheckpoint)
-        {
             Camera.main.GetComponent<LevelCamera>().setPanPosition(currentCheckpoint.CameraPanPosition);
-           // Controller.instance.Dispatch(EngineEvents.ENGINE_LOAD_FINISH);
-        }
         else
             Debug.LogError("No starting spawn found, have you rememberd to set the flag in your checkpoint?");
 
 
         currentLevelProfile =  Resources.Load<AudioProfile>("level" + View.instance.currentLevel);
         audioManager.LoadProfile(currentLevelProfile);
+
+        Controller.instance.Dispatch(EngineEvents.ENGINE_LOAD_FINISH);
 
         if (!View.instance.mainMenuOpen)
             Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_INIT);
