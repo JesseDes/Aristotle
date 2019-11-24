@@ -65,7 +65,6 @@
     <Compile Include="Assets\CodeBase\Audio\AudioManager.cs" />
     <Compile Include="Assets\CodeBase\Audio\AudioProfile.cs" />
     <Compile Include="Assets\CodeBase\Core\Controller.cs" />
-    <Compile Include="Assets\CodeBase\Core\Loading.cs" />
     <Compile Include="Assets\CodeBase\Core\Model.cs" />
     <Compile Include="Assets\CodeBase\Core\View.cs" />
     <Compile Include="Assets\CodeBase\Data\ControllerStateMachine.cs" />
@@ -76,10 +75,15 @@
     <Compile Include="Assets\CodeBase\DestroyThis.cs" />
     <Compile Include="Assets\CodeBase\Entities\BreakableRock.cs" />
     <Compile Include="Assets\CodeBase\Entities\CheckPoint.cs" />
+    <Compile Include="Assets\CodeBase\Entities\EndFlag.cs" />
+    <Compile Include="Assets\CodeBase\Entities\Hazards\DroneLook.cs" />
     <Compile Include="Assets\CodeBase\Entities\Hazards\DronePath.cs" />
     <Compile Include="Assets\CodeBase\Entities\Hazards\HazardGeneric.cs" />
     <Compile Include="Assets\CodeBase\Entities\Hazards\Landmine.cs" />
     <Compile Include="Assets\CodeBase\Entities\Hazards\Respawnable.cs" />
+    <Compile Include="Assets\CodeBase\Entities\Hazards\WindTunnel.cs" />
+    <Compile Include="Assets\CodeBase\Entities\MoveObject.cs" />
+    <Compile Include="Assets\CodeBase\Entities\player\ColliderController.cs" />
     <Compile Include="Assets\CodeBase\Entities\player\Player.cs" />
     <Compile Include="Assets\CodeBase\Entities\player\PlayerInputProfile.cs" />
     <Compile Include="Assets\CodeBase\Entities\sphere\Sphere.cs" />
@@ -96,9 +100,11 @@
     <Compile Include="Assets\CodeBase\UI\AbilitySymbol.cs" />
     <Compile Include="Assets\CodeBase\UI\HUD.cs" />
     <Compile Include="Assets\CodeBase\UI\LevelCamera.cs" />
+    <Compile Include="Assets\CodeBase\UI\LoadingScreen.cs" />
     <Compile Include="Assets\CodeBase\UI\LoreTrigger.cs" />
     <Compile Include="Assets\CodeBase\UI\MainMenu.cs" />
     <Compile Include="Assets\CodeBase\UI\OptionsMenu.cs" />
+    <Compile Include="Assets\CodeBase\UI\PauseMenu.cs" />
     <Compile Include="Assets\CodeBase\UI\someUi.cs" />
     <Compile Include="Assets\CodeBase\UI\WorldEdge.cs" />
     <Compile Include="Assets\CodeBase\Utils\IInputProfile.cs" />
