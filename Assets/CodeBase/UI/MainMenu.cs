@@ -15,7 +15,27 @@ public class MainMenu : MonoBehaviour
 
     public void UI_Start()
     {
-        Controller.instance.Dispatch(EngineEvents.ENGINE_LOAD_START);
+        PlayerPrefs.SetString(SaveKeys.CHECK_POINT, "");
+        PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES, 1);
+        if (PlayerPrefs.GetInt(SaveKeys.LEVEL) != 1)
+        {
+            Controller.instance.AddEventListener(EngineEvents.ENGINE_LOAD_FINISH, NewGameReady);
+            View.instance.GotoLevel(1);
+            gameObject.SetActive(false);
+        }
+        else
+            Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_INIT);
+    }
+
+    private void NewGameReady(System.Object e)
+    {
+        if(gameObject.activeSelf)
+            Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_INIT);
+    }
+
+    public void UI_Continue()
+    {
+        Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_INIT);
     }
 
     public void UI_Options()

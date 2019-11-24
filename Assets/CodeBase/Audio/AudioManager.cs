@@ -15,16 +15,15 @@ public class AudioManager : MonoBehaviour
     {
         audioProfileList = new Dictionary<string, Dictionary<string, AudioData>>();
         _audioPlayer = gameObject.AddComponent<AudioSource>();
-        Controller.instance.stateMachine.AddStateListener(clearLevelAudio, EngineState.LOADING_STATE);
     }
 
     public void LoadProfile(AudioProfile profile)
     {
-        if (audioProfileList == null)
-            Debug.Log("why??");
+
         audioProfileList.Add(profile.profileKey, new Dictionary<string, AudioData>());
         foreach (AudioData data in profile.audioData)
             audioProfileList[profile.profileKey].Add(data.accessKey, data);
+        
     }
 
     public void ClearProfiles(string profileKey)
@@ -41,9 +40,24 @@ public class AudioManager : MonoBehaviour
     {
 
         _audioPlayer.clip = audioProfileList[profileKey][audioKey].clip;
-        _audioPlayer.loop = true;
+        _audioPlayer.loop = audioProfileList[profileKey][audioKey].loop;
         _audioPlayer.Play();
         
+    }
+
+    public void StopBackgroundMusic()
+    {
+        _audioPlayer.Stop();
+    }
+
+    public void PauseBackgroundMusic()
+    {
+        _audioPlayer.Pause();
+    }
+
+    public void ResumeBackgroundMusic()
+    {
+        _audioPlayer.Play();
     }
 
     public void setVolume(int level)
@@ -52,7 +66,7 @@ public class AudioManager : MonoBehaviour
         volume = level;
     }
 
-    private void clearLevelAudio(System.Object response)
+    public void clearLevelAudio()
     {
         _audioPlayer.Stop();
 

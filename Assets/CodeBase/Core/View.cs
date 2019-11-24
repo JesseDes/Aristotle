@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
+
 
 public class View : MonoBehaviour
 {
@@ -11,18 +13,24 @@ public class View : MonoBehaviour
     public float sideScreenDetectionSize = 0.2f;
     public float topScreenDetectionSize = 0.2f;
     public float bottomScreenDetectionSize = 0.2f;
-
+    [HideInInspector]
+    public bool mainMenuOpen { get => _mainMenu.isActiveAndEnabled; }
     [SerializeField]
     private AbilityOverlay _abilities = default;
     [SerializeField]
     private MainMenu _mainMenu = default;
     [SerializeField]
     private GameObject _pauseMenu = default;
+    [SerializeField]
+    private LoadingScreen _loadingScreen = default;
 
     private GameObject HUD;
     private Camera mainCamera;
     public GameObject player;
     public GameObject worldEdgePrefab;
+    private bool _initFlag;
+    private bool _firstLoad;
+    private float _initFrameCounter;
 
     private void Awake()
     {
@@ -35,26 +43,58 @@ public class View : MonoBehaviour
             Destroy(gameObject);
     }
     
-    public void nextScene()
-    {
-        sceneCount++;
-        SceneManager.LoadScene(sceneCount);
-    }
-
     public void Start()
     {
         Controller.instance.stateMachine.AddStateListener(OnStateChange);
+        Controller.instance.AddEventListener(EngineEvents.ENGINE_GAME_INIT,addEdges);
+        Controller.instance.AddEventListener(EngineEvents.ENGINE_CUTSCENE_END,(System.Object e) => NextLevel());
         mainCamera = Camera.main;
         player = GameObject.Find("Player");
-        addEdges();
+        _loadingScreen.gameObject.SetActive(false);
+        _firstLoad = true;
+
+        if (PlayerPrefs.HasKey(SaveKeys.LEVEL))
+            GotoLevel(PlayerPrefs.GetInt(SaveKeys.LEVEL));
+        else
+            NextLevel();
     }
 
     public void Update()
     {
+        if(_initFlag)           //When we load a level we need to give it atleast one frame to run all the starts/awakes of the gameobjects
+        {
+            _initFrameCounter++;
+            if (_initFrameCounter <= 1)
+            {
+                Controller.instance.Dispatch(EngineEvents.ENGINE_LOAD_START);
+                _initFlag = false;
+                _initFrameCounter = 0;
+            }
+        }
 
+        if (Input.GetKeyUp(KeyCode.Alpha1))
+        {
+            GotoLevel(1);
+            PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES, 1);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha2))
+        {
+            GotoLevel(2);
+            PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES, 2);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha3))
+        {
+            GotoLevel(3);
+            PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES, 3);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha4))
+        {
+            GotoLevel(4);
+            PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES, 4);
+        }
     }
 
-    private void addEdges()
+    public void addEdges(System.Object e)
     {
         if(worldEdgePrefab == null)
         {
@@ -97,11 +137,12 @@ public class View : MonoBehaviour
         else if (Controller.instance.stateMachine.state == EngineState.ACTIVE)
         {
             _abilities.gameObject.SetActive(true);
+            _mainMenu.gameObject.SetActive(false);
         }
         else if (Controller.instance.stateMachine.state == EngineState.LOADING_STATE)
         {
 
-            _mainMenu.gameObject.SetActive(false);
+            //_mainMenu.gameObject.SetActive(false);
         }
     }
 
@@ -121,5 +162,47 @@ public class View : MonoBehaviour
         _abilities.UpdateAbilitySymbol(ability, state);
     }
 
- 
+    private void NextLevel()
+    {
+        currentLevel++;
+        StartCoroutine(LoadScene());
+    }
+
+    public void GotoLevel(int level)
+    {
+        currentLevel = level;
+        StartCoroutine(LoadScene());
+    }
+    
+    IEnumerator LoadScene()
+    {
+        string currentScene = "level" + currentLevel;
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(currentScene);
+        asyncLoad.allowSceneActivation = _firstLoad;
+        _loadingScreen.RestartLoader();
+        _loadingScreen.gameObject.SetActive(!_firstLoad);
+        while (!asyncLoad.isDone)
+        {
+            _loadingScreen.UpdateProgress(asyncLoad.progress);
+
+            if(asyncLoad.progress >= 0.9f && !_firstLoad)
+            {
+                _loadingScreen.CompleteLoad();
+
+                if (Input.anyKeyDown)
+                {
+                    _loadingScreen.gameObject.SetActive(false);
+                    asyncLoad.allowSceneActivation = true;
+                }
+            }
+
+            yield return null;
+        }
+
+        if (asyncLoad.isDone)
+        {
+            _initFlag = true;
+            _firstLoad = false;
+        }
+    }
 }

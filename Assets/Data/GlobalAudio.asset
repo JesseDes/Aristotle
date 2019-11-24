@@ -16,4 +16,7 @@ MonoBehaviour:
   - accessKey: boom
     clip: {fileID: 8300000, guid: 4621f4ac42ad0e6429287e3085a149fd, type: 3}
     loop: 0
+  - accessKey: player_death
+    clip: {fileID: 8300000, guid: 8c3c2ac97c8f48c408b5754f73c74919, type: 3}
+    loop: 0
   profileKey: global
