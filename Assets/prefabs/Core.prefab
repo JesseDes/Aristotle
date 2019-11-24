@@ -59,9 +59,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1172a3a843c42864bb5d061d3f15eb31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioManager: {fileID: 3126059095449880606, guid: 3ea358a6edf5e3a4d9536314ed1bfbc0,
-    type: 3}
+  audioManager: {fileID: 0}
   globalAudio: {fileID: 11400000, guid: 64a1208e24af39741b3d44c48f554bc7, type: 2}
+  currentLevelProfile: {fileID: 0}
 --- !u!114 &1331930451952085819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +81,7 @@ MonoBehaviour:
   bottomScreenDetectionSize: 0.2
   _abilities: {fileID: 0}
   _mainMenu: {fileID: 0}
+  _pauseMenu: {fileID: 0}
   player: {fileID: 0}
   worldEdgePrefab: {fileID: 4410613734372220434, guid: 7f3616d6a55477f45aef7829f8207b60,
     type: 3}

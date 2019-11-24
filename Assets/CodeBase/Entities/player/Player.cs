@@ -106,7 +106,11 @@ public class Player : MonoBehaviour {
         SetUpInputProfile();
 
         currentAbility = ActiveAbility.NORMAL;
-        recentlyUnlockedAbility = ActiveAbility.EARTH;
+
+        if (!PlayerPrefs.HasKey(SaveKeys.ACTIVE_ABILITIES))
+            PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES, (int)ActiveAbility.ICE);
+
+        recentlyUnlockedAbility = (ActiveAbility)PlayerPrefs.GetInt(SaveKeys.ACTIVE_ABILITIES);
         this.enabled = _isRespawn;
         Controller.instance.stateMachine.AddStateListener(onStateChange);
     }
@@ -212,42 +216,56 @@ public class Player : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Vector2 checkDown = new Vector2(0, -1);
-        RaycastHit2D[] checkDown2 = Physics2D.RaycastAll(transform.position, checkDown, 0.7f);
-        bool hitGround = false;
-        for (int i = 0; i < checkDown2.Length; i++) {
-            if (checkDown2[i].collider.CompareTag("MetalMaterial")) {
-                hitGround = true;
-            }
-        }
-        if (hitGround) {
-            //Setting the free-fall velocity to 0 prevents boosted jumps at corners.
-            playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
-            _isGrounded = true;
-            _canDash = true;
-            _isFalling = false;
-        }
-
-        if (collision.gameObject.CompareTag("EarthWall")) {
-            //_isHuggingWall = true;
-            if (currentAbility.Equals(ActiveAbility.EARTH)) {
+        if (collision.gameObject.CompareTag("EarthWall"))
+        {
+            if (currentAbility.Equals(ActiveAbility.EARTH))
+            {
                 startHuggingWall();
                 playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
             }
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision) {
-        if (collision.gameObject.CompareTag("MetalMaterial")) {
-            _isGrounded = false;
-            if (currentAbility.Equals(ActiveAbility.ICE)) {
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("MetalMaterial"))
+        {
+            if (currentAbility.Equals(ActiveAbility.ICE))
+            {
                 //have player fall very fast if airborne when going off edge while ice is active.
                 playerRigidBody.AddForce(Vector2.down * iceMagnitude, ForceMode2D.Impulse);
             }
         }
 
-        if (collision.gameObject.CompareTag("EarthWall")) {
+        if (collision.gameObject.CompareTag("EarthWall"))
+        {
             stopHuggingWall();
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        Vector2 raycastDirection = new Vector2(0, -1);
+        RaycastHit2D[] raycastCollisions = Physics2D.RaycastAll(transform.position, raycastDirection, 0.7f);
+        bool hitGround = false;
+        for (int i = 0; i < raycastCollisions.Length; i++)
+        {
+            if (raycastCollisions[i].collider.CompareTag("MetalMaterial"))
+            {
+                hitGround = true;
+            }
+        }
+        if (hitGround)
+        {
+            //Setting the free-fall velocity to 0 prevents boosted jumps at corners.
+            playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 0.0f);
+            _isGrounded = true;
+            _canDash = true;
+            _isFalling = false;
+        }
+        else
+        {
+            _isGrounded = false;
         }
     }
 
@@ -504,7 +522,8 @@ public class Player : MonoBehaviour {
     {
         //TODO: Handle player death.
         Destroy(this.gameObject);
-        Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_OVER); //Simulates player respawn until checkpoints have been implemented.
+        Model.instance.audioManager.PlayBackgroundMusic(Model.instance.globalAudio.profileKey, "player_death");
+        Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_OVER); 
     }
 
     void RotatePlayer()
