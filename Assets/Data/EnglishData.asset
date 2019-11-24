@@ -57,6 +57,15 @@ MonoBehaviour:
   - Key: tutorial.multiple_abilities
     Value: For some rooms, you will need to use multiple abilities to truimph over
       the obstacles that await.
+  - Key: tutorial.earth_tutorial_1
+    Value: 'You have gained the essence of Earth. Specify a vertical direction while
+      climbing on an earth wall to climb up or down that wall. '
+  - Key: tutorial.earth_tutorial_2
+    Value: Note that metal walls cannot be climbed. Jump while latched onto an earth
+      wall to jump off the wall.
+  - Key: tutorial.earth_tutorial_3
+    Value: While climbing, free-fall gravity has no effect. Take advantage of this,
+      precision is key when it comes to jumping off walls.
   - Key: unlock.fire
     Value: You acquired Fire!
   - Key: pause.title
@@ -65,3 +74,15 @@ MonoBehaviour:
     Value: Continue
   - Key: pause.button_2
     Value: Main Menu
+  - Key: tutorial.ice_tutorial_1
+    Value: You have gained the essence of Ice. Use it to shield yourself from various
+      stage hazards that aren't electrical wire!
+  - Key: tutorial.ice_tutorial_2
+    Value: The weight of your ice shield causes you to come crashing down if in midair
+      and break certain blocks.
+  - Key: tutorial.wind_tutorial_1
+    Value: You have gained the essence of Wind. Jump higher from the ground and use
+      the jump button fo fall slower while in the air!
+  - Key: tutorial.wind_tutorial_2
+    Value: Use the wind power to become lighter and make wind affect the player more
+      strongly.

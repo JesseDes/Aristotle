@@ -17,7 +17,7 @@ public class WindTunnel : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
-            collision.gameObject.GetComponent<Player>().windForce = _windForce;
+            collision.gameObject.GetComponentInParent<Player>().windForce = _windForce;
         
     }
 
@@ -26,12 +26,13 @@ public class WindTunnel : MonoBehaviour
 
         if(collision.gameObject.tag == "Player") 
         {
-            if (collision.gameObject.GetComponent<Player>().currentAbility != ActiveAbility.ICE)
+            if (collision.gameObject.GetComponentInParent<Player>().currentAbility != ActiveAbility.ICE &&
+                !collision.gameObject.GetComponentInParent<Player>().isHuggingWall())
             {
-                if(collision.gameObject.GetComponent<Player>().currentAbility != ActiveAbility.WIND)
-                    collision.gameObject.GetComponent<Rigidbody2D>().AddForce(_windForce * 2);
+                if(collision.gameObject.GetComponentInParent<Player>().currentAbility != ActiveAbility.WIND)
+                    collision.gameObject.GetComponentInParent<Rigidbody2D>().AddForce(_windForce * 2);
                 else
-                    collision.gameObject.GetComponent<Rigidbody2D>().AddForce(_windForce * 3);
+                    collision.gameObject.GetComponentInParent<Rigidbody2D>().AddForce(_windForce * 3);
             }
         }
     }
@@ -39,6 +40,6 @@ public class WindTunnel : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
-            collision.gameObject.GetComponent<Player>().windForce = Vector2.zero;
+            collision.gameObject.GetComponentInParent<Player>().windForce = Vector2.zero;
     }
 }

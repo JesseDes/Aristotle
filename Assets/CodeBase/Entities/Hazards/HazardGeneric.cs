@@ -20,7 +20,7 @@ public class HazardGeneric : MonoBehaviour
 
     void KillPlayer(Collider2D other) {
         if (other.tag == PLAYER_TAG) {
-            other.gameObject.GetComponent<Player>().hazardHitsPlayer(breaksIceArmor);
+            other.gameObject.GetComponentInParent<Player>().hazardHitsPlayer(breaksIceArmor);
         }
     }
 }
