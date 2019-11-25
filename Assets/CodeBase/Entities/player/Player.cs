@@ -191,17 +191,16 @@ public class Player : MonoBehaviour {
     }
 
     private void onStateChange(System.Object response) {
-        if (Controller.instance.stateMachine.state == EngineState.MENU) {
-            this.enabled = false;
+        if (Controller.instance.stateMachine.state == EngineState.MENU) {            
             _storedForce = playerRigidBody.velocity;
             playerRigidBody.Sleep();
+            inputProfile.DisableInput();
 
         }
         else if (Controller.instance.stateMachine.state == EngineState.ACTIVE) {
-            this.enabled = true;
-            SetUpInputProfile();
+            inputProfile.EnableInput();
             playerRigidBody.WakeUp();
-            playerRigidBody.velocity = _storedForce;
+            playerRigidBody.velocity = new Vector2(0,_storedForce.y);
         }
         else if (Controller.instance.stateMachine.state == EngineState.CUTSCENES)
         {
@@ -407,11 +406,13 @@ public class Player : MonoBehaviour {
     }
 
     void setXVelocity(float newXVelocity) {
-        playerRigidBody.velocity = new Vector2(newXVelocity, playerRigidBody.velocity.y);
+        if(Controller.instance.stateMachine.state == EngineState.ACTIVE)
+            playerRigidBody.velocity = new Vector2(newXVelocity, playerRigidBody.velocity.y);
     }
 
     void setYVelocity(float newYVelocity) {
-        playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, newYVelocity);
+        if (Controller.instance.stateMachine.state == EngineState.ACTIVE)
+            playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, newYVelocity);
     }
 
     //NOTE: Changing the sprite color is a temporary measure until proper animations are

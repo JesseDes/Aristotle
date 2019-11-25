@@ -15,7 +15,7 @@ public enum InputEvent
 public class InputProfile : IInputProfile
 {
     protected List<InputCommand> keyLoadList; 
-
+    private bool _inputEnabled = true;
     private Dictionary<KeyCode, InputCommand> keyDict;
 
     public InputProfile()
@@ -36,7 +36,7 @@ public class InputProfile : IInputProfile
 
     public void checkInput()
     {
-        if (Input.anyKeyDown)
+        if (Input.anyKeyDown && _inputEnabled)
         {
             foreach (KeyCode key in keyDict.Keys)
             {
@@ -45,7 +45,7 @@ public class InputProfile : IInputProfile
             }
         }
 
-        if (Input.anyKey)
+        if (Input.anyKey && _inputEnabled)
         {
             foreach (KeyCode key in keyDict.Keys)
             {
@@ -54,13 +54,24 @@ public class InputProfile : IInputProfile
             }
         }
 
-
-        foreach (KeyCode key in keyDict.Keys)
+        if (_inputEnabled)
         {
-            if (Input.GetKeyUp(key))
-                keyDict[key].dispatcUp();
+            foreach (KeyCode key in keyDict.Keys)
+            {
+                if (Input.GetKeyUp(key))
+                    keyDict[key].dispatcUp();
+            }
         }
-        
+    }
+
+    public void DisableInput()
+    {
+        _inputEnabled = false;
+    }
+
+    public void EnableInput()
+    {
+        _inputEnabled = true;
     }
 
     public void addListener(InputEvent eventType, string eventName, Action callback)
