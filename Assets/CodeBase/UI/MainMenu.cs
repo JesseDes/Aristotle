@@ -27,18 +27,29 @@ public class MainMenu : MonoBehaviour
             gameObject.SetActive(false);
         }
         else
+        {
+            Model.instance.ClearCheckPoint();
+            Debug.Log("Checkpoint : " + Model.instance.currentCheckpoint);
             Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_INIT);
+            gameObject.SetActive(false);
+        }
     }
 
     private void NewGameReady(System.Object e)
     {
-        if(gameObject.activeSelf)
+        if (gameObject.activeSelf)
+        {
             Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_INIT);
+            gameObject.SetActive(false);
+
+        }
     }
 
     public void UI_Continue()
     {
         Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_INIT);
+        gameObject.SetActive(false);
+
     }
 
     public void UI_Options()

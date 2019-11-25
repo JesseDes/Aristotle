@@ -37,7 +37,8 @@ public class View : MonoBehaviour
         if (instance == null)
         {
             DontDestroyOnLoad(gameObject);
-            instance = this;    
+            instance = this;
+            Screen.SetResolution(960, 720, true);
         }
         else if (instance != this)
             Destroy(gameObject);
@@ -66,6 +67,7 @@ public class View : MonoBehaviour
             _initFrameCounter++;
             if (_initFrameCounter <= 1)
             {
+                _loadingScreen.gameObject.SetActive(false);
                 Controller.instance.Dispatch(EngineEvents.ENGINE_LOAD_START);
                 _initFlag = false;
                 _initFrameCounter = 0;
@@ -139,11 +141,6 @@ public class View : MonoBehaviour
             _abilities.gameObject.SetActive(true);
             _mainMenu.gameObject.SetActive(false);
         }
-        else if (Controller.instance.stateMachine.state == EngineState.LOADING_STATE)
-        {
-
-            //_mainMenu.gameObject.SetActive(false);
-        }
     }
 
     public void ShowMainMenu()
@@ -191,7 +188,6 @@ public class View : MonoBehaviour
 
                 if (Input.anyKeyDown)
                 {
-                    _loadingScreen.gameObject.SetActive(false);
                     asyncLoad.allowSceneActivation = true;
                 }
             }

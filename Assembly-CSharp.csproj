@@ -103,6 +103,8 @@
     <Compile Include="Assets\CodeBase\UI\LoadingScreen.cs" />
     <Compile Include="Assets\CodeBase\UI\LoreTrigger.cs" />
     <Compile Include="Assets\CodeBase\UI\MainMenu.cs" />
+    <Compile Include="Assets\CodeBase\UI\OpenLink.cs" />
+    <Compile Include="Assets\CodeBase\UI\OptionList.cs" />
     <Compile Include="Assets\CodeBase\UI\OptionsMenu.cs" />
     <Compile Include="Assets\CodeBase\UI\PauseMenu.cs" />
     <Compile Include="Assets\CodeBase\UI\someUi.cs" />
