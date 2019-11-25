@@ -98,3 +98,5 @@ MonoBehaviour:
     Value: You acquired Air!
   - Key: unlock.earth
     Value: You acquired Earth!
+  - Key: main_menu.button_5
+    Value: Continue

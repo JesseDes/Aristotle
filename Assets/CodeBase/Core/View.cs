@@ -66,6 +66,7 @@ public class View : MonoBehaviour
             _initFrameCounter++;
             if (_initFrameCounter <= 1)
             {
+                _loadingScreen.gameObject.SetActive(false);
                 Controller.instance.Dispatch(EngineEvents.ENGINE_LOAD_START);
                 _initFlag = false;
                 _initFrameCounter = 0;
@@ -191,7 +192,6 @@ public class View : MonoBehaviour
 
                 if (Input.anyKeyDown)
                 {
-                    _loadingScreen.gameObject.SetActive(false);
                     asyncLoad.allowSceneActivation = true;
                 }
             }
