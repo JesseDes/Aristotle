@@ -115,8 +115,18 @@ public class Player : MonoBehaviour {
             PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES, (int)ActiveAbility.ICE);
 
         recentlyUnlockedAbility = (ActiveAbility)PlayerPrefs.GetInt(SaveKeys.ACTIVE_ABILITIES);
+        UpdateAbilitySymbols(ActiveAbility.NORMAL);
         this.enabled = _isRespawn;
         Controller.instance.stateMachine.AddStateListener(onStateChange);
+    }
+
+    private void UpdateAbilitySymbols(ActiveAbility ability)
+    {
+        View.instance.UpdateAbilitySymbol(ActiveAbility.ICE, recentlyUnlockedAbility >= ActiveAbility.ICE ? AbilitySymbolState.Unavailable : AbilitySymbolState.Locked);
+        View.instance.UpdateAbilitySymbol(ActiveAbility.FIRE, recentlyUnlockedAbility >= ActiveAbility.FIRE ? AbilitySymbolState.Unavailable : AbilitySymbolState.Locked);
+        View.instance.UpdateAbilitySymbol(ActiveAbility.WIND, recentlyUnlockedAbility >= ActiveAbility.WIND ? AbilitySymbolState.Unavailable : AbilitySymbolState.Locked);
+        View.instance.UpdateAbilitySymbol(ActiveAbility.EARTH, recentlyUnlockedAbility >= ActiveAbility.EARTH ? AbilitySymbolState.Unavailable : AbilitySymbolState.Locked);
+        View.instance.UpdateAbilitySymbol(ability, AbilitySymbolState.Available);
     }
 
     private void SetUpInputProfile() {
@@ -424,6 +434,7 @@ public class Player : MonoBehaviour {
         if (recentlyUnlockedAbility >= ActiveAbility.ICE) {
             deactivateSpecificAbility(currentAbility);
             if (!currentAbility.Equals(ActiveAbility.ICE)) {
+                UpdateAbilitySymbols(ActiveAbility.ICE);
                 currentAbility = ActiveAbility.ICE;
                 //May need to add ice constants for these properties.
                 moveSpeed = ICE_MOVEMENT_SPEED;
@@ -435,6 +446,7 @@ public class Player : MonoBehaviour {
                 }
             }
             else {
+                UpdateAbilitySymbols(ActiveAbility.NORMAL);
                 setAbilityToNormal();
             }
         }
@@ -444,12 +456,14 @@ public class Player : MonoBehaviour {
         if (recentlyUnlockedAbility >= ActiveAbility.FIRE) {
             deactivateSpecificAbility(currentAbility);
             if (!currentAbility.Equals(ActiveAbility.FIRE)) {
+                UpdateAbilitySymbols(ActiveAbility.FIRE);
                 currentAbility = ActiveAbility.FIRE;
                 moveSpeed = NORMAL_MOVEMENT_SPEED;
                 jumpSpeed = NORMAL_JUMP_SPEED;
                 playerRigidBody.mass = NORMAL_MASS;
             }
             else {
+                UpdateAbilitySymbols(ActiveAbility.NORMAL);
                 setAbilityToNormal();
             }
         }
@@ -459,12 +473,14 @@ public class Player : MonoBehaviour {
         if (recentlyUnlockedAbility >= ActiveAbility.WIND) {
             deactivateSpecificAbility(currentAbility);
             if (!currentAbility.Equals(ActiveAbility.WIND)) {
+                UpdateAbilitySymbols(ActiveAbility.WIND);
                 currentAbility = ActiveAbility.WIND;
                 moveSpeed = NORMAL_MOVEMENT_SPEED;
                 jumpSpeed = WIND_JUMP_SPEED;
                 playerRigidBody.mass = WIND_MASS;
             }
             else {
+                UpdateAbilitySymbols(ActiveAbility.NORMAL);
                 setAbilityToNormal();
             }
         }
@@ -474,6 +490,7 @@ public class Player : MonoBehaviour {
         if (recentlyUnlockedAbility >= ActiveAbility.EARTH) {
             deactivateSpecificAbility(currentAbility);
             if (!currentAbility.Equals(ActiveAbility.EARTH)) {
+                UpdateAbilitySymbols(ActiveAbility.EARTH);
                 currentAbility = ActiveAbility.EARTH;
                 moveSpeed = NORMAL_MOVEMENT_SPEED;
                 jumpSpeed = NORMAL_JUMP_SPEED;
@@ -484,6 +501,7 @@ public class Player : MonoBehaviour {
                 }
             }
             else {
+                UpdateAbilitySymbols(ActiveAbility.NORMAL);
                 setAbilityToNormal();
             }
         }

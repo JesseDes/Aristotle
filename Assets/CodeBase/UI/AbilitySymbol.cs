@@ -50,7 +50,9 @@ public class AbilitySymbol : MonoBehaviour
 
     public void UpdateImage()
     {
-        _mainImage.sprite = _imageDict[_currState];
+        if (_imageDict.ContainsKey(_currState))
+        {
+            _mainImage.sprite = _imageDict[_currState];
+        }
     }
-    
 }
