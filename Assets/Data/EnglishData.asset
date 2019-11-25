@@ -94,3 +94,7 @@ MonoBehaviour:
     Value: Quit Game
   - Key: lore.title
     Value: Internal Memo
+  - Key: unlock.air
+    Value: You acquired Air!
+  - Key: unlock.earth
+    Value: You acquired Earth!
