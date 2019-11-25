@@ -141,11 +141,6 @@ public class View : MonoBehaviour
             _abilities.gameObject.SetActive(true);
             _mainMenu.gameObject.SetActive(false);
         }
-        else if (Controller.instance.stateMachine.state == EngineState.LOADING_STATE)
-        {
-
-            //_mainMenu.gameObject.SetActive(false);
-        }
     }
 
     public void ShowMainMenu()

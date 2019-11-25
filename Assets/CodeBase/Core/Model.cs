@@ -101,4 +101,16 @@ public class Model : MonoBehaviour
     {
         audioManager.StopBackgroundMusic();
     }
+
+    public void ClearCheckPoint()
+    {
+        foreach (GameObject checkpoint in GameObject.FindGameObjectsWithTag("CheckPoint"))
+        {
+            if (checkpoint.GetComponent<CheckPoint>().startPoint)
+            {
+                SetCheckPoint(checkpoint.GetComponent<CheckPoint>());
+                break;
+            }
+        }
+    }
 }

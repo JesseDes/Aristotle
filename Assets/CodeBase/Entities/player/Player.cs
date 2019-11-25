@@ -30,6 +30,9 @@ public class Player : MonoBehaviour {
     float climbSpeed;
 
     [SerializeField]
+    float pauseHoldDuration = 1.5f;
+
+    [SerializeField]
     ActiveAbility recentlyUnlockedAbility;
 
     [HideInInspector]
@@ -79,6 +82,7 @@ public class Player : MonoBehaviour {
     private Vector3 _storedForce;
     private bool _isRespawn = false;
     private bool _disableMovement = false;
+    private float _pauseTimer;
 
     public void init() {
         _isRespawn = true;
@@ -139,7 +143,8 @@ public class Player : MonoBehaviour {
         inputProfile.addListener(InputEvent.Up, PlayerInputProfile.toggleEarth, toggleEarth);
 
         //Listener for Pause
-        inputProfile.addListener(InputEvent.Down, PlayerInputProfile.pause, Pause);
+        inputProfile.addListener(InputEvent.Key, PlayerInputProfile.pause, PauseDown);
+        inputProfile.addListener(InputEvent.Up, PlayerInputProfile.pause, PauseReleased);
 
         Camera.main.GetComponent<LevelCamera>().panStartEvent.AddListener(ControlStateChange);
         Camera.main.GetComponent<LevelCamera>().panCompleteEvent.AddListener(ControlStateChange);
@@ -406,13 +411,11 @@ public class Player : MonoBehaviour {
     }
 
     void setXVelocity(float newXVelocity) {
-        if(Controller.instance.stateMachine.state == EngineState.ACTIVE)
-            playerRigidBody.velocity = new Vector2(newXVelocity, playerRigidBody.velocity.y);
+        playerRigidBody.velocity = new Vector2(newXVelocity, playerRigidBody.velocity.y);
     }
 
     void setYVelocity(float newYVelocity) {
-        if (Controller.instance.stateMachine.state == EngineState.ACTIVE)
-            playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, newYVelocity);
+        playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, newYVelocity);
     }
 
     //NOTE: Changing the sprite color is a temporary measure until proper animations are
@@ -513,11 +516,25 @@ public class Player : MonoBehaviour {
         return _isHuggingWall;
     }
 
-    private void Pause()
+    private void PauseDown()
     {
-        View.instance.ShowPauseMenu();
-        Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_PAUSE);
+        if (Controller.instance.stateMachine.state == EngineState.ACTIVE)
+        {
+            _pauseTimer += Time.deltaTime;
+            if (_pauseTimer >= pauseHoldDuration)
+            {
+                Destroy(gameObject);
+                Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_PAUSE);
+                _pauseTimer = 0;
+            }
+        }
     }
+
+    private void PauseReleased()
+    {
+        _pauseTimer = 0;
+    }
+
 
     public void KillPlayer()
     {

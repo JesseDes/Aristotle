@@ -44,6 +44,7 @@ public class EndFlag : MonoBehaviour
 
     private void showMessage()
     {
+        Destroy(_player.gameObject);
         _isPost = true;
         _cavnas.SetActive(true);
     }

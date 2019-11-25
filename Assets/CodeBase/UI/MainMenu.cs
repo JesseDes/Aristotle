@@ -28,6 +28,8 @@ public class MainMenu : MonoBehaviour
         }
         else
         {
+            Model.instance.ClearCheckPoint();
+            Debug.Log("Checkpoint : " + Model.instance.currentCheckpoint);
             Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_INIT);
             gameObject.SetActive(false);
         }
