@@ -46,7 +46,7 @@ MonoBehaviour:
   - Key: options.wind
     Value: Wind
   - Key: options.ground
-    Value: Ground
+    Value: Earth
   - Key: lore.example
     Value: This is lore, this is lore,  this is lore, this is lore, this is lore
   - Key: tutorial.fire_tutorial_1
@@ -55,7 +55,7 @@ MonoBehaviour:
   - Key: tutorial.fire_tutorial_2
     Value: Timing gives Fire's dash ability the best mileage.
   - Key: tutorial.multiple_abilities
-    Value: For some rooms, you will need to use multiple abilities to truimph over
+    Value: For some rooms, you will need to use multiple abilities to triumph over
       the obstacles that await.
   - Key: unlock.fire
     Value: You acquired Fire!
@@ -67,7 +67,7 @@ MonoBehaviour:
     Value: Main Menu
   - Key: tutorial.wind_tutorial_1
     Value: You have gained the essence of Wind. Jump higher from the ground and use
-      the jump button fo fall slower while in the air!
+      the jump button to fall slower while in the air!
   - Key: tutorial.wind_tutorial_2
     Value: Use the wind power to become lighter and make wind affect the player more
       strongly.
