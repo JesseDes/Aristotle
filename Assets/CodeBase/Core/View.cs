@@ -37,7 +37,8 @@ public class View : MonoBehaviour
         if (instance == null)
         {
             DontDestroyOnLoad(gameObject);
-            instance = this;    
+            instance = this;
+            Screen.SetResolution(960, 720, true);
         }
         else if (instance != this)
             Destroy(gameObject);
