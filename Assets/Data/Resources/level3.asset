@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioData:
   - accessKey: BGM
-    clip: {fileID: 8300000, guid: 8e81a6172e00c154eb0eca999134a381, type: 3}
+    clip: {fileID: 8300000, guid: d1e191461032bc8478c6b4d72bbc4b44, type: 3}
     loop: 1
   - accessKey: endSong
-    clip: {fileID: 8300000, guid: 1ee203f07b5d14044ac02f9918074fd4, type: 3}
+    clip: {fileID: 8300000, guid: cf9fa47a2e82e9d469a7e83a4bc874ab, type: 3}
     loop: 0
   profileKey: level3

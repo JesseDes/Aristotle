@@ -25,6 +25,6 @@ public class LoadingScreen : MonoBehaviour
     public void CompleteLoad()
     {
         progressText.text = "100%";
-        promptText.text = "Press any key to coninute";
+        promptText.text = "Press any key to continue";
     }
 }

@@ -384,7 +384,7 @@ public class Player : MonoBehaviour {
         _dashActive = true;
         _canDash = false;
         animator.SetTrigger("Dash");
-
+        Model.instance.audioManager.PlaySound(Model.instance.globalAudio.profileKey, "player_dash");
         //add extra upwards force to push against gravity
         playerRigidBody.gravityScale = 0;
         playerRigidBody.velocity = new Vector2(horizontalDashDirection * fireDashSpeed, verticalDashDirection * fireDashSpeed);
@@ -541,9 +541,9 @@ public class Player : MonoBehaviour {
             _pauseTimer += Time.deltaTime;
             if (_pauseTimer >= pauseHoldDuration)
             {
-                Destroy(gameObject);
                 Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_PAUSE);
                 _pauseTimer = 0;
+                Destroy(gameObject);
             }
         }
     }
@@ -558,7 +558,7 @@ public class Player : MonoBehaviour {
     {
         //TODO: Handle player death.
         Destroy(this.gameObject);
-        Model.instance.audioManager.PlayBackgroundMusic(Model.instance.globalAudio.profileKey, "player_death");
+        Model.instance.audioManager.PlaySound(Model.instance.globalAudio.profileKey, "player_death");
         Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_OVER); 
     }
 
