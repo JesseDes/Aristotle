@@ -414,7 +414,7 @@ PrefabInstance:
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
       propertyPath: CameraPanPosition.x
-      value: 162.5
+      value: 162.25
       objectReference: {fileID: 0}
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
@@ -1432,7 +1432,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 86472915}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.5, y: -4, z: -66}
+  m_LocalPosition: {x: -5.5, y: -8.9, z: -66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2181,7 +2181,7 @@ PrefabInstance:
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
       propertyPath: CameraPanPosition.x
-      value: 246.5
+      value: 246.25
       objectReference: {fileID: 0}
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
@@ -3967,7 +3967,7 @@ PrefabInstance:
     - target: {fileID: 165486828389127178, guid: b1efa0c318eb6974591af9844baa26b6,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 13.989619
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1efa0c318eb6974591af9844baa26b6, type: 3}
@@ -4070,7 +4070,7 @@ PrefabInstance:
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
       propertyPath: CameraPanPosition.x
-      value: 190.5
+      value: 190.25
       objectReference: {fileID: 0}
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
@@ -20538,7 +20538,7 @@ PrefabInstance:
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
       propertyPath: CameraPanPosition.x
-      value: 78.5
+      value: 78.3
       objectReference: {fileID: 0}
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
@@ -23536,12 +23536,12 @@ PrefabInstance:
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
       propertyPath: CameraPanPosition.x
-      value: 50.5
+      value: 50.2
       objectReference: {fileID: 0}
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
       propertyPath: CameraPanPosition.y
-      value: -4.05
+      value: -5.05
       objectReference: {fileID: 0}
     - target: {fileID: 925279504029854507, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
@@ -26261,7 +26261,7 @@ PrefabInstance:
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
       propertyPath: CameraPanPosition.x
-      value: 106.5
+      value: 106.3
       objectReference: {fileID: 0}
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
@@ -42965,7 +42965,7 @@ PrefabInstance:
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
       propertyPath: CameraPanPosition.x
-      value: 300.5
+      value: 300.25
       objectReference: {fileID: 0}
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
@@ -44304,7 +44304,7 @@ PrefabInstance:
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
       propertyPath: CameraPanPosition.x
-      value: 218.5
+      value: 218.25
       objectReference: {fileID: 0}
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
@@ -46137,7 +46137,7 @@ PrefabInstance:
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}
       propertyPath: CameraPanPosition.x
-      value: 134.5
+      value: 134.25
       objectReference: {fileID: 0}
     - target: {fileID: 925279504029854506, guid: ad302ee08de60d2498983e953cfff5d0,
         type: 3}

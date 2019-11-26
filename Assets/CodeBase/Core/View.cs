@@ -13,6 +13,8 @@ public class View : MonoBehaviour
     public float sideScreenDetectionSize = 0.2f;
     public float topScreenDetectionSize = 0.2f;
     public float bottomScreenDetectionSize = 0.2f;
+    public float horizontalCameraPanSpeed = 15;
+    public float verticalCameraPanSpeed = 20;
     [HideInInspector]
     public bool mainMenuOpen { get => _mainMenu.isActiveAndEnabled; }
     [SerializeField]
@@ -112,19 +114,19 @@ public class View : MonoBehaviour
         
         //Right Edge
         GameObject worldEdge = Instantiate(worldEdgePrefab);
-        worldEdge.GetComponent<WorldEdge>().Initialize(height, width * sideScreenDetectionSize, new Vector2((width / 2) - (width * sideScreenDetectionSize / 2), 0), -1);
+        worldEdge.GetComponent<WorldEdge>().Initialize(height, width * sideScreenDetectionSize, new Vector2((width / 2) - (width * sideScreenDetectionSize / 2), 0), -horizontalCameraPanSpeed);
        
         //Left Edge
         worldEdge = Instantiate(worldEdgePrefab);
-        worldEdge.GetComponent<WorldEdge>().Initialize(height, width * sideScreenDetectionSize, new Vector2(-1 *  ((width / 2) - (width * sideScreenDetectionSize / 2)), 0), 1);
+        worldEdge.GetComponent<WorldEdge>().Initialize(height, width * sideScreenDetectionSize, new Vector2(-1 *  ((width / 2) - (width * sideScreenDetectionSize / 2)), 0), horizontalCameraPanSpeed);
         
         //Top Edge  
         worldEdge = Instantiate(worldEdgePrefab);
-        worldEdge.GetComponent<WorldEdge>().Initialize(height * topScreenDetectionSize, width, new Vector2(0, ((height /2) ) - (height * topScreenDetectionSize / 2)), -1, true);
+        worldEdge.GetComponent<WorldEdge>().Initialize(height * topScreenDetectionSize, width, new Vector2(0, ((height /2) ) - (height * topScreenDetectionSize / 2)), -verticalCameraPanSpeed, true);
         
         //Bottom Edge
         worldEdge = Instantiate(worldEdgePrefab);
-        worldEdge.GetComponent<WorldEdge>().Initialize(height * bottomScreenDetectionSize, width, new Vector2(0, (-1 * ((height / 2)) + (height * bottomScreenDetectionSize / 2))), 1, true);
+        worldEdge.GetComponent<WorldEdge>().Initialize(height * bottomScreenDetectionSize, width, new Vector2(0, (-1 * ((height / 2)) + (height * bottomScreenDetectionSize / 2))), verticalCameraPanSpeed, true);
         
     }
 
