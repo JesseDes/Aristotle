@@ -20,7 +20,7 @@ public class Controller : MonoBehaviour
     [SerializeField]
     private string _defaultLanguageCode = "en";
 
-    private Dictionary<EngineEvents, AEvent> _eventList;
+    private IDictionary<EngineEvents, AEvent> _eventList;
 
 
     private void Awake()
@@ -92,7 +92,11 @@ public class Controller : MonoBehaviour
     public void RemoveEventListener(EngineEvents type, Action<System.Object> callback)
     {
         if (_eventList.ContainsKey(type))
-            _eventList[type].RemoveListener(callback);
+        {
+            AEvent someEvent = new AEvent(_eventList[type]);
+            someEvent.RemoveListener(callback);
+            _eventList[type] = someEvent;
+        }
     }
 
     /// <summary>

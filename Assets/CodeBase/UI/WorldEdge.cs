@@ -62,9 +62,9 @@ public class WorldEdge : MonoBehaviour
             if (collision.gameObject.tag == "Player")
             {
                 if (_isVertical)
-                    Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y + collision.Distance(this.GetComponent<BoxCollider2D>()).distance * _cameraPanValue, Camera.main.transform.position.z);
+                    Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y + collision.Distance(this.GetComponent<BoxCollider2D>()).distance * _cameraPanValue * Time.deltaTime, Camera.main.transform.position.z); 
                 else
-                    Camera.main.transform.position = new Vector3(Camera.main.transform.position.x + collision.Distance(this.GetComponent<BoxCollider2D>()).distance * _cameraPanValue, Camera.main.transform.position.y, Camera.main.transform.position.z);
+                    Camera.main.transform.position = new Vector3(Camera.main.transform.position.x + collision.Distance(this.GetComponent<BoxCollider2D>()).distance * _cameraPanValue * Time.deltaTime, Camera.main.transform.position.y, Camera.main.transform.position.z);
             }
 
         }

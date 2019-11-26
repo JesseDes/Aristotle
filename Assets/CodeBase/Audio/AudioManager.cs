@@ -9,12 +9,14 @@ public class AudioManager : MonoBehaviour
     private Dictionary<string,Dictionary<string, AudioData>> audioProfileList;
     private AudioSource _audioPlayer;
     
-    public int volume = 1;
+    public float effectVolume = 1;
+    public float musicVolume = 0.5f;
 
     public void init()
     {
         audioProfileList = new Dictionary<string, Dictionary<string, AudioData>>();
-        _audioPlayer = gameObject.AddComponent<AudioSource>();
+        _audioPlayer = gameObject.GetComponent<AudioSource>();
+        _audioPlayer.volume = musicVolume;
     }
 
     public void LoadProfile(AudioProfile profile)
@@ -31,9 +33,9 @@ public class AudioManager : MonoBehaviour
         audioProfileList.Remove(profileKey);
     }
 
-    public void PlaySound(string profileKey, string audioKey ,Vector3 location)
+    public void PlaySound(string profileKey, string audioKey)
     {
-        AudioSource.PlayClipAtPoint(audioProfileList[profileKey][audioKey].clip, new Vector3(location.x, location.y, 0), volume);
+        AudioSource.PlayClipAtPoint(audioProfileList[profileKey][audioKey].clip, Camera.main.transform.position, effectVolume);
     }
 
     public void PlayBackgroundMusic(string profileKey, string audioKey)
@@ -47,7 +49,7 @@ public class AudioManager : MonoBehaviour
 
     public void StopBackgroundMusic()
     {
-        _audioPlayer.Stop();
+       _audioPlayer.Stop();
     }
 
     public void PauseBackgroundMusic()
@@ -60,15 +62,20 @@ public class AudioManager : MonoBehaviour
         _audioPlayer.Play();
     }
 
-    public void setVolume(int level)
+    public void setMusicVolume(float level)
     {
         _audioPlayer.volume = level;
-        volume = level;
+        musicVolume = level;
+    }
+
+    public void setEffectVolume(float level)
+    {
+        effectVolume = level;
     }
 
     public void clearLevelAudio()
     {
-        _audioPlayer.Stop();
+        //_audioPlayer.Stop();
 
         List<string> keyList = new List<string>(audioProfileList.Keys);
         foreach (var key in keyList)

@@ -2330,6 +2330,24 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 998888776}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &998888780 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8557400352513309312, guid: f733235070e6e2644b99e6de01613447,
+    type: 3}
+  m_PrefabInstance: {fileID: 998888776}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &998888781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998888780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5174d541251b55d47921c8a024a0ae23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1014314499 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3526667952629589050, guid: f733235070e6e2644b99e6de01613447,
@@ -2608,6 +2626,21 @@ PrefabInstance:
       propertyPath: _loadingScreen
       value: 
       objectReference: {fileID: 886871314}
+    - target: {fileID: 1331930451952085819, guid: 4d62eb19f6b051846837b196939c70e2,
+        type: 3}
+      propertyPath: sideScreenDetectionSize
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331930451952085819, guid: 4d62eb19f6b051846837b196939c70e2,
+        type: 3}
+      propertyPath: topScreenDetectionSize
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331930451952085819, guid: 4d62eb19f6b051846837b196939c70e2,
+        type: 3}
+      propertyPath: bottomScreenDetectionSize
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 5804535109801690043, guid: 4d62eb19f6b051846837b196939c70e2,
         type: 3}
       propertyPath: audioManager
@@ -3113,7 +3146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8da3ba68bcf0ee498184d7ee93d7bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volume: 1
+  effectVolume: 1
+  musicVolume: 0.5
 --- !u!82 &1622455138
 AudioSource:
   m_ObjectHideFlags: 0

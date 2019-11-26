@@ -16,7 +16,7 @@ public class BreakableRock : Respawnable
                 GameObject vfx = Instantiate(_vfx, transform);
                 vfx.transform.localPosition = Vector3.zero;
                 vfx.transform.parent = null;
-
+                Model.instance.audioManager.PlaySound(Model.instance.globalAudio.profileKey, "wall_break");
                 //break the rock if crashing downwards into it fast enough
                 Deactivate();
             }
