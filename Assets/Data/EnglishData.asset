@@ -63,11 +63,12 @@ MonoBehaviour:
       able to complete the obstacle course in record time.
   - Key: tutorial.earth_tutorial_1
     Value: The earth essence tests have shown that subjects gained increased ability
-      to climb plant-based surfaces. Particular aptitude was shown when climbing
-      trees and vines.
+      to climb plant-based surfaces. Particular aptitude was shown when climbing trees
+      and vines.
   - Key: tutorial.earth_tutorial_2
-    Value: The climbing abilities of the subjects do not go beyond surfaces with plant material.
-      The metal walls of the lab, for example, were not climbable for any of the subjects.
+    Value: The climbing abilities of the subjects do not go beyond surfaces with plant
+      material. The metal walls of the lab, for example, were not climbable for any
+      of the subjects.
   - Key: tutorial.earth_tutorial_3
     Value: Tests today consisted of precision climbing. Subjects were asked to climb
       to certain parts of a vine before jumping off onto a platform. Subjects were
@@ -130,18 +131,16 @@ MonoBehaviour:
       I really don't want to look for a new job. Maybe Aperture is hiring?
   - Key: lore.level2_2
     Value: There are rumours circulating that the head of this facility is frozen
-      due to the ice essence. This is untrue. The safety of essences is our top priority.
-      At no point where you or any other test subject ever at risk. If you have any
-      concerns, please contact the communications department.
+      due to the ice essence. This is untrue. The safety of our essences is our top
+      priority. If you have any concerns, please contact the communications department.
   - Key: lore.level2_3
     Value: I think that we have to do something. We can't let word get out that the
       head of the lab and his son are frozen in the basement! Maybe we can fake that
-      they went missing on vacation? We will have to close the lab regardless, at
-      least this way we will have a chance of being hired elsewhere.
+      they went missing on vacation?
   - Key: lore.level3_1
     Value: The head of a prestigious research lab and his son, Aristotle, went missing
-      on a hiking trip last month. They are now presumed to be dead. Their death
-      is not considered to be suspicious. Anyone with any information is asked to contact
+      on a hiking trip last month. They are now presumed to be dead. Their death is
+      not considered to be suspicious. Anyone with any information is asked to contact
       police.
   - Key: lore.level3_2
     Value: Well, I guess this is our last day as coworkers. I am going to miss you!
@@ -167,3 +166,9 @@ MonoBehaviour:
     Value: Private Email
   - Key: lore.title_3
     Value: Local News
+  - Key: lore.title_4
+    Value: Test Report
+  - Key: main_menu.button_5
+    Value: Continue
+  - Key: level1_shift
+    Value: Hold Shift to Open
