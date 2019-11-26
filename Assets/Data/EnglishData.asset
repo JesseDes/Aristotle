@@ -172,3 +172,6 @@ MonoBehaviour:
     Value: Continue
   - Key: level1_shift
     Value: Hold Shift to Open
+  - Key: game_end
+    Value: 'Aristotle used all of the essences stored in the lab coat to free his
+      father. After all of that time they were reunited at last. '

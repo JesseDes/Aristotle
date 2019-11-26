@@ -10,6 +10,7 @@ public class EndFlag : MonoBehaviour
     public Vector3 playerDestination;
     public GameObject _cavnas;
     public int unlockAbility;
+    public bool isEnd;
     
     private GameObject _player;
     private float _lerpTimer;
@@ -55,7 +56,16 @@ public class EndFlag : MonoBehaviour
         _cavnas.SetActive(false);
         PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES ,unlockAbility);
         _isPost = false;
-        Controller.instance.Dispatch(EngineEvents.ENGINE_CUTSCENE_END);
+
+        if (!isEnd)
+        {
+            Controller.instance.Dispatch(EngineEvents.ENGINE_CUTSCENE_END);
+        }
+        else
+        {
+            View.instance.ShowMainMenu();
+        }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
