@@ -20,9 +20,9 @@ MonoBehaviour:
   - Key: main_menu.button_1
     Value: New Game
   - Key: main_menu.button_2
-    Value: Options
+    Value: Controls
   - Key: options.title
-    Value: Options
+    Value: Controls
   - Key: options.back
     Value: Back
   - Key: options.reset
