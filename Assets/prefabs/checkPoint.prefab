@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: fc91188d48c912d4ea1c43bd889c200a, type: 3}
-  m_Color: {r: 1, g: 0, b: 0.9577489, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.9577489, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -97,3 +97,6 @@ MonoBehaviour:
     type: 3}
   spawnAnimPrefab: {fileID: 7231335821553334524, guid: 0d8f60e2a6ce9c848b4a7c91ba2c4a5a,
     type: 3}
+  ID: 
+  startPoint: 0
+  CameraPanPosition: {x: 0, y: 0}
