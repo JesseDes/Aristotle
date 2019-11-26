@@ -9,7 +9,7 @@ public class OptionList : MonoBehaviour
     {
         if (!PlayerPrefs.HasKey(SaveKeys.LEVEL))
         {
-            transform.GetChild(1).gameObject.SetActive(false);
+            transform.GetChild(0).gameObject.SetActive(false);
             for (int i = 2; i < transform.childCount; i++)
             {
                 Transform child = transform.GetChild(i);
