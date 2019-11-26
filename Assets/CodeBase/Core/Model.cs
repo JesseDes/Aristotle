@@ -20,6 +20,8 @@ public class Model : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
             instance = this;
+            audioManager.init();
+            audioManager.LoadProfile(globalAudio);
         }
         else if(instance != this)
         {
@@ -32,10 +34,10 @@ public class Model : MonoBehaviour
     void Start()
     {
 
-        audioManager.init();
-        audioManager.LoadProfile(globalAudio);
+
         Controller.instance.AddEventListener(EngineEvents.ENGINE_LOAD_START, LevelReady);
-        Controller.instance.AddEventListener(EngineEvents.ENGINE_GAME_START, AudioStart);
+        Controller.instance.AddEventListener(EngineEvents.ENGINE_GAME_INIT, AudioStart);
+
         //Controller.instance.AddEventListener(EngineEvents.ENGINE_GAME_OVER, AudioStop);
     }
 
@@ -95,11 +97,6 @@ public class Model : MonoBehaviour
     private void AudioStart(System.Object e)
     {
         audioManager.PlayBackgroundMusic(currentLevelProfile.profileKey, "BGM");
-    }
-
-    private void AudioStop(System.Object e)
-    {
-        audioManager.StopBackgroundMusic();
     }
 
     public void ClearCheckPoint()

@@ -8,20 +8,23 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private GameObject _optionsMenu;
 
+
     [SerializeField]
     private GameObject _creditsMenu;
 
     public void Start()
     {
-        UI_MainMenu();
+        UI_MainMenu();        
     }
 
     public void UI_Start()
     {
         PlayerPrefs.SetString(SaveKeys.CHECK_POINT, "");
         PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES, 1);
+        Model.instance.audioManager.StopBackgroundMusic();
         if (PlayerPrefs.GetInt(SaveKeys.LEVEL) != 1)
         {
+
             Controller.instance.AddEventListener(EngineEvents.ENGINE_LOAD_FINISH, NewGameReady);
             View.instance.GotoLevel(1);
             gameObject.SetActive(false);
@@ -29,7 +32,6 @@ public class MainMenu : MonoBehaviour
         else
         {
             Model.instance.ClearCheckPoint();
-            Debug.Log("Checkpoint : " + Model.instance.currentCheckpoint);
             Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_INIT);
             gameObject.SetActive(false);
         }
@@ -47,6 +49,7 @@ public class MainMenu : MonoBehaviour
 
     public void UI_Continue()
     {
+        Model.instance.audioManager.StopBackgroundMusic();
         Controller.instance.Dispatch(EngineEvents.ENGINE_GAME_INIT);
         gameObject.SetActive(false);
 

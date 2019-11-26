@@ -19,4 +19,13 @@ MonoBehaviour:
   - accessKey: player_death
     clip: {fileID: 8300000, guid: 8c3c2ac97c8f48c408b5754f73c74919, type: 3}
     loop: 0
+  - accessKey: player_dash
+    clip: {fileID: 8300000, guid: f10026e8387676c4a98d8e6c1726f71e, type: 3}
+    loop: 0
+  - accessKey: wall_break
+    clip: {fileID: 8300000, guid: 85574d33fe29de14a96c9b20d587511a, type: 3}
+    loop: 0
+  - accessKey: menu_music
+    clip: {fileID: 8300000, guid: b0e6fee43ff56e6479dc94b328f9a4f3, type: 3}
+    loop: 1
   profileKey: global

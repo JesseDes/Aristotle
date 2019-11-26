@@ -25,7 +25,7 @@ public class Landmine : Respawnable
 
     public void Detonate() {
         GameObject e = Instantiate(explosion, transform);
-        Model.instance.audioManager.PlaySound(Model.instance.globalAudio.profileKey, "boom", transform.position);
+        Model.instance.audioManager.PlaySound(Model.instance.globalAudio.profileKey, "boom");
         e.transform.localPosition = Vector3.zero;
         e.transform.parent = null;
         Deactivate();

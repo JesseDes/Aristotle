@@ -54,6 +54,8 @@ public class View : MonoBehaviour
         _loadingScreen.gameObject.SetActive(false);
         _firstLoad = true;
 
+        ShowMainMenu();
+
         if (PlayerPrefs.HasKey(SaveKeys.LEVEL))
             GotoLevel(PlayerPrefs.GetInt(SaveKeys.LEVEL));
         else
@@ -71,6 +73,7 @@ public class View : MonoBehaviour
                 Controller.instance.Dispatch(EngineEvents.ENGINE_LOAD_START);
                 _initFlag = false;
                 _initFrameCounter = 0;
+
             }
         }
 
@@ -132,7 +135,7 @@ public class View : MonoBehaviour
 
     private void OnStateChange(System.Object response)
     {
-        if (Controller.instance.stateMachine.state == EngineState.MENU && _pauseMenu.activeSelf == false)
+        if (Controller.instance.stateMachine.state == EngineState.MENU)
         {
             ShowMainMenu();
         }
@@ -147,6 +150,7 @@ public class View : MonoBehaviour
     {
         _abilities.gameObject.SetActive(false);
         _mainMenu.gameObject.SetActive(true);
+        Model.instance.audioManager.PlayBackgroundMusic(Model.instance.globalAudio.profileKey, "menu_music");
     }
 
     public void ShowPauseMenu()
