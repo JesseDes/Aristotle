@@ -175,3 +175,5 @@ MonoBehaviour:
   - Key: game_end
     Value: 'Aristotle used all of the essences stored in the lab coat to free his
       father. After all of that time they were reunited at last. '
+  - Key: tutorial.open_with_shift
+    Value: Press Shift to Open
