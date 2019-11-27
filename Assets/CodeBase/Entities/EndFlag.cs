@@ -16,7 +16,7 @@ public class EndFlag : MonoBehaviour
     private float _lerpTimer;
     private Vector3 _startPos;
     private float _postTimer;
-    private bool _isPost;
+    private bool _isPostAnimationPhase;
 
     private void Start()
     {
@@ -34,7 +34,7 @@ public class EndFlag : MonoBehaviour
                 showMessage();   
         }
 
-        if(_isPost)
+        if(_isPostAnimationPhase)
         {
             _postTimer += Time.deltaTime;
 
@@ -46,7 +46,7 @@ public class EndFlag : MonoBehaviour
     private void showMessage()
     {
         Destroy(_player.gameObject);
-        _isPost = true;
+        _isPostAnimationPhase = true;
         _cavnas.SetActive(true);
     }
 
@@ -55,7 +55,8 @@ public class EndFlag : MonoBehaviour
         Model.instance.audioManager.StopBackgroundMusic();
         _cavnas.SetActive(false);
         PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES ,unlockAbility);
-        _isPost = false;
+        _isPostAnimationPhase = false;
+        _lerpTimer = 0;
 
         if (!isEnd)
         {
