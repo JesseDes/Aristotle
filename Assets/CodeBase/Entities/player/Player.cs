@@ -232,6 +232,7 @@ public class Player : MonoBehaviour {
     {
         if (collision.gameObject.CompareTag("EarthWall"))
         {
+            _isHuggingWall = true;
             if (currentAbility.Equals(ActiveAbility.EARTH))
             {
                 startHuggingWall();
