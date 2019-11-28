@@ -49,7 +49,13 @@ public class Model : MonoBehaviour
             PlayerPrefs.DeleteKey(SaveKeys.CHECK_POINT);
         if (Input.GetKeyDown(KeyCode.H))
             PlayerPrefs.DeleteKey(SaveKeys.LEVEL);
-        
+        if (Input.GetKeyUp(KeyCode.Alpha5))
+        {
+            PlayerPrefs.SetInt(SaveKeys.ACTIVE_ABILITIES, 4);
+            PlayerPrefs.SetInt(SaveKeys.LEVEL, 4);
+            PlayerPrefs.SetString(SaveKeys.CHECK_POINT, "8");
+            View.instance.GotoLevel(4);
+        }
     }
 
     public void SetCheckPoint(CheckPoint nextCheckpoint)
