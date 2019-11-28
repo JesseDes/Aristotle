@@ -46,7 +46,7 @@ MonoBehaviour:
   - Key: options.wind
     Value: Wind
   - Key: options.ground
-    Value: Ground
+    Value: Earth
   - Key: lore.example
     Value: This is lore, this is lore, this is lore, this is lore, this is lore
   - Key: tutorial.fire_tutorial_1
@@ -58,9 +58,9 @@ MonoBehaviour:
       He did it by jumping up and activating the fire essence just before he started
       to fall. He has great timing.
   - Key: tutorial.multiple_abilities
-    Value: The first group of subjects to acquire multiple essences faired well. While
+    Value: The first group of subjects to acquire multiple essences fared well. While
       I would not recommend putting your body under that much strain, the subjects
-      able to complete the obstacle course in record time.
+      were able to complete the obstacle course in record time.
   - Key: tutorial.earth_tutorial_1
     Value: The earth essence tests have shown that subjects gained increased ability
       to climb plant-based surfaces. Particular aptitude was shown when climbing trees
@@ -91,12 +91,12 @@ MonoBehaviour:
       floors are strong enough to resist their weight but the tile floors are not.
   - Key: tutorial.wind_tutorial_1
     Value: The wind essence allows the subjects to jump higher and fall slower than
-      they  would normally. Subjects have been able to slow their decent by attempting
+      they would normally. Subjects have been able to slow their descent by attempting
       to jump as they fall.
   - Key: tutorial.wind_tutorial_2
-    Value: The wind essence has the opposite effect on the subject's weight than the  ice
-      ability. Subjects cannot walk against strong breezes, as if they are being blown
-      away! Care should be taken when testing outdoors.
+    Value: The wind essence has the opposite effect on the subject's weight than the
+      ice ability. Subjects cannot walk against strong breezes, as if they are being
+      blown away! Care should be taken when testing outdoors.
   - Key: main_menu.button_3
     Value: Credits
   - Key: credits.title
@@ -111,20 +111,20 @@ MonoBehaviour:
     Value: Aristotle's Lab Coat has acquired the Earth Essence!
   - Key: lore.level1_0
     Value: Aristotle, the scientist's idiot son, got them both frozen in some ice.
-      He seems  to have spilt something. I have people blowtorching them now. Hopefully
+      He seems to have spilt something. I have people blowtorching them now. Hopefully
       they get out before 5, I don't really want to stay late.
   - Key: lore.level1_1
-    Value: I brought in some fire essence subjects to try melt them. So far it has
-      been unsuccessful.  I realize that the ice shield is immune to everything except
-      electricity but I think that might kill them rather than free them.
+    Value: I brought in some fire essence subjects to try to melt them. So far it
+      has been unsuccessful.  I realize that the ice shield is immune to everything
+      except electricity but I think that might kill them rather than free them.
   - Key: lore.level1_2
     Value: Apparently what was spilt on the scientist and Aristotle was a concentration
       1000x stronger than the test levels that we used on the latest subjects. I am
       unsure what the consequences of that much exposure could be. They may not survive.
   - Key: lore.level1_3
-    Value: It has been 10 days now that and the ice has not melted a bit. I think
-      that we need to start thinking of new ideas or we may just have to admit they
-      are dead.
+    Value: It has been 10 days now and the ice has not melted a bit. I think that
+      we need to start thinking of new ideas or we may just have to admit they are
+      dead.
   - Key: lore.level2_1
     Value: I heard management say that the lab might be closing now that the scientist
       has been frozen for a week. I think they should give him some more time to melt.
@@ -148,12 +148,12 @@ MonoBehaviour:
       like a great company. Maybe I can get you a job there too!
   - Key: lore.level3_3
     Value: The lab will be closing on July 31st. Thank you for your time and devotion
-      to our research.  If any side affects of your exposure to the essences occurs,
+      to our research.  If any side effects of your exposure to the essences occurs,
       please present yourself at the nearest emergency room.
   - Key: lore.level4_1
     Value: I was in the basement today. It is so eerie being in the same room as them.
-      Aristotle has the  lab coat on him. It makes him look like a ghost. I could
-      have sworn that there were new cracks in his ice block, but everyone else disagreed.
+      Aristotle has the lab coat on him. It makes him look like a ghost. I could have
+      sworn that there were new cracks in his ice block, but everyone else disagreed.
   - Key: lore.level4_2
     Value: The only way to break out the pair is by combining all of the essences.
       As we know, that is extremely dangerous. I wonder if we could create something
@@ -170,10 +170,10 @@ MonoBehaviour:
     Value: Test Report
   - Key: main_menu.button_5
     Value: Continue
-  - Key: level1_shift
-    Value: Hold Shift to Open
+  - Key: level1_enter
+    Value: Hold Enter to Open
   - Key: game_end
     Value: 'Aristotle used all of the essences stored in the lab coat to free his
       father. After all of that time they were reunited at last. '
-  - Key: tutorial.open_with_shift
-    Value: Press Shift to Open
+  - Key: tutorial.open_with_enter
+    Value: Press Enter to Open

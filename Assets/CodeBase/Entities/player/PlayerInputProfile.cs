@@ -17,6 +17,7 @@ public class PlayerInputProfile : InputProfile
     public static KeyCode Default_ToggleEarth = KeyCode.LeftArrow;
 
     public static KeyCode Default_shift = KeyCode.RightShift;
+    public static KeyCode Default_enter = KeyCode.Return;
     public static KeyCode Default_pause = KeyCode.Escape;
 
     public static string moveLeft = "Player_LeftKey";
@@ -30,6 +31,7 @@ public class PlayerInputProfile : InputProfile
     public static string toggleWind = "Player_ToggleWind";
     public static string toggleEarth = "Player_ToggleEarth";
     public static string shift = "Player_Shift";
+    public static string enter = "Player_Enter";
 
     public static string pause = "Player_Pause";
 
@@ -47,10 +49,12 @@ public class PlayerInputProfile : InputProfile
         keyLoadList.Add(new InputCommand(toggleFire, Default_ToggleFire));
         keyLoadList.Add(new InputCommand(toggleWind, Default_ToggleWind));
         keyLoadList.Add(new InputCommand(toggleEarth, Default_ToggleEarth));
-        keyLoadList.Add(new InputCommand(shift, Default_shift));
 
         //Pause Menu
         keyLoadList.Add(new InputCommand(pause, Default_pause));
+
+        //View lore
+        keyLoadList.Add(new InputCommand(enter, Default_enter));
 
         assignKeys(keyLoadList);
     }
