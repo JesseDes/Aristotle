@@ -173,21 +173,6 @@ public class Player : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        //Player is on wall but choosing not to climb.
-
-        if (currentAbility.Equals(ActiveAbility.EARTH))
-        {
-            if (_isHuggingWall && !_isClimbing)
-            {
-                setYVelocity(0.0f);
-                animator.enabled = false;
-            }
-            else
-            {
-                animator.enabled = true;
-            }
-        }
-
         if (playerRigidBody.velocity.y >= 0.1) // player is jumping
         {
             _isFalling = false;
@@ -202,7 +187,8 @@ public class Player : MonoBehaviour {
         animator.SetBool("isGrounded", _isGrounded);
         animator.SetBool("isFalling", _isFalling);
         animator.SetInteger("AbilityCode", (int)currentAbility);
-        animator.SetBool("isClimbing", _isHuggingWall);
+        animator.SetBool("isHuggingWall", _isHuggingWall);
+        animator.SetBool("isClimbing", _isClimbing);
     }
 
     private void onStateChange(System.Object response) {
@@ -232,6 +218,7 @@ public class Player : MonoBehaviour {
     {
         if (collision.gameObject.CompareTag("EarthWall"))
         {
+            _isHuggingWall = true;
             if (currentAbility.Equals(ActiveAbility.EARTH))
             {
                 startHuggingWall();
