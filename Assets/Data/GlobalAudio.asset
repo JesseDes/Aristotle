@@ -23,7 +23,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: f10026e8387676c4a98d8e6c1726f71e, type: 3}
     loop: 0
   - accessKey: wall_break
-    clip: {fileID: 8300000, guid: 85574d33fe29de14a96c9b20d587511a, type: 3}
+    clip: {fileID: 8300000, guid: 4af7efa02db2a9b49bb7cd6d9a7ae63c, type: 3}
     loop: 0
   - accessKey: menu_music
     clip: {fileID: 8300000, guid: b0e6fee43ff56e6479dc94b328f9a4f3, type: 3}
