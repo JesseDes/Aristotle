@@ -38366,7 +38366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d241dfae58b1b54d9417c90ee6d07e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _localizationKey: tutorial.open_with_shift
+  _localizationKey: tutorial.lore
 --- !u!114 &1715839699
 MonoBehaviour:
   m_ObjectHideFlags: 0

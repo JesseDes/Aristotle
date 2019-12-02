@@ -19,8 +19,8 @@ public class LoreTrigger : MonoBehaviour
     public void Start()
     {
         inputProfile = new PlayerInputProfile();
-        inputProfile.addListener(InputEvent.Down, PlayerInputProfile.shift, ShowLore);
-        inputProfile.addListener(InputEvent.Up, PlayerInputProfile.shift, HideLore);
+        inputProfile.addListener(InputEvent.Down, PlayerInputProfile.enter, ShowLore);
+        inputProfile.addListener(InputEvent.Up, PlayerInputProfile.enter, HideLore);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
