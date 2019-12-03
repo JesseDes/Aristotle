@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AEvent : IEvent
 {
+    public int size { get { return _listerners.Count; } }
     private List<Action<System.Object>> _listerners;
     readonly bool readOnly;
     String _key;
@@ -13,6 +14,16 @@ public class AEvent : IEvent
         this.readOnly = readOnly;
         _listerners = new List<Action<System.Object>>();
         _key = key;
+    }
+
+    public AEvent(AEvent tocopy)
+    {
+        this.readOnly = tocopy.readOnly;
+        _listerners = new List<Action<System.Object>>();
+        _key = tocopy._key;
+
+        foreach (Action<System.Object> action in tocopy._listerners)
+            _listerners.Add(action);   
     }
 
     public void AddListener(Action<System.Object> listener)
