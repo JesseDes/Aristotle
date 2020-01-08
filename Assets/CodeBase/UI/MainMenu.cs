@@ -17,6 +17,11 @@ public class MainMenu : MonoBehaviour
         UI_MainMenu();        
     }
 
+    private void OnDestroy()
+    {
+        Controller.instance.RemoveEventListener(EngineEvents.ENGINE_LOAD_FINISH, NewGameReady);
+    }
+
     public void UI_Start()
     {
         PlayerPrefs.SetString(SaveKeys.CHECK_POINT, "");

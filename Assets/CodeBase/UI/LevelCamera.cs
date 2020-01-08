@@ -39,10 +39,15 @@ public class LevelCamera : MonoBehaviour
         Controller.instance.AddEventListener(EngineEvents.ENGINE_GAME_INIT, onRespawn);
         Controller.instance.stateMachine.AddStateListener(onRespawn, EngineState.PLAYER_DEAD);
 
-        //ALSO TEMP JUST FOR THE DEMO
         _originalPos = Camera.main.transform.position;
 
        
+    }
+
+    private void OnDestroy()
+    {
+        Controller.instance.RemoveEventListener(EngineEvents.ENGINE_GAME_INIT, onRespawn);
+        Controller.instance.stateMachine.RemoveStateListener(onRespawn, EngineState.PLAYER_DEAD);
     }
 
     // Update is called once per frame

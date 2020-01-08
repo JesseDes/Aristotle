@@ -64,6 +64,13 @@ public class Controller : MonoBehaviour
 
     }
 
+    void OnDestroy()
+    {
+        foreach(KeyValuePair<EngineEvents,AEvent> engineEvent in _eventList)
+            engineEvent.Value.RemoveAll();
+        
+    }
+
     public void ResetGame()
     {
         View.instance.ShowMainMenu();
