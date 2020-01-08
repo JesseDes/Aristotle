@@ -75,8 +75,6 @@ public class AudioManager : MonoBehaviour
 
     public void clearLevelAudio()
     {
-        //_audioPlayer.Stop();
-
         List<string> keyList = new List<string>(audioProfileList.Keys);
         foreach (var key in keyList)
             if (key != Model.instance.globalAudio.profileKey)

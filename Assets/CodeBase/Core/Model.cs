@@ -41,6 +41,12 @@ public class Model : MonoBehaviour
         //Controller.instance.AddEventListener(EngineEvents.ENGINE_GAME_OVER, AudioStop);
     }
 
+    private void OnDestroy()
+    {
+        audioManager.ClearProfiles(globalAudio.profileKey);
+        audioManager.clearLevelAudio();
+    }
+
     // Update is called once per frame
     void Update()
     {
