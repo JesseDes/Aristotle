@@ -10,3 +10,4 @@ The four abilities are as follows:
 Four levels have been designed for Aristotle that incorporates challenges requiring use of each ability on its own alongside incorporating challenges that require the player to use available abilities in combination.
 
 To play Aristotle, simply go to the Releases page of the Aristotle repository and download the latest version provided. A zip file containing the latest build will be available.
+![Screenshot from Aristotle](https://raw.githubusercontent.com/JesseDes/Aristotle/master/Aristotle.png)
